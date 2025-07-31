@@ -1,64 +1,219 @@
-import { Component ,signal} from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
-import {  MatIconModule } from '@angular/material/icon';
-import { single } from 'rxjs';
+import { MatIconModule } from '@angular/material/icon';
+import { FlatTreeControl } from '@angular/cdk/tree';
+import {
+  MatTreeFlatDataSource,
+  MatTreeFlattener,
+} from '@angular/material/tree';
+import { MatTreeModule } from '@angular/material/tree';
 
+interface FoodNode {
+  name: string;
+  children?: FoodNode[];
+}
+interface ExampleFlatNode {
+  expandable: boolean;
+  name: string;
+  level: number;
+}
+
+// const TREE_DATA: FoodNode[] = [
+//   {
+//     name: 'Product',
+//     children: [
+//       { name: 'Alcoholic' },
+//       { name: 'CG PRODUCTS' },
+//       { name: 'Coke' },
+//     ],
+//   },
+//   {
+//     name: 'coke',
+//     children: [
+//       {
+//         name: 'half',
+//         children: [{ name: 'vodka' }],
+//       },
+//     ],
+//   },
+// ];
 
 interface MenuItem {
   icon: string;
   label: string;
   route: string;
 }
-interface Product{
-  productCode:string;
-  productName:string;
-  upc:number;
-  dispatchRate:number;
-  wsPrice:number;
-  retailPrice:number;
+interface Product {
+  productCode: string;
+  productName: string;
+  upc: number;
+  dispatchRate: number;
+  wsPrice: number;
+  retailPrice: number;
   mrp: number;
 }
 
-
 @Component({
   selector: 'app-master',
-  imports: [ CommonModule,
-    MatSidenavModule, MatToolbarModule, MatListModule,MatIconModule],
+  imports: [
+    CommonModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatListModule,
+    MatIconModule,
+    MatTreeModule,
+  ],
   templateUrl: './master.html',
-  styleUrl: './master.css'
-  
+  styleUrl: './master.css',
 })
-
-
 export class Master {
-  
-  constructor(private router: Router) {}
-menuItems =signal<MenuItem[]>([
-  {icon: 'folder', label: 'PRODUCT LISTS', route: '/home'}
-])
-searchTerm='';
-tableSearch = '';
+  private _transformer = (node: FoodNode, level: number) => {
+    return {
+      expandable: !!node.children && node.children.length > 0,
+      name: node.name,
+      level: level,
+    };
+  };
+
+  // constructor() 
+  // {
+  //   this.dataSource.data = TREE_DATA;
+  // }
+  treeControl = new FlatTreeControl<ExampleFlatNode>(
+    (node) => node.level,
+    (node) => node.expandable
+  );
+
+  treeFlattener = new MatTreeFlattener(
+    this._transformer,
+    (node) => node.level,
+    (node) => node.expandable,
+    (node) => node.children
+  );
+
+  dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+  ngOnInit() {
+    this.dataSource.data = [
+      {
+        name: 'PRODUCT LISTS',
+        children: [
+          { name: 'Alcohalic' },
+          { name: 'CG PRODUCTS' },
+          {
+            name: 'Coke',
+            children: [
+              {
+                name: 'half',
+                children: [{ name: 'vodka' }],
+              },
+            ],
+          },
+          { name: 'Juice' },
+          { name: 'Noodles' },
+          { name: 'test' },
+        ],
+      },
+    ];
+  }
+
+  // Tree child check
+  hasChild = (_: number, node: any) => node.expandable;
+
+  searchTerm = '';
+  tableSearch = '';
   searchType: 'name' | 'code' = 'name';
   sortType: 'name' | 'mrp' = 'name';
 
+  products: Product[] = [
+    {
+      productCode: '10CBG650B0',
+      productName: 'Carlsberg 650ml Bottle (12x650)',
+      upc: 12,
+      dispatchRate: 4471.51,
+      wsPrice: 4620.0,
+      retailPrice: 4761.79,
+      mrp: 5214.16,
+    },
+    {
+      productCode: '10TBG500C0',
+      productName: 'Tuborg 500ml (12x500)',
+      upc: 12,
+      dispatchRate: 3096.36,
+      wsPrice: 3204.0,
+      retailPrice: 3297.37,
+      mrp: 3610.62,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'Gorkha 650ml (12x650)',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
+    },
+    {
+      productCode: '10CBG650B0',
+      productName: 'Carlsberg 650ml Bottle (12x650)',
+      upc: 12,
+      dispatchRate: 4471.51,
+      wsPrice: 4620.0,
+      retailPrice: 4761.79,
+      mrp: 5214.16,
+    },
+    {
+      productCode: '10TBG500C0',
+      productName: 'Tuborg 500ml (12x500)',
+      upc: 12,
+      dispatchRate: 3096.36,
+      wsPrice: 3204.0,
+      retailPrice: 3297.37,
+      mrp: 3610.62,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'Gorkha 650ml (12x650)',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
+    },
+    {
+      productCode: '10CBG650B0',
+      productName: 'Carlsberg 650ml Bottle (12x650)',
+      upc: 12,
+      dispatchRate: 4471.51,
+      wsPrice: 4620.0,
+      retailPrice: 4761.79,
+      mrp: 5214.16,
+    },
+    {
+      productCode: '10TBG500C0',
+      productName: 'Tuborg 500ml (12x500)',
+      upc: 12,
+      dispatchRate: 3096.36,
+      wsPrice: 3204.0,
+      retailPrice: 3297.37,
+      mrp: 3610.62,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'Gorkha 650ml (12x650)',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
+    },
+  ];
 
-products:Product[]=[
-   { productCode: '10CBG650B0', productName: 'Carlsberg 650ml Bottle (12x650)', upc: 12, dispatchRate: 4471.51, wsPrice: 4620.00, retailPrice: 4761.79, mrp: 5214.16 },
-    { productCode: '10TBG500C0', productName: 'Tuborg 500ml (12x500)', upc: 12, dispatchRate: 3096.36, wsPrice: 3204.00, retailPrice: 3297.37, mrp: 3610.62 },
-    { productCode: '10GRK650B0', productName: 'Gorkha 650ml (12x650)', upc: 12, dispatchRate: 3961.52, wsPrice: 4092.00, retailPrice: 4218.69, mrp: 4619.47 },
-   { productCode: '10CBG650B0', productName: 'Carlsberg 650ml Bottle (12x650)', upc: 12, dispatchRate: 4471.51, wsPrice: 4620.00, retailPrice: 4761.79, mrp: 5214.16 },
-    { productCode: '10TBG500C0', productName: 'Tuborg 500ml (12x500)', upc: 12, dispatchRate: 3096.36, wsPrice: 3204.00, retailPrice: 3297.37, mrp: 3610.62 },
-    { productCode: '10GRK650B0', productName: 'Gorkha 650ml (12x650)', upc: 12, dispatchRate: 3961.52, wsPrice: 4092.00, retailPrice: 4218.69, mrp: 4619.47 },
-   { productCode: '10CBG650B0', productName: 'Carlsberg 650ml Bottle (12x650)', upc: 12, dispatchRate: 4471.51, wsPrice: 4620.00, retailPrice: 4761.79, mrp: 5214.16 },
-    { productCode: '10TBG500C0', productName: 'Tuborg 500ml (12x500)', upc: 12, dispatchRate: 3096.36, wsPrice: 3204.00, retailPrice: 3297.37, mrp: 3610.62 },
-    { productCode: '10GRK650B0', productName: 'Gorkha 650ml (12x650)', upc: 12, dispatchRate: 3961.52, wsPrice: 4092.00, retailPrice: 4218.69, mrp: 4619.47 },
-];
-
- get filteredProducts() {
+  get filteredProducts() {
     let result = this.products.filter((p) =>
       this.searchType === 'name'
         ? p.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
@@ -72,8 +227,8 @@ products:Product[]=[
     }
 
     if (this.tableSearch) {
-      result = result.filter(p =>
-        Object.values(p).some(val =>
+      result = result.filter((p) =>
+        Object.values(p).some((val) =>
           val.toString().toLowerCase().includes(this.tableSearch.toLowerCase())
         )
       );
@@ -81,39 +236,34 @@ products:Product[]=[
     return result;
   }
 
+  pageSize = 5; // Number of products per page
+  currentPage = 1;
 
-
-pageSize = 5; // Number of products per page
-currentPage = 1;
-
-get totalPages(): number {
-  return Math.ceil(this.filteredProducts.length / this.pageSize);
-}
-
-get paginatedProducts() {
-  const start = (this.currentPage - 1) * this.pageSize;
-  const end = start + this.pageSize;
-  return this.filteredProducts.slice(start, end);
-}
-
-goToPage(page: number) {
-  if (page >= 1 && page <= this.totalPages) {
-    this.currentPage = page;
+  get totalPages(): number {
+    return Math.ceil(this.filteredProducts.length / this.pageSize);
   }
-}
 
-nextPage() {
-  if (this.currentPage < this.totalPages) {
-    this.currentPage++;
+  get paginatedProducts() {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+    return this.filteredProducts.slice(start, end);
   }
-}
 
-previousPage() {
-  if (this.currentPage > 1) {
-    this.currentPage--;
+  goToPage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
   }
-}
 
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
 
-  
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
 }
