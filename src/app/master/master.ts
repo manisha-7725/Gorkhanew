@@ -50,6 +50,12 @@ products:Product[]=[
    { productCode: '10CBG650B0', productName: 'Carlsberg 650ml Bottle (12x650)', upc: 12, dispatchRate: 4471.51, wsPrice: 4620.00, retailPrice: 4761.79, mrp: 5214.16 },
     { productCode: '10TBG500C0', productName: 'Tuborg 500ml (12x500)', upc: 12, dispatchRate: 3096.36, wsPrice: 3204.00, retailPrice: 3297.37, mrp: 3610.62 },
     { productCode: '10GRK650B0', productName: 'Gorkha 650ml (12x650)', upc: 12, dispatchRate: 3961.52, wsPrice: 4092.00, retailPrice: 4218.69, mrp: 4619.47 },
+   { productCode: '10CBG650B0', productName: 'Carlsberg 650ml Bottle (12x650)', upc: 12, dispatchRate: 4471.51, wsPrice: 4620.00, retailPrice: 4761.79, mrp: 5214.16 },
+    { productCode: '10TBG500C0', productName: 'Tuborg 500ml (12x500)', upc: 12, dispatchRate: 3096.36, wsPrice: 3204.00, retailPrice: 3297.37, mrp: 3610.62 },
+    { productCode: '10GRK650B0', productName: 'Gorkha 650ml (12x650)', upc: 12, dispatchRate: 3961.52, wsPrice: 4092.00, retailPrice: 4218.69, mrp: 4619.47 },
+   { productCode: '10CBG650B0', productName: 'Carlsberg 650ml Bottle (12x650)', upc: 12, dispatchRate: 4471.51, wsPrice: 4620.00, retailPrice: 4761.79, mrp: 5214.16 },
+    { productCode: '10TBG500C0', productName: 'Tuborg 500ml (12x500)', upc: 12, dispatchRate: 3096.36, wsPrice: 3204.00, retailPrice: 3297.37, mrp: 3610.62 },
+    { productCode: '10GRK650B0', productName: 'Gorkha 650ml (12x650)', upc: 12, dispatchRate: 3961.52, wsPrice: 4092.00, retailPrice: 4218.69, mrp: 4619.47 },
 ];
 
  get filteredProducts() {
@@ -72,9 +78,42 @@ products:Product[]=[
         )
       );
     }
-
     return result;
   }
+
+
+
+pageSize = 5; // Number of products per page
+currentPage = 1;
+
+get totalPages(): number {
+  return Math.ceil(this.filteredProducts.length / this.pageSize);
+}
+
+get paginatedProducts() {
+  const start = (this.currentPage - 1) * this.pageSize;
+  const end = start + this.pageSize;
+  return this.filteredProducts.slice(start, end);
+}
+
+goToPage(page: number) {
+  if (page >= 1 && page <= this.totalPages) {
+    this.currentPage = page;
+  }
+}
+
+nextPage() {
+  if (this.currentPage < this.totalPages) {
+    this.currentPage++;
+  }
+}
+
+previousPage() {
+  if (this.currentPage > 1) {
+    this.currentPage--;
+  }
+}
+
 
   
 }

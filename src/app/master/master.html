@@ -8,17 +8,16 @@
 
   <!-- Buttons -->
   <div class="d-flex gap-2">
-    
-    <button class="btn btn-info" style="font-size: 12px">Export Product</button>
-    <button class="btn btn-info" style="font-size: 12px">
-      Export Price Master
-    </button>
     <button
       routerLink="/pages/dashboard"
       class="btn btn-info"
       style="font-size: 12px"
     >
       Back
+    </button>
+    <button class="btn btn-info" style="font-size: 12px">Export Product</button>
+    <button class="btn btn-info" style="font-size: 12px">
+      Export Price Master
     </button>
   </div>
 </div>
@@ -63,68 +62,101 @@
         >
       </li>
     </ul>
-  <br>
-  <!-- Search and Filter -->
-  <div class="d-flex align-items-center gap-3 mb-3">
-   
+    <br />
+    <!-- Search and Filter -->
+    <div class="d-flex align-items-center gap-3 mb-3">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="searchType"
+          value="name"
+        />
+        <label class="form-check-label">Search By Name</label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="searchType"
+          value="code"
+        />
+        <label class="form-check-label">Search By Code</label>
+      </div>
 
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="searchType" value="name" />
-      <label class="form-check-label">Search By Name</label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="searchType" value="code" />
-      <label class="form-check-label">Search By Code</label>
-    </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="sortType"
+          value="name"
+        />
+        <label class="form-check-label">Sort By Name</label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="sortType"
+          value="mrp"
+        />
+        <label class="form-check-label">Sort By MRP</label>
+      </div>
 
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="sortType" value="name" />
-      <label class="form-check-label">Sort By Name</label>
+      <input type="text" class="form-control w-25" placeholder="Search..." />
     </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="sortType" value="mrp" />
-      <label class="form-check-label">Sort By MRP</label>
-    </div>
+    <hr />
+    <!-- Table -->
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>SN</th>
+          <th>Product Code</th>
+          <th>Product Name</th>
+          <th>UPC</th>
+          <th>Dispatch Rate</th>
+          <th>W/S Price</th>
+          <th>Retail Price</th>
+          <th>MRP</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
 
-    <input type="text" class="form-control w-25"  placeholder="Search..." />
+      <tbody>
+        <tr *ngFor="let product of paginatedProducts; let i = index">
+          <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
+
+          <td>{{ product.productCode }}</td>
+          <td>{{ product.productName }}</td>
+          <td>{{ product.upc }}</td>
+          <td>{{ product.dispatchRate }}</td>
+          <td>{{ product.wsPrice }}</td>
+          <td>{{ product.retailPrice }}</td>
+          <td>{{ product.mrp }}</td>
+          <td ><a href="#" style="color: black;">View</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+<nav class="d-flex justify-content-center align-items-center mt-3 gap-2">
+  <button class="btn btn-sm btn-outline-primary" (click)="previousPage()" [disabled]="currentPage === 1">Previous</button>
+
+  <ng-container *ngFor="let page of [].constructor(totalPages); let i = index">
+    <button
+      class="btn btn-sm"
+      [ngClass]="{ 'btn-primary': currentPage === i + 1, 'btn-outline-primary': currentPage !== i + 1 }"
+      (click)="goToPage(i + 1)"
+    >
+      {{ i + 1 }}
+    </button>
+  </ng-container>
+
+  <button class="btn btn-sm btn-outline-primary" (click)="nextPage()" [disabled]="currentPage === totalPages">Next</button>
+</nav>
+
+
+
   </div>
-<hr>
-<!-- Table -->
- <table class="table  table-striped">
-    <thead>
-      <tr>
-        <th>SN</th>
-        <th>Product Code</th>
-        <th>Product Name</th>
-        <th>UPC</th>
-        <th>Dispatch Rate</th>
-        <th>W/S Price</th>
-        <th>Retail Price</th>
-        <th>MRP</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-
-    <tbody>
-<tr *ngFor="let product of filteredProducts; index as i">
-  <td>{{i+1}}</td>
-   <td>{{ product.productCode }}</td>
-        <td>{{ product.productName }}</td>
-        <td>{{ product.upc }}</td>
-        <td>{{ product.dispatchRate }}</td>
-        <td>{{ product.wsPrice }}</td>
-        <td>{{ product.retailPrice }}</td>
-        <td>{{ product.mrp }}</td>
-        <td><a href="#">View</a></td>
-</tr>
-    </tbody>
-
-  </table>
-
-
-
-  </div>
-
-
-  
 </div>

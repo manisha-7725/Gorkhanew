@@ -4,11 +4,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTreeModule } from '@angular/material/tree';
 import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
-import { BrowserModule } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,RouterLink,RouterLinkActive,RouterModule,MatTreeModule,MatIconModule,MatButtonModule, BrowserModule,],
+  imports: [RouterOutlet,RouterLink,RouterLinkActive,RouterModule,MatTreeModule,MatIconModule,MatButtonModule,],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
