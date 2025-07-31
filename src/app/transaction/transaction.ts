@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component,signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { routes } from '../app.routes';
 
 
 interface Row {
@@ -20,11 +21,17 @@ interface Row {
 
 @Component({
   selector: 'app-transaction',
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,],
   templateUrl: './transaction.html',
   styleUrl: './transaction.css'
 })
+
 export class Transaction {
+constructor(private router: Router) {}
+
+goBack() {
+  this.router.navigate(['/master']);
+}
 headers=["PI.No","PI35-KHT-82/83"];
 
 

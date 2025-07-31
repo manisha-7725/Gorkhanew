@@ -1,18 +1,22 @@
 import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTreeModule } from '@angular/material/tree';
+import { RouterLink, RouterLinkActive, RouterModule, RouterOutlet } from '@angular/router';
 import { Router } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,RouterLink,RouterLinkActive],
+  imports: [RouterOutlet,RouterLink,RouterLinkActive,RouterModule,MatTreeModule,MatIconModule,MatButtonModule, BrowserModule,],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
   protected title = 'gorkhanew';
-  constructor(private router: Router) {}
+  // constructor(private router: Router) {}
 
-  gototransaction() {
-    this.router.navigate(['/transaction']);
-  }
+  // gototransaction() {
+  //   this.router.navigate(['/transaction']);
+  // }
 }
