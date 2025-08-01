@@ -48,3 +48,25 @@ mat-sidenav-container {
     border-bottom: 1px solid transparent;
     background-color: #63bbb2;
 }
+
+
+
+.main-layout,
+mat-sidenav-container {
+  height: calc(100vh - 60px); /* adjust if there's a header */
+  width: 100%;
+}
+
+mat-sidenav-content {
+  height: 100%;
+  overflow: auto;
+}
+
+.custom-sidenav {
+  width: 250px; /* adjust based on design */
+}
+
+.inner-border {
+  height: 100%;
+  overflow-y: auto;
+}
