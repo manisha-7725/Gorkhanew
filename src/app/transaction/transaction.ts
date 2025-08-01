@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { routes } from '../app.routes';
 
-
 interface Row {
   hsCode: string;
   productCode: string;
@@ -28,15 +27,11 @@ interface Row {
 
 export class Transaction {
 constructor(private router: Router) {}
-
 selectedPayment: string = '';
-
-
 goBack() {
   this.router.navigate(['/master']);
 }
 headers=["PI.No","PI35-KHT-82/83"];
-
 
  rows: Row[] = [
     {
@@ -69,9 +64,6 @@ headers=["PI.No","PI35-KHT-82/83"];
       expDate: ''
     });
   }
-
- 
-
 
 showConfirm = false;
 indexToDelete: number | null = null;

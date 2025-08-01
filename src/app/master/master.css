@@ -11,7 +11,6 @@ mat-sidenav-container {
   height: 100%;
   background-color: #f9f9f9;
 }
-
 /* Inner border inside sidenav */
 .inner-border {
   border: 1px solid #f0e7e7; /* Inner border */
@@ -28,14 +27,12 @@ mat-sidenav-container {
   display: flex;
   height: 100vh;
 }
-
 .sidebar {
   width: 250px;
   background-color: #f4f4f4;
   border-right: 2px solid #ccc;
   padding: 1rem;
 }
-
 .main-content {
   flex-grow: 1;
   padding: 1rem;
@@ -44,7 +41,6 @@ mat-sidenav-container {
   display: flex;
   height: 100vh;
 }
-
 .nav-tabs
  {
     border-top-left-radius: 5px;

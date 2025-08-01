@@ -21,27 +21,6 @@ interface ExampleFlatNode {
   name: string;
   level: number;
 }
-
-// const TREE_DATA: FoodNode[] = [
-//   {
-//     name: 'Product',
-//     children: [
-//       { name: 'Alcoholic' },
-//       { name: 'CG PRODUCTS' },
-//       { name: 'Coke' },
-//     ],
-//   },
-//   {
-//     name: 'coke',
-//     children: [
-//       {
-//         name: 'half',
-//         children: [{ name: 'vodka' }],
-//       },
-//     ],
-//   },
-// ];
-
 interface MenuItem {
   icon: string;
   label: string;
@@ -78,11 +57,7 @@ export class Master {
       level: level,
     };
   };
-
-  // constructor() 
-  // {
-  //   this.dataSource.data = TREE_DATA;
-  // }
+  
   treeControl = new FlatTreeControl<ExampleFlatNode>(
     (node) => node.level,
     (node) => node.expandable

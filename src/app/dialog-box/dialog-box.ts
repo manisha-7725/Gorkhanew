@@ -14,7 +14,6 @@ import { CommonModule } from '@angular/common';
   styleUrl: './dialog-box.css'
 })
 export class DialogBox {
-
   selectedName: string = '';
 
 data = [
