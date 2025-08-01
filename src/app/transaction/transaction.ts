@@ -70,14 +70,7 @@ headers=["PI.No","PI35-KHT-82/83"];
     });
   }
 
-  // removeRow(index: number) {
-  //   this.rows.splice(index, 1);
-  // }
-  // confirmRemove(index:number){
-  //   if(confirm('Are you sure you want to delete the Row?')){
-  //     this.removeRow(index);
-  //   }
-  // }
+ 
 
 
 showConfirm = false;

@@ -51,8 +51,11 @@
     </tr>
    
     <tr>
-      <td>Invoice No:</td>
-      <td><input type="text"  /></td>
+      <td >Invoice No:</td>
+      <td colspan="2">
+    <input type="text"  />
+  </td>
+    
     
     </tr>
 
@@ -72,9 +75,18 @@
         Payment
       </td>
 
-     <td>
-  <select [(ngModel)]="selectedPayment" name="payment" required>
-    <!-- <option value="" disabled selected>Choose Payment</option> -->
+     <td colspan="2"  >
+  <select  [(ngModel)]="selectedPayment" name="payment" required
+   style="
+  width: 100%;
+  border-radius: 8px;
+  padding: 6px 10px;  
+  border: 1px solid #ccc; 
+  outline: none;
+  width: 100%;
+    "
+  >
+
     <option value="Cash">Cash</option>
     <option value="Credit">Credit</option>
     <option value="Cheque">Cheque</option>
@@ -83,10 +95,10 @@
 
     </tr>
     <tr>
-      <td>
+      <td >
         Terms Account
       </td>
-      <td><input type="text" placeholder=" Press Enter to select Account" /></td>
+      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account" /></td>
     </tr>
     <tr>
       <td>Cheque No:</td>
@@ -95,29 +107,31 @@
     </tr>
     <tr>
     <td>Godown</td>
-    <td><input type="text" value="Main Warehouse"></td>
+    <td colspan="2"><input type="text" value="Main Warehouse"></td>
   </tr>
   </table>
  </form>
 
 
     <form class="form-box">
+    <table style="width: 100%;">
     <tr>
       <td>Supplier</td>
-      <td><input type="text" placeholder="Press ENTER or TAB to  select Supplier" /></td>
+      <td ><input type="text" placeholder="Press ENTER or TAB to  select Supplier"  /></td>
     </tr>
     <tr>
       <td>Address</td>
-      <td><input type="text"></td>
+      <td colspan="2"><input type="text"></td>
     </tr>
     <tr>
       <td>Vat No</td>
-    <td><input type="text"></td>
+    <td colspan="2"><input type="text"></td>
   </tr>
     <tr>
       <td>Remark</td>
-    <td><input type="text"></td>
+    <td colspan="2"><input type="text"></td>
   </tr>
+  </table>
   </form>
  </div>
 <br>
