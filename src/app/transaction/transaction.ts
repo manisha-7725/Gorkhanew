@@ -29,6 +29,9 @@ interface Row {
 export class Transaction {
 constructor(private router: Router) {}
 
+selectedPayment: string = '';
+
+
 goBack() {
   this.router.navigate(['/master']);
 }

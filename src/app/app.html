@@ -3,7 +3,10 @@
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
         <a class="nav-link" [routerLink]="['master']" routerLinkActive="active">Master</a>
-        <a class="nav-link" [routerLink]="['transaction']" routerLinkActive="active">Transaction</a>
+
+        <button (click)="openDialog()" class="nav-link" routerLink="/transaction" routerLinkActive="active">
+  Transaction
+</button>
       </div>
     </div>
   </div>
