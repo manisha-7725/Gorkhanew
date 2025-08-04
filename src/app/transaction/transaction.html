@@ -140,7 +140,8 @@
     <thead >
       <tr>
         <th>S.No</th>
-        <th>HS Code</th>
+        <th>
+          HS Code</th>
         <th>Product Code</th>
         <th>Product Name</th>
         <th>UPC</th>
@@ -157,7 +158,7 @@
  <tbody>
     <tr *ngFor="let row of rows; let i = index">
       <td>{{ i + 1 }}</td>
-      <td><input type="text" [(ngModel)]="row.hsCode" /></td>
+      <td><input type="text" [(ngModel)]="row.hsCode" #hsCodeInput/></td>
       <td><input type="text" [(ngModel)]="row.productCode" /></td>
       <td><input type="text" [(ngModel)]="row.productName" /></td>
       <td><input type="text" [(ngModel)]="row.upc" /></td>

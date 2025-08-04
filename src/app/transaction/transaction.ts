@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component,signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { routes } from '../app.routes';
+import { AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
 
 interface Row {
   hsCode: string;
@@ -25,9 +25,12 @@ interface Row {
   styleUrl: './transaction.css'
 })
 
-export class Transaction {
+export class Transaction implements AfterViewInit{
+    @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
+
 constructor(private router: Router) {}
 selectedPayment: string = '';
+
 goBack() {
   this.router.navigate(['/master']);
 }
@@ -49,6 +52,14 @@ headers=["PI.No","PI35-KHT-82/83"];
     }
   ];
 
+  showConfirm = false;
+  indexToDelete: number | null = null;
+
+ ngAfterViewInit() {
+    this.focusLastHSCode();
+  }
+
+
   addRow() {
     this.rows.push({
       hsCode: '',
@@ -63,10 +74,22 @@ headers=["PI.No","PI35-KHT-82/83"];
       mfgDate: '',
       expDate: ''
     });
+  
+
+ // Let Angular render the row first, then focus
+    setTimeout(() => this.focusLastHSCode());
   }
 
-showConfirm = false;
-indexToDelete: number | null = null;
+
+// showConfirm = false;
+// indexToDelete: number | null = null;
+
+  focusLastHSCode() {
+    const lastInput = this.hsCodeInputs.last;
+    if (lastInput) {
+      lastInput.nativeElement.focus();
+    }
+  }
 
 confirmRemoveRow(index: number) {
   this.indexToDelete = index;
@@ -89,7 +112,4 @@ cancelDelete() {
 removeRow(index: number) {
   this.rows.splice(index, 1);
 }
-
-
-
 }

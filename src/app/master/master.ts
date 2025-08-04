@@ -57,14 +57,13 @@ export class Master {
       level: level,
     };
   };
-  
-constructor(private router: Router) {}
+
+  constructor(private router: Router) {}
 
 onView(): void {
   this.router.navigate(['/views']);
 }
-
-
+  
   treeControl = new FlatTreeControl<ExampleFlatNode>(
     (node) => node.level,
     (node) => node.expandable
@@ -113,7 +112,7 @@ onView(): void {
 
   products: Product[] = [
     {
-      productCode: '11',
+      productCode: '10CBG650B0',
       productName: 'Carlsberg 650ml Bottle (12x650)',
       upc: 12,
       dispatchRate: 4471.51,
@@ -122,7 +121,7 @@ onView(): void {
       mrp: 5214.16,
     },
     {
-      productCode: '12',
+      productCode: '10TBG500C0',
       productName: 'Tuborg 500ml (12x500)',
       upc: 12,
       dispatchRate: 3096.36,
@@ -131,7 +130,7 @@ onView(): void {
       mrp: 3610.62,
     },
     {
-      productCode: '13',
+      productCode: '10GRK650B0',
       productName: 'Gorkha 650ml (12x650)',
       upc: 12,
       dispatchRate: 3961.52,
@@ -140,7 +139,7 @@ onView(): void {
       mrp: 4619.47,
     },
     {
-      productCode: '14',
+      productCode: '10CBG650B0',
       productName: 'Carlsberg 650ml Bottle (12x650)',
       upc: 12,
       dispatchRate: 4471.51,
@@ -149,7 +148,7 @@ onView(): void {
       mrp: 5214.16,
     },
     {
-      productCode: '15',
+      productCode: '10TBG500C0',
       productName: 'Tuborg 500ml (12x500)',
       upc: 12,
       dispatchRate: 3096.36,
@@ -158,7 +157,7 @@ onView(): void {
       mrp: 3610.62,
     },
     {
-      productCode: '16',
+      productCode: '10GRK650B0',
       productName: 'Gorkha 650ml (12x650)',
       upc: 12,
       dispatchRate: 3961.52,
@@ -167,7 +166,7 @@ onView(): void {
       mrp: 4619.47,
     },
     {
-      productCode: '17',
+      productCode: '10CBG650B0',
       productName: 'Carlsberg 650ml Bottle (12x650)',
       upc: 12,
       dispatchRate: 4471.51,
@@ -176,7 +175,7 @@ onView(): void {
       mrp: 5214.16,
     },
     {
-      productCode: '18',
+      productCode: '10TBG500C0',
       productName: 'Tuborg 500ml (12x500)',
       upc: 12,
       dispatchRate: 3096.36,
@@ -185,7 +184,7 @@ onView(): void {
       mrp: 3610.62,
     },
     {
-      productCode: '19',
+      productCode: '10GRK650B0',
       productName: 'Gorkha 650ml (12x650)',
       upc: 12,
       dispatchRate: 3961.52,
