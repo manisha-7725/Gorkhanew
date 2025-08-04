@@ -57,7 +57,7 @@ export class Master {
       level: level,
     };
   };
-
+ selectedCategory: string = ''; // ✅ Add this line
   constructor(private router: Router) {}
 
 onView(): void {
@@ -78,7 +78,7 @@ onView(): void {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  ngOnInit() {
+ngOnInit() {
     this.dataSource.data = [
       {
         name: 'PRODUCT LISTS',
@@ -101,6 +101,7 @@ onView(): void {
       },
     ];
   }
+
 
   // Tree child check
   hasChild = (_: number, node: any) => node.expandable;
@@ -131,7 +132,7 @@ onView(): void {
     },
     {
       productCode: '10GRK650B0',
-      productName: 'Gorkha 650ml (12x650)',
+      productName: 'Coke',
       upc: 12,
       dispatchRate: 3961.52,
       wsPrice: 4092.0,
@@ -158,7 +159,7 @@ onView(): void {
     },
     {
       productCode: '10GRK650B0',
-      productName: 'Gorkha 650ml (12x650)',
+      productName: 'Alcohalic',
       upc: 12,
       dispatchRate: 3961.52,
       wsPrice: 4092.0,
@@ -167,7 +168,7 @@ onView(): void {
     },
     {
       productCode: '10CBG650B0',
-      productName: 'Carlsberg 650ml Bottle (12x650)',
+      productName: 'Alcohalic 650ml Bottle (12x650)',
       upc: 12,
       dispatchRate: 4471.51,
       wsPrice: 4620.0,
@@ -176,12 +177,57 @@ onView(): void {
     },
     {
       productCode: '10TBG500C0',
-      productName: 'Tuborg 500ml (12x500)',
+      productName: 'Juice 500ml (12x500)',
       upc: 12,
       dispatchRate: 3096.36,
       wsPrice: 3204.0,
       retailPrice: 3297.37,
       mrp: 3610.62,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'test 650ml (12x650)',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'coke',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'Noodles 650ml (12x650)',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'CG products 650ml (12x650)',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
+    },
+    {
+      productCode: '10GRK650B0',
+      productName: 'Gorkha 650ml (12x650)',
+      upc: 12,
+      dispatchRate: 3961.52,
+      wsPrice: 4092.0,
+      retailPrice: 4218.69,
+      mrp: 4619.47,
     },
     {
       productCode: '10GRK650B0',
@@ -194,28 +240,54 @@ onView(): void {
     },
   ];
 
-  get filteredProducts() {
-    let result = this.products.filter((p) =>
+onCategorySelect(category: string) {
+  if (category.toLowerCase() === 'product list' || category.toLowerCase() === 'product lists') {
+    this.selectedCategory = ''; // show all
+  } else {
+    this.selectedCategory = category.toLowerCase(); // filter by name like "coke"
+  }
+  this.currentPage = 1; // Reset pagination
+}
+
+
+get filteredProducts() {
+  let result = this.products;
+
+  // Filter by selected category if it's set
+  if (this.selectedCategory) {
+    result = result.filter((p) =>
+      p.productName.toLowerCase().includes(this.selectedCategory)
+    );
+  }
+
+  // Apply name/code search
+  if (this.searchTerm) {
+    result = result.filter((p) =>
       this.searchType === 'name'
         ? p.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
         : p.productCode.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
-
-    if (this.sortType === 'name') {
-      result.sort((a, b) => a.productName.localeCompare(b.productName));
-    } else if (this.sortType === 'mrp') {
-      result.sort((a, b) => b.mrp - a.mrp);
-    }
-
-    if (this.tableSearch) {
-      result = result.filter((p) =>
-        Object.values(p).some((val) =>
-          val.toString().toLowerCase().includes(this.tableSearch.toLowerCase())
-        )
-      );
-    }
-    return result;
   }
+
+  // Sorting
+  if (this.sortType === 'name') {
+    result.sort((a, b) => a.productName.localeCompare(b.productName));
+  } else if (this.sortType === 'mrp') {
+    result.sort((a, b) => b.mrp - a.mrp);
+  }
+
+  // Table-wide search
+  if (this.tableSearch) {
+    result = result.filter((p) =>
+      Object.values(p).some((val) =>
+        val.toString().toLowerCase().includes(this.tableSearch.toLowerCase())
+      )
+    );
+  }
+
+  return result;
+}
+
 
   pageSize = 5; // Number of products per page
   currentPage = 1;
