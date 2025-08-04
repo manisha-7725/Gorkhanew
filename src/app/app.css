@@ -1,3 +1,18 @@
 .nav-item{
   background-color: #6c757d!important;
 }
+
+::ng-deep .custom-dialog-right .mat-dialog-container {
+  position: fixed !important;
+  right: 0 !important;
+  top: 0 !important;
+  margin: 0 !important;
+  height: 100vh !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  max-width: 400px !important;
+  width: 100% !important;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.3);
+}
+
+

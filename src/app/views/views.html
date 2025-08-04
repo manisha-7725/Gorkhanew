@@ -2,10 +2,71 @@
   <label
     style="font-family: 'Segoe UI Light'; font-weight: bold; font-size: 20px"
   >
-    PRODUCT MASTER  <label class="title">  >>View Product</label>
+    PRODUCT MASTER <label class="title"> >>View Product</label>
   </label>
-   <div class="d-flex gap-2">
-    <button
-      class="btn btn-danger"
-      style="font-size: 12px">
-      Back </button>
+  <div class="d-flex gap-2">
+    <button class="btn btn-danger" style="font-size: 12px"(click)="goBack()" >Back</button>
+  </div>
+</div>
+
+
+
+<div class="main-layout">
+
+  <mat-sidenav-container >
+    <mat-sidenav mode="side" opened class="custom-sidenav">
+
+
+       <div class="inner-border p-3">
+     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+  <label   style="white-space: nowrap; ">Main Group : </label>
+  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
+</div>
+<select class="form-control" [(ngModel)]="selectedSubGroupA">
+  <option value="">PRODUCT LIST</option>
+  <option *ngFor="let group of subGroupsA" [value]="group.value">
+    {{ group.label }}
+  </option>
+</select>
+
+ <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+  <label   style="white-space: nowrap; ">Sub Group (A) : </label>
+  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
+</div>
+<select class="form-control" [(ngModel)]="selectedSubGroupA">
+  <option value="">option</option>
+  <option *ngFor="let group of subGroupsA" [value]="group.value">
+    {{ group.label }}
+  </option>
+</select>
+
+
+ <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+  <label   style="white-space: nowrap; ">Sub Group (B) : </label>
+  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
+</div>
+<select class="form-control" [(ngModel)]="selectedSubGroupA">
+  <option value="">option</option>
+  <option *ngFor="let group of subGroupsA" [value]="group.value">
+    {{ group.label }}
+  </option>
+</select>
+
+ <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+  <label   style="white-space: nowrap; ">Sub Group (C) : </label>
+  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
+</div>
+<select class="form-control" [(ngModel)]="selectedSubGroupA">
+  <option value="">option</option>
+  <option *ngFor="let group of subGroupsA" [value]="group.value">
+    {{ group.label }}
+  </option>
+</select>
+
+
+</div>
+
+      </mat-sidenav>
+
+      
+         </mat-sidenav-container>

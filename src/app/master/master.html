@@ -6,11 +6,8 @@
   </label>
 
   <div class="d-flex gap-2">
-    <button
-      class="btn btn-info"
-      style="font-size: 12px">
-      Back </button>
-      
+    <button class="btn btn-info" style="font-size: 12px">Back</button>
+
     <button class="btn btn-info" style="font-size: 12px">Export Product</button>
     <button class="btn btn-info" style="font-size: 12px">
       Export Price Master
@@ -33,8 +30,8 @@
           <mat-tree-node
             *matTreeNodeDef="let node; when: hasChild"
             matTreeNodePadding
- >
- <!-- (click)="filterByCategory(node.name)" -->
+          >
+            <!-- (click)="filterByCategory(node.name)" -->
 
             <button mat-icon-button matTreeNodeToggle>
               <mat-icon>
@@ -47,10 +44,9 @@
           </mat-tree-node>
 
           <!-- Leaf Node -->
-          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding
-           >
-          >
-           <!-- (click)="filterByCategory(node.name)" -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            >
+            <!-- (click)="filterByCategory(node.name)" -->
             <mat-icon class="me-2">folder</mat-icon>
             {{ node.name }}
           </mat-tree-node>
@@ -141,7 +137,14 @@
             <td>{{ product.wsPrice }}</td>
             <td>{{ product.retailPrice }}</td>
             <td>{{ product.mrp }}</td>
-            <td> <a  style="color: black ;cursor: pointer;" (click)="onView()" type="button">View</a></td>
+            <td>
+              <a
+                style="color: black; cursor: pointer"
+                (click)="onView()"
+                type="button"
+                >View</a
+              >
+            </td>
           </tr>
         </tbody>
       </table>

@@ -3,6 +3,10 @@ import { Component,signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogBox } from '../dialog-box/dialog-box';
+
+
 
 interface Row {
   hsCode: string;
@@ -28,8 +32,24 @@ interface Row {
 export class Transaction implements AfterViewInit{
     @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
 
-constructor(private router: Router) {}
+
+
+
+
+
+constructor(private router: Router,private dialog: MatDialog) {}
 selectedPayment: string = '';
+
+
+   openDialog(): void {
+    this.dialog.open(DialogBox, {
+      width: '400px',
+      height: '100vh',
+      position: { right: '0', top: '0' },
+      panelClass: 'custom-dialog-right'
+    });
+  }
+
 
 goBack() {
   this.router.navigate(['/master']);
