@@ -32,24 +32,35 @@ interface Row {
 export class Transaction implements AfterViewInit{
     @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
 
-
-
-
-
-
 constructor(private router: Router,private dialog: MatDialog) {}
 selectedPayment: string = '';
 
+//  openDialog(): void {
+//     this.dialog.open(DialogBox, {
+//       width: '400px',
+//       height: '100vh',
+//       position: { right: '0', top: '0' },
+//       panelClass: 'custom-dialog-right'
+//     });
+//   }
 
-   openDialog(): void {
-    this.dialog.open(DialogBox, {
-      width: '400px',
-      height: '100vh',
-      position: { right: '0', top: '0' },
-      panelClass: 'custom-dialog-right'
-    });
-  }
+  ngOnInit(): void {
+  this.dialog.open(DialogBox, {
+    width: '25%',
+    position: {
+    right: '0'
+    }
+  });
+}
 
+
+
+
+
+
+
+
+  
 
 goBack() {
   this.router.navigate(['/master']);

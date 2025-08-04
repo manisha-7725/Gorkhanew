@@ -8,6 +8,15 @@
 }
 
 
+.custom-dialog-right .mat-dialog-container {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0;
+  height: 100%;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+}
 
 
 

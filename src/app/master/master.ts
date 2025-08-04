@@ -159,7 +159,7 @@ ngOnInit() {
     },
     {
       productCode: '10GRK650B0',
-      productName: 'Alcohalic',
+      productName: 'Alcohalic apple',
       upc: 12,
       dispatchRate: 3961.52,
       wsPrice: 4092.0,
