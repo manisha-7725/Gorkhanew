@@ -7,6 +7,25 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Inject } from '@angular/core';
+// import { Row } from '../models/row.model'; // Update path as needed
+
+
+interface Row {
+  hsCode: string;
+  productCode: string;
+  productName: string;
+  upc: string;
+  unit: string;
+  quantity: string;
+  rate: string;
+  gAmt: string;
+  netAmt: string;
+  mfgDate: string;
+  expDate: string;
+}
+
 
 @Component({
   selector: 'app-dialog-box',
@@ -21,6 +40,32 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './dialog-box.css',
 })
 export class DialogBox {
+constructor(
+    public dialogRef: MatDialogRef<DialogBox>,
+@Inject(MAT_DIALOG_DATA) public dialogRows: Row[]
+
+  ) {}
+
+  ngOnInit(): void {
+    console.log(this.dialogRows); // 👀 Now you can display or edit these rows in the dialog
+  }
+
+  // Optional: Close and return updated rows
+  closeDialog(): void {
+    this.dialogRef.close(this.dialogRows);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   selectedName: string = '';
 
   data = [
@@ -39,5 +84,8 @@ export class DialogBox {
   ];
 
 
+
+
+  
 
 }

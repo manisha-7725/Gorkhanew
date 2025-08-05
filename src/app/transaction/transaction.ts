@@ -7,7 +7,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogBox } from '../dialog-box/dialog-box';
 
 
-
 interface Row {
   hsCode: string;
   productCode: string;
@@ -35,32 +34,23 @@ export class Transaction implements AfterViewInit{
 constructor(private router: Router,private dialog: MatDialog) {}
 selectedPayment: string = '';
 
-//  openDialog(): void {
-//     this.dialog.open(DialogBox, {
-//       width: '400px',
-//       height: '100vh',
-//       position: { right: '0', top: '0' },
-//       panelClass: 'custom-dialog-right'
-//     });
-//   }
 
-  ngOnInit(): void {
-  this.dialog.open(DialogBox, {
-    width: '25%',
-    position: {
-    right: '0'
+ngOnInit(): void {
+  const dialogRef = this.dialog.open(DialogBox, {
+    width: '375px',
+    position: { right: '0' },
+    data: this.rows
+  });
+
+  dialogRef.afterClosed().subscribe((updatedRows: Row[]) => {
+    if (updatedRows) {
+      this.rows = updatedRows; // 📝 Update the transaction table
     }
   });
 }
 
 
 
-
-
-
-
-
-  
 
 goBack() {
   this.router.navigate(['/master']);
@@ -143,4 +133,7 @@ cancelDelete() {
 removeRow(index: number) {
   this.rows.splice(index, 1);
 }
+
+isDisabled = true;
+
 }
