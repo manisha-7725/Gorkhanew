@@ -5,68 +5,355 @@
     PRODUCT MASTER <label class="title"> >>View Product</label>
   </label>
   <div class="d-flex gap-2">
-    <button class="btn btn-danger" style="font-size: 12px"(click)="goBack()" >Back</button>
+    <button class="btn btn-danger" style="font-size: 12px" (click)="goBack()">
+      Back
+    </button>
   </div>
 </div>
 
+<div class="page-wrapper">
+  <div class="outer-border">
+    <div class="inner-border p-3">
+      <!-- Group 1 -->
+      <div class="group">
+        <label>Main Group :</label>
+        <hr class="section-divider" />
+      </div>
+      <select class="form-control" [(ngModel)]="selectedSubGroupA">
+        <option value="">PRODUCT LIST</option>
+        <!-- <option *ngFor="let group of subGroupsA" [value]="group.value">
+          {{ group.label }}
+        </option> -->
+      </select>
+<br>
+      <!-- Group 2 -->
+      <div class="group">
+        <label  style="white-space: nowrap; ">Sub Group (A) :</label>
+        <hr class="section-divider" />
+      </div>
+      <select class="form-control" [(ngModel)]="selectedSubGroupA">
+        <option value="">option</option>
+        <option *ngFor="let group of subGroupsA" [value]="group.value">
+          {{ group.label }}
+        </option>
+      </select>
 
 
-<div class="main-layout">
-
-  <mat-sidenav-container >
-    <mat-sidenav mode="side" opened class="custom-sidenav">
-
-
-       <div class="inner-border p-3">
-     <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-  <label   style="white-space: nowrap; ">Main Group : </label>
-  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
-</div>
-<select class="form-control" [(ngModel)]="selectedSubGroupA">
-  <option value="">PRODUCT LIST</option>
-  <option *ngFor="let group of subGroupsA" [value]="group.value">
-    {{ group.label }}
-  </option>
-</select>
-
- <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-  <label   style="white-space: nowrap; ">Sub Group (A) : </label>
-  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
-</div>
-<select class="form-control" [(ngModel)]="selectedSubGroupA">
-  <option value="">option</option>
-  <option *ngFor="let group of subGroupsA" [value]="group.value">
-    {{ group.label }}
-  </option>
-</select>
-
-
- <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-  <label   style="white-space: nowrap; ">Sub Group (B) : </label>
-  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
-</div>
-<select class="form-control" [(ngModel)]="selectedSubGroupA">
-  <option value="">option</option>
-  <option *ngFor="let group of subGroupsA" [value]="group.value">
-    {{ group.label }}
-  </option>
-</select>
-
- <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
-  <label   style="white-space: nowrap; ">Sub Group (C) : </label>
-  <hr style="flex-grow: 1; border: none; border-top: 2px solid #000; margin: 0;" />
-</div>
-<select class="form-control" [(ngModel)]="selectedSubGroupA">
-  <option value="">option</option>
-  <option *ngFor="let group of subGroupsA" [value]="group.value">
-    {{ group.label }}
-  </option>
-</select>
-
-
-</div>
-
-      </mat-sidenav>
-
+      <br>
+      <div class="group">
+        <label  style="white-space: nowrap; ">Sub Group (B) :</label>
+        <hr class="section-divider" />
+      </div>
+      <select class="form-control" [(ngModel)]="selectedSubGroupA">
+        <option value="">option</option>
+        <option *ngFor="let group of subGroupsA" [value]="group.value">
+          {{ group.label }}
+        </option>
+      </select>
       
-         </mat-sidenav-container>
+      <div class="group">
+        <label  style="white-space: nowrap; ">Sub Group (C) :</label>
+        <hr class="section-divider" />
+      </div>
+      <select class="form-control" [(ngModel)]="selectedSubGroupA">
+        <option value="">option</option>
+        <option *ngFor="let group of subGroupsA" [value]="group.value">
+          {{ group.label }}
+        </option>
+      </select>
+
+      <!-- Add more groups as needed -->
+    </div>
+   </div>
+
+    <div class="main-content">
+    <form>
+      <div class="row mb-3">
+        <label
+          for="colFormLabelSm"
+          class="col-sm-2 col-form-label col-form-label-sm"
+          >Material Code :</label
+        >
+        <div class="col-sm-3">
+          <input
+            type="email"
+            class="form-control form-control-sm"
+            id="colFormLabelSm"
+            placeholder="col-form-label-sm"
+            value="2"
+          />
+        </div>
+      </div>
+    </form>
+
+   <form>
+      <div class="row">
+        <!-- First Form Group -->
+        <div class="col-md-6">
+          <div class="row mb-3">
+            <label
+              for="materialDesc"
+              class="col-sm-4 col-form-label col-form-label-sm"
+            >
+              HS Code:
+            </label>
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="materialDesc"
+                placeholder=""
+                value="Test product"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Form Group -->
+        <div class="col-md-6">
+          <div class="row mb-3">
+            <label
+              for="supplier"
+              class="col-sm-4 col-form-label col-form-label-sm"
+            >
+              Sort:
+            </label>
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="supplier"
+                placeholder=""
+                value="Test product"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <form>
+      <div class="row mb-3">
+        <label
+          for="colFormLabelSm"
+          class="col-sm-2 col-form-label col-form-label-sm"
+          >Material Name :</label
+        >
+        <div class="col-sm-10">
+          <input
+            type="email"
+            class="form-control form-control-sm"
+            id="colFormLabelSm"
+            placeholder=""
+            value="Test product"
+          />
+        </div>
+      </div>
+    </form>
+
+    <br />
+
+    <div class="col-12">
+      <label class="visually-hidden" for="inlineFormInputGroupUsername"
+        >Username</label
+      > 
+      <div class="input-group">
+           <span class="input-group-text bg-success text-white">
+      Detailed Information
+    </span>
+        <input
+         
+          class="form-control bg-info"
+          id="inlineFormInputGroupUsername  "
+          placeholder=""
+        />
+      </div>
+    </div>
+
+    <br />
+
+    <form>
+      <div class="row">
+        <!-- First Form Group -->
+        <div class="col-md-6">
+          <div class="row mb-3">
+            <label
+              for="materialDesc"
+              class="col-sm-4 col-form-label col-form-label-sm"
+            >
+              Material Description:
+            </label>
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="materialDesc"
+                placeholder=""
+                value="Test product"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Second Form Group -->
+        <div class="col-md-6">
+          <div class="row mb-3">
+            <label
+              for="supplier"
+              class="col-sm-4 col-form-label col-form-label-sm"
+            >
+              Supplier:
+            </label>
+            <div class="col-sm-8">
+              <input
+                type="text"
+                class="form-control form-control-sm"
+                id="supplier"
+                placeholder=""
+                value="Test product"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+
+
+     <div class="form-container">
+ <form class="form-box">
+  <table>
+      <tr>
+      <td>UPC</td>
+      <td><input type="text"[placeholder]=""></td>
+    </tr>
+   
+    <tr>
+      <td >MRP</td>
+      <td colspan="2">
+    <input type="text"  />
+  </td>
+    </tr>
+
+    <tr>
+      <td>Weight:</td>
+      <td><input type="text"[placeholder]=""[value]="50"></td>
+    </tr>
+
+    <tr>
+      <td>Alternate unit</td>
+      <input type="text"[placeholder]="">
+    </tr>
+
+    <tr>
+      <td> HL Conversion</td>
+      <td><input type="text"[placeholder]=""[value]="0.06"></td>
+    </tr>
+
+    <tr>
+      <td>VAT ITEM</td>
+      <td><input type="text"></td>
+
+    </tr>
+ </table>
+    </form>
+
+
+ <form class="form-box">
+  <table>
+    <tr>
+      <td>
+        Category:
+      </td>
+
+   <td><input type="text"[placeholder]=""></td>
+    </tr>
+
+    <tr>
+      <td >
+        Segment
+      </td>
+      <td><input type="text"[placeholder]=""[value]="'Premium'"></td>
+    </tr>
+    <tr>
+      <td>Brand Name:</td>
+      <td><input type="text" placeholder="Calsberg"></td>
+    </tr>
+    <tr>
+    <td>Sub-Brand</td>
+    <td ><input type="text" value="Mild"[placeholder]=""></td>
+    </tr>
+    <tr>
+    <td>Package</td>
+    <td><input type="text"[placeholder]="" value="Bottle"></td>
+  </tr>
+  </table>
+ </form>
+
+
+    <form class="form-box">
+    <table style="width: 100%;">
+    <tr>
+      <td>Supplier</td>
+     <td><input type="text"[placeholder]=""[value]="'Gorkha Brewery'"></td>
+    </tr>
+    <tr>
+      <td>Status:</td>
+      <td><input type="text"[placeholder]=""[value]="'Active'"></td>
+    </tr>
+    <tr>
+      <td>Shelf life:</td>
+    <td><input type="text"></td>
+  </tr>
+    <tr>
+      <td>UOM:</td>
+    <td ><input type="text"[placeholder]=""[value]="'Each'"></td>
+    
+  </tr>
+
+  <tr>
+    <td>Weighable</td>
+    <td><input type="text"[placeholder]=""[value]="'LTR'"></td>
+  </tr>
+  <tr>
+    <td></td>
+
+    <fieldset class="border p-3">
+  <legend style="font-size: 14px; width: auto;">Price Master :</legend>
+
+  <div class="row text-center fw-bold mb-2">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">With VAT</div>
+    <div class="col-md-4">Without VAT</div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-md-4">Dispatch Rate:</div>
+    <div class="col-md-4">0.00</div>
+    <div class="col-md-4">0.00</div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-md-4">Retail Price:</div>
+    <div class="col-md-4">0.00</div>
+    <div class="col-md-4">0.00</div>
+  </div>
+
+  <div class="row mb-1">
+    <div class="col-md-4">Whole Sale Price:</div>
+    <div class="col-md-4">0.00</div>
+    <div class="col-md-4">0.00</div>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-md-12 text-center">
+      <span class="fw-bold">Note:</span> Price not shown unless approved
+    </div>
+  </div>
+</fieldset>
+  </tr>
+  </table>
+  </form>
+ </div>
+  </div>
+</div>

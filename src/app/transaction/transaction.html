@@ -46,8 +46,10 @@
 
       <tr>
       <td>Enter Date</td>
-      <td><input type="text"  value="07/31/2025" /></td>
-      <td><input type="date"/></td>
+      <td><input type="text"  value="07/31/2025"   [disabled]="true"
+  style="cursor: not-allowed;"/></td>
+      <td><input type="date"    [disabled]="true"
+  style="cursor: not-allowed;"/></td>
     </tr>
    
     <tr>
@@ -98,7 +100,8 @@
       <td >
         Terms Account
       </td>
-      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account" /></td>
+      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account"   [disabled]="true"
+  style="cursor: not-allowed;"/></td>
     </tr>
     <tr>
       <td>Cheque No:</td>
@@ -117,7 +120,8 @@
     <table style="width: 100%;">
     <tr>
       <td>Supplier</td>
-      <td ><input type="text" placeholder="Press ENTER or TAB to  select Supplier"  /></td>
+      <td ><input type="text" placeholder="Press ENTER or TAB to  select Supplier"   [disabled]="true"
+  style="cursor: not-allowed;" /></td>
     </tr>
     <tr>
       <td>Address</td>
@@ -161,14 +165,16 @@
       <td><input type="text" [(ngModel)]="row.hsCode" #hsCodeInput/></td>
       <td><input type="text" [(ngModel)]="row.productCode" /></td>
       <td><input type="text" [(ngModel)]="row.productName" /></td>
-      <td><input type="text" [(ngModel)]="row.upc" /></td>
-      <td><input type="text" [(ngModel)]="row.unit" /></td>
+      <td><input type="text" [(ngModel)]="row.upc" [disabled]="true"   style="cursor: not-allowed;"/></td>
+      <td><input type="text" [(ngModel)]="row.unit"[disabled]="true"   style="cursor: not-allowed;" /></td>
       <td><input type="text" [(ngModel)]="row.quantity" /></td>
-      <td><input type="text" [(ngModel)]="row.rate" /></td>
-      <td><input type="text" [(ngModel)]="row.gAmt"  /></td>
-      <td><input type="text" [(ngModel)]="row.netAmt" /></td>
+      <td><input type="text" [(ngModel)]="row.rate" [disabled]="true"   style="cursor: not-allowed;"/></td>
+      <td><input type="text" [(ngModel)]="row.gAmt" [disabled]="true"   style="cursor: not-allowed;"/></td>
+     
+      <td><input type="text" [(ngModel)]="row.netAmt"   /></td>
       <td><input type="date" [(ngModel)]="row.mfgDate" /></td>
-      <td><input type="date" [(ngModel)]="row.expDate" /></td>
+ <td><input type="date" [(ngModel)]="row.expDate"[disabled]="true"  style="cursor: not-allowed;" /></td>
+
       <td>
         <button  (click)="confirmRemoveRow(i)" style="background-color: red; color: white;  width: 25px ;
   height: 25px ;
