@@ -11,6 +11,10 @@ import {
   MatTreeFlattener,
 } from '@angular/material/tree';
 import { MatTreeModule } from '@angular/material/tree';
+import { FilterPipe } from '../filter-pipe';
+import { FormsModule } from '@angular/forms';
+
+
 
 interface FoodNode {
   name: string;
@@ -36,6 +40,7 @@ interface Product {
   mrp: number;
 }
 
+
 @Component({
   selector: 'app-master',
   imports: [
@@ -45,11 +50,17 @@ interface Product {
     MatListModule,
     MatIconModule,
     MatTreeModule,
+    FilterPipe,
+    FormsModule
+
   ],
   templateUrl: './master.html',
   styleUrl: './master.css',
+  // categorySearchText = '';
 })
 export class Master {
+ searchtext: string = '';
+
   private _transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -57,7 +68,7 @@ export class Master {
       level: level,
     };
   };
- selectedCategory: string = ''; // ✅ Add this line
+ selectedCategory: string = ''; //  Add this line
   constructor(private router: Router) {}
 
 onView(): void {
