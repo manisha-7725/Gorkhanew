@@ -40,6 +40,10 @@ interface Row {
   styleUrl: './dialog-box.css',
 })
 export class DialogBox {
+
+// @Input() message : string ='';
+
+
 constructor(
     public dialogRef: MatDialogRef<DialogBox>,
 @Inject(MAT_DIALOG_DATA) public dialogRows: Row[]
@@ -47,24 +51,18 @@ constructor(
   ) {}
 
   ngOnInit(): void {
-    console.log(this.dialogRows); // 👀 Now you can display or edit these rows in the dialog
+    console.log(this.dialogRows); // Now you can display or edit these rows in the dialog
+    
+    
   }
+
+
+
 
   // Optional: Close and return updated rows
   closeDialog(): void {
-    this.dialogRef.close(this.dialogRows);
+    this.dialogRef.close(this.dialogRows);// or this.data if you want to send back everything
   }
-
-
-
-
-
-
-
-
-
-
-
 
   selectedName: string = '';
 

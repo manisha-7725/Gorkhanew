@@ -12,6 +12,7 @@ import { DialogBox } from './dialog-box/dialog-box';
 import {MatDialog} from '@angular/material/dialog';
 
 
+
 @Component({
   selector: 'app-root',
   imports: [
@@ -22,8 +23,8 @@ import {MatDialog} from '@angular/material/dialog';
     MatTreeModule,
     MatIconModule,
     MatButtonModule,
-    
-  ],
+ 
+],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

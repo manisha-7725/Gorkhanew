@@ -39,8 +39,8 @@
  <form class="form-box">
   <table>
     <tr>
-      <th *ngFor= "let column of headers">
-{{column}}
+      <th *ngFor="let row of rows; let i = index">
+<!-- {{column}} -->
       </th>
     </tr>
 
@@ -199,7 +199,7 @@
   </div>
 </div>
 
-<button (click)="addRow()" style="background-color: #17a2b8; color: white; margin-top: 10px; width: 25px ;
+<button  mat-button (click)="openDialog()" (click)="addRow()" style="background-color: #17a2b8; color: white; margin-top: 10px; width: 25px ;
   height: 25px ;
   border-radius: 50%"><strong>+</strong></button>
 

@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component,signal } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBox } from '../dialog-box/dialog-box';
 
@@ -23,45 +22,20 @@ interface Row {
 
 @Component({
   selector: 'app-transaction',
-  imports: [CommonModule,FormsModule,],
+  imports: [CommonModule, FormsModule],
   templateUrl: './transaction.html',
-  styleUrl: './transaction.css'
+  styleUrls: ['./transaction.css']
 })
+export class Transaction implements AfterViewInit {
+  @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
 
-export class Transaction implements AfterViewInit{
-    @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
+  selectedPayment: string = '';
 
-constructor(private router: Router,private dialog: MatDialog) {}
-selectedPayment: string = '';
-
-
-ngOnInit(): void {
-  const dialogRef = this.dialog.open(DialogBox, {
-    width: '375px',
-    position: { right: '0' },
-    data: this.rows
-  });
-
-  dialogRef.afterClosed().subscribe((updatedRows: Row[]) => {
-    if (updatedRows) {
-      this.rows = updatedRows; // 📝 Update the transaction table
-    }
-  });
-}
-
-
-
-
-goBack() {
-  this.router.navigate(['/master']);
-}
-headers=["PI.No","PI35-KHT-82/83"];
-
- rows: Row[] = [
+  rows: Row[] = [
     {
       hsCode: '',
       productCode: '',
-      productName: 'Press Enter',
+      productName: '',
       upc: '',
       unit: '',
       quantity: '0.00',
@@ -76,16 +50,49 @@ headers=["PI.No","PI35-KHT-82/83"];
   showConfirm = false;
   indexToDelete: number | null = null;
 
- ngAfterViewInit() {
+  constructor(private router: Router, private dialog: MatDialog) {}
+
+  ngAfterViewInit() {
     this.focusLastHSCode();
   }
 
+  goBack() {
+    this.router.navigate(['/master']);
+  }
+
+  ngOnInit(): void {
+  const dialogRef = this.dialog.open(DialogBox, {
+    width: '375px',
+    position: { right: '0' },
+    data: this.rows
+  });
+
+  dialogRef.afterClosed().subscribe((updatedRows) => {
+    if (updatedRows) {
+      this.rows = updatedRows;
+    }
+  });
+}
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogBox, {
+      width: '375px',
+      position: { right: '0' },
+      data: this.rows
+    });
+
+    dialogRef.afterClosed().subscribe((updatedRows: Row[]) => {
+      if (updatedRows) {
+        this.rows = updatedRows;
+      }
+    });
+  }
 
   addRow() {
     this.rows.push({
       hsCode: '',
       productCode: '',
-      productName: 'Press Enter',
+      productName: '',
       upc: '',
       unit: '',
       quantity: '0.00',
@@ -95,15 +102,10 @@ headers=["PI.No","PI35-KHT-82/83"];
       mfgDate: '',
       expDate: ''
     });
-  
 
- // Let Angular render the row first, then focus
+    // Let Angular render the row first, then focus
     setTimeout(() => this.focusLastHSCode());
   }
-
-
-// showConfirm = false;
-// indexToDelete: number | null = null;
 
   focusLastHSCode() {
     const lastInput = this.hsCodeInputs.last;
@@ -112,31 +114,27 @@ headers=["PI.No","PI35-KHT-82/83"];
     }
   }
 
-confirmRemoveRow(index: number) {
-  this.indexToDelete = index;
-  this.showConfirm = true;
-}
-
-deleteConfirmed() {
-  if (this.indexToDelete !== null) {
-    this.removeRow(this.indexToDelete);
+  confirmRemoveRow(index: number) {
+    this.indexToDelete = index;
+    this.showConfirm = true;
   }
-  this.showConfirm = false;
-  this.indexToDelete = null;
-}
 
-cancelDelete() {
-  this.showConfirm = false;
-  this.indexToDelete = null;
-}
+  deleteConfirmed() {
+    if (this.indexToDelete !== null) {
+      this.removeRow(this.indexToDelete);
+    }
+    this.showConfirm = false;
+    this.indexToDelete = null;
+  }
 
-removeRow(index: number) {
-  this.rows.splice(index, 1);
-}
+  cancelDelete() {
+    this.showConfirm = false;
+    this.indexToDelete = null;
+  }
 
-isDisabled = true;
+  removeRow(index: number) {
+    this.rows.splice(index, 1);
+  }
 
-
-
-
+  isDisabled = true;
 }
