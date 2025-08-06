@@ -64,6 +64,7 @@ export class Transaction implements AfterViewInit {
   const dialogRef = this.dialog.open(DialogBox, {
     width: '375px',
     position: { right: '0' },
+  
     data: this.rows
   });
 
@@ -76,7 +77,7 @@ export class Transaction implements AfterViewInit {
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogBox, {
-      width: '375px',
+      width: '100%',
       position: { right: '0' },
       data: this.rows
     });

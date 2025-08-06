@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
-// import { Row } from '../models/row.model'; // Update path as needed
+
 
 
 interface Row {
@@ -40,28 +40,55 @@ interface Row {
   styleUrl: './dialog-box.css',
 })
 export class DialogBox {
-
-// @Input() message : string ='';
-
+  newRow: Row = {
+    productName: '',
+    productCode: '',
+    hsCode: '',
+    upc: '',
+    unit: '',
+    quantity: '',
+    rate: '',
+    gAmt: '',
+    netAmt: '',
+    mfgDate: '',
+    expDate: '',
+  };
 
 constructor(
     public dialogRef: MatDialogRef<DialogBox>,
-@Inject(MAT_DIALOG_DATA) public dialogRows: Row[]
+@Inject(MAT_DIALOG_DATA) public dialogRows: Row[] //receive the data
 
   ) {}
 
-  ngOnInit(): void {
+    ngOnInit(): void {
     console.log(this.dialogRows); // Now you can display or edit these rows in the dialog
-    
     
   }
 
+addRow(): void {
+    console.log('Double click worked!');
+    // Clone and push the new row
+    this.dialogRows.push({ ...this.newRow });
+   
+    
+    this.newRow = {
+      productName: '',
+      productCode: '',
+      hsCode: '',
+      upc: '',
+      unit: '',
+      quantity: '',
+      rate: '',
+      gAmt: '',
+      netAmt: '',
+      mfgDate: '',
+      expDate: '',
+    };
+  }
 
 
-
-  // Optional: Close and return updated rows
   closeDialog(): void {
-    this.dialogRef.close(this.dialogRows);// or this.data if you want to send back everything
+    this.dialogRef.close(this.dialogRows);// return updated data
   }
 
   selectedName: string = '';
@@ -83,7 +110,5 @@ constructor(
 
 
 
-
-  
 
 }

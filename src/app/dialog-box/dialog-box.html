@@ -1,67 +1,65 @@
-<div  class="right-align-wrapper">
-<div class=" custom-box   ms-auto">
-  <div class="dialog-header" style="display: flex">
-    <h5 mat-dialog-title>Supplier</h5>
-    <button mat-icon-button mat-dialog-close>
-     
 
-      <mat-icon>close</mat-icon>
-    </button>
+  <div class="custom-box ">
+    <div class="dialog-header">
+      <h5 mat-dialog-title>Supplier</h5>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="username">
+      <select
+        [(ngModel)]="selectedName"
+        name="name"
+        required
+        class="input-bordered"
+      >
+        <option value="" disabled selected>NAME</option>
+        <option value="">Select Filter Option</option>
+        <option value="Gorkha Brewery">CODE</option>
+        <option value="Raj Brewery">ADDRESS</option>
+        <option value="Other Supplier">VATNO</option>
+      </select>
+      <input
+        class="input-bordered"
+        type="text"
+        placeholder="Enter Keyword to search"
+      />
+    </div>
+
+    <table class="table">
+      <thead class="table-primary">
+        <tr>
+          <th>NAME</th>
+          <th>CODE</th>
+          <th>ADDRESS</th>
+          <th>VATNO</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data" >
+          <td>{{ item.name }}</td>
+          <td>{{ item.code }}</td>
+          <td>{{ item.address}}</td>
+          <td>{{ item.vatNo }}</td>
+        </tr>
+
+<tr *ngFor="let row of dialogRows"  >
+          <td>{{ row.productName }}</td>
+          <td>{{ row.productCode }}</td>
+          <td>{{ row.hsCode }}</td>
+          <td>{{ row.mfgDate}}</td>
+          <!-- Add new fields  -->
+        </tr>
+
+        <!-- New row input fields -->
+        <tr (dblclick)="addRow()">
+          <td><input [(ngModel)]="newRow.productName" style="width: 100px;"/></td>
+          <td><input [(ngModel)]="newRow.productCode" /></td>
+          <td><input [(ngModel)]="newRow.hsCode" /></td>
+          <td><input [(ngModel)]="newRow.mfgDate" style="width:95px;"/></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
-
-  <div class="username">
-    <select
-      [(ngModel)]="selectedName"
-      name="name"
-      required
-      class="input-bordered"
-    >
-      <option value="" disabled selected>NAME</option>
-      <option value="">Select Filter Option</option>
-      <option value="Gorkha Brewery">CODE</option>
-      <option value="Raj Brewery">ADDRESS</option>
-      <option value="Other Supplier">VATNO</option>
-    </select>
-    <input
-      class="input-bordered"
-      type="text"
-      placeholder="Enter Keyword to search"
-    />
-  </div>
-
-  <table class="table">
-    <thead class="table-primary">
-      <tr>
-        <th>NAME</th>
-        <th>CODE</th>
-        <th>ADDRESS</th>
-        <th>VATNO</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of data">
-        <td>{{ item.name }}</td>
-        <td>{{ item.code }}</td>
-        <td>{{ item.address}}</td>
-        <td>{{ item.vatNo }}</td>
-      </tr>
-    </tbody>
-  </table>
-
-
-
-  <table>
-  <tr *ngFor="let row of dialogRows">
-    <td>{{ row.productName }}</td>
-    <td>{{ row.productCode }}</td>
-    <td>{{ row.hsCode }}</td>
-    <!-- Add more fields as needed -->
-  </tr>
-</table>
-
-<!-- Optional Save Button -->
-<!-- <button (click)="closeDialog()">Save</button> -->
-
-</div>
-</div>
