@@ -128,7 +128,3 @@ get filteredDialogRows() {
 }
 
 }
-
-
-
-

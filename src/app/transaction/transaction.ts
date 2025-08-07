@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogBox } from '../dialog-box/dialog-box';
 
 
+
 interface Row {
   hsCode: string;
   productCode: string;
@@ -31,6 +32,9 @@ export class Transaction implements AfterViewInit {
 
   selectedPayment: string = '';
 
+
+  
+
   rows: Row[] = [
     {
       hsCode: '',
@@ -51,6 +55,19 @@ export class Transaction implements AfterViewInit {
   indexToDelete: number | null = null;
 
   constructor(private router: Router, private dialog: MatDialog) {}
+
+ openRowDialog(row: Row) {
+    this.dialog.open(DialogBox, {
+      width: '375px',
+        position: { right: '0' },
+      data: {
+        dialogRows: this.rows,
+        selectedRow: row,
+      },
+      
+    });
+  }
+
 
   ngAfterViewInit() {
     this.focusLastHSCode();
@@ -74,20 +91,37 @@ export class Transaction implements AfterViewInit {
     }
   });
 }
+dialogRows: Row[] = []; 
+selectedRow: Row | null = null;
+
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogBox, {
       width: '100%',
       position: { right: '0' },
-      data: this.rows
+     data: {
+      dialogRows: this.dialogRows,       // send current dialog data
+      selectedRow: this.selectedRow      // send current selection
+    }
     });
 
-    dialogRef.afterClosed().subscribe((updatedRows: Row[]) => {
-      if (updatedRows) {
-        this.rows = updatedRows;
-      }
-    });
+   dialogRef.afterClosed().subscribe((result) => {
+  if (result?.selectedRow) {
+    // ✅ Handle double-click selection
+    const index = this.rows.findIndex(r => r.productCode === result.selectedRow.productCode);
+    if (index !== -1) {
+      this.rows[index] = result.selectedRow; // update existing
+    } else {
+      this.rows.push(result.selectedRow); // add new if not found
+    }
+  } else if (result?.updatedRows) {
+    // ✅ Handle after clicking 'Close' button
+    this.rows = result.updatedRows;
   }
+});
+
+  }
+  
 
   addRow() {
     this.rows.push({
@@ -104,7 +138,7 @@ export class Transaction implements AfterViewInit {
       expDate: ''
     });
 
-    // Let Angular render the row first, then focus
+ 
     setTimeout(() => this.focusLastHSCode());
   }
 
