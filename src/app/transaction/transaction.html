@@ -160,7 +160,7 @@
       </tr>
     </thead>
  <tbody>
-    <tr *ngFor="let row of rows; let i = index " (dblclick)="openDialog()">
+    <tr *ngFor="let row of rows; let i = index " (dblclick)="showRowInDialog(row)">
       <td>{{ i + 1 }}</td>
       <td><input type="text" [(ngModel)]="row.hsCode" #hsCodeInput/></td>
       <td><input type="text" [(ngModel)]="row.productCode" /></td>
@@ -204,9 +204,9 @@
   border-radius: 50%"><strong>+</strong></button>
 
 
-<!-- <button mat-button (click)="openDialog()">Open Dialog</button> -->
 
-<!-- Fixed Footer -->
+
+
 <footer
   style="
     position: fixed;

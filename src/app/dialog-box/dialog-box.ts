@@ -11,6 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 import { FilterPipe } from '../filter-pipe';
 
+
 interface Row {
   hsCode: string;
   productCode: string;
@@ -52,18 +53,31 @@ export class DialogBox {
     mfgDate: '',
     expDate: '',
   };
-
+public data: Row[];
   constructor(
     public dialogRef: MatDialogRef<DialogBox>,
     @Inject(MAT_DIALOG_DATA) public dialogRows: Row[] //receive the data
-  ) {}
+  ) {
+    this.data = dialogRows;
+  }
+selectedRow: any = null; // define this at the top of the class
+
+selectRow(row: any) {
+  this.selectedRow = row;
+}
+// showRowInDialog(row: Row): void {
+//   this.dialog.open(DialogBox, {
+//     width: '600px',
+//     data: row, // 
+//   });
+// }
 
   ngOnInit(): void {
     console.log(this.dialogRows); // Now you can display or edit these rows in the dialog
   }
 
   addRow(): void {
-    console.log('Double click worked!');
+    // console.log('Double click worked!');
     // Clone and push the new row
     this.dialogRows.push({ ...this.newRow });
 
@@ -90,7 +104,7 @@ export class DialogBox {
   searchtext: string = '';
 
 
-  data = [
+ supplierData = [
     {
       name: 'Gorkha Brewery',
       code: 'C001',
@@ -106,15 +120,16 @@ export class DialogBox {
   ];
 
 get filteredData() {
-  if (!this.searchtext || this.searchtext.trim() === '') return this.data;
+  if (!this.searchtext || this.searchtext.trim() === '') return this.supplierData;
   const search = this.searchtext.toLowerCase();
-  return this.data.filter(item =>
+  return this.supplierData.filter(item =>
     item.name.toLowerCase().includes(search) ||
     item.code.toLowerCase().includes(search) ||
     item.address.toLowerCase().includes(search) ||
     item.vatNo.toLowerCase().includes(search)
   );
 }
+
 
 get filteredDialogRows() {
   if (!this.searchtext || this.searchtext.trim() === '') return this.dialogRows;

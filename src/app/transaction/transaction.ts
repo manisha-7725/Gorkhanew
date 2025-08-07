@@ -67,6 +67,20 @@ export class Transaction implements AfterViewInit {
       
     });
   }
+showDialog: boolean = false;
+
+showRowInDialog(row: any) {
+  this.selectedRow = { ...row }; // create a copy to edit
+  this.showDialog = true; 
+
+  
+    const dialogRef = this.dialog.open(DialogBox, {
+   
+    data: [...this.rows], //  Pass a copy of the full array to the dialog
+  });
+
+}
+
 
 
   ngAfterViewInit() {
@@ -85,7 +99,7 @@ export class Transaction implements AfterViewInit {
     data: this.rows
   });
 
-  dialogRef.afterClosed().subscribe((updatedRows) => {
+  dialogRef.afterClosed().subscribe((updatedRows :Row[]) => {
     if (updatedRows) {
       this.rows = updatedRows;
     }
@@ -107,15 +121,14 @@ selectedRow: Row | null = null;
 
    dialogRef.afterClosed().subscribe((result) => {
   if (result?.selectedRow) {
-    // ✅ Handle double-click selection
+   
     const index = this.rows.findIndex(r => r.productCode === result.selectedRow.productCode);
     if (index !== -1) {
-      this.rows[index] = result.selectedRow; // update existing
-    } else {
-      this.rows.push(result.selectedRow); // add new if not found
+      this.rows[index] = result.selectedRow; 
+      this.rows.push(result.selectedRow); 
     }
   } else if (result?.updatedRows) {
-    // ✅ Handle after clicking 'Close' button
+  
     this.rows = result.updatedRows;
   }
 });
