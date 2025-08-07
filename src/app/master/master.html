@@ -108,7 +108,7 @@
           <label class="form-check-label">Sort By MRP</label>
         </div>
 
-        <input type="text" class="form-control w-25" placeholder="Search..." [(ngModel)]="searchtext" />
+        <input type="text" class="form-control w-25" placeholder="Search..."  [(ngModel)]="searchtext" />
       </div>
 
       <hr />
@@ -129,7 +129,7 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let product of paginatedProducts |filter:searchtext; let i = index">
+          <tr *ngFor="let product of paginatedProducts | filter:searchtext; let i = index">
             <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
             <td>{{ product.productCode }}</td>
             <td>{{ product.productName }}</td>

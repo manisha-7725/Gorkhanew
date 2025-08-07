@@ -9,8 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
-
-
+import { FilterPipe } from '../filter-pipe';
 
 interface Row {
   hsCode: string;
@@ -26,7 +25,6 @@ interface Row {
   expDate: string;
 }
 
-
 @Component({
   selector: 'app-dialog-box',
   imports: [
@@ -35,6 +33,7 @@ interface Row {
     MatDialogModule,
     FormsModule,
     CommonModule,
+    
   ],
   templateUrl: './dialog-box.html',
   styleUrl: './dialog-box.css',
@@ -54,23 +53,20 @@ export class DialogBox {
     expDate: '',
   };
 
-constructor(
+  constructor(
     public dialogRef: MatDialogRef<DialogBox>,
-@Inject(MAT_DIALOG_DATA) public dialogRows: Row[] //receive the data
-
+    @Inject(MAT_DIALOG_DATA) public dialogRows: Row[] //receive the data
   ) {}
 
-    ngOnInit(): void {
+  ngOnInit(): void {
     console.log(this.dialogRows); // Now you can display or edit these rows in the dialog
-    
   }
 
-addRow(): void {
+  addRow(): void {
     console.log('Double click worked!');
     // Clone and push the new row
     this.dialogRows.push({ ...this.newRow });
-   
-    
+
     this.newRow = {
       productName: '',
       productCode: '',
@@ -86,12 +82,13 @@ addRow(): void {
     };
   }
 
-
   closeDialog(): void {
-    this.dialogRef.close(this.dialogRows);// return updated data
+    this.dialogRef.close(this.dialogRows); // return updated data
   }
 
   selectedName: string = '';
+  searchtext: string = '';
+
 
   data = [
     {
@@ -108,7 +105,30 @@ addRow(): void {
     },
   ];
 
+get filteredData() {
+  if (!this.searchtext || this.searchtext.trim() === '') return this.data;
+  const search = this.searchtext.toLowerCase();
+  return this.data.filter(item =>
+    item.name.toLowerCase().includes(search) ||
+    item.code.toLowerCase().includes(search) ||
+    item.address.toLowerCase().includes(search) ||
+    item.vatNo.toLowerCase().includes(search)
+  );
+}
 
-
+get filteredDialogRows() {
+  if (!this.searchtext || this.searchtext.trim() === '') return this.dialogRows;
+  const search = this.searchtext.toLowerCase();
+  return this.dialogRows.filter(row =>
+    row.productName.toLowerCase().includes(search) ||
+    row.productCode.toLowerCase().includes(search) ||
+    row.hsCode.toLowerCase().includes(search) ||
+    row.mfgDate.toLowerCase().includes(search)
+  );
+}
 
 }
+
+
+
+

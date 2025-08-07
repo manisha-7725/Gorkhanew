@@ -14,8 +14,6 @@ import { MatTreeModule } from '@angular/material/tree';
 import { FilterPipe } from '../filter-pipe';
 import { FormsModule } from '@angular/forms';
 
-
-
 interface FoodNode {
   name: string;
   children?: FoodNode[];
@@ -40,7 +38,6 @@ interface Product {
   mrp: number;
 }
 
-
 @Component({
   selector: 'app-master',
   imports: [
@@ -51,15 +48,14 @@ interface Product {
     MatIconModule,
     MatTreeModule,
     FilterPipe,
-    FormsModule
-
+    FormsModule,
   ],
   templateUrl: './master.html',
   styleUrl: './master.css',
   // categorySearchText = '';
 })
 export class Master {
- searchtext: string = '';
+  searchtext: string = '';
 
   private _transformer = (node: FoodNode, level: number) => {
     return {
@@ -68,13 +64,13 @@ export class Master {
       level: level,
     };
   };
- selectedCategory: string = ''; //  Add this line
+  selectedCategory: string = ''; //  Add this line
   constructor(private router: Router) {}
 
-onView(): void {
-  this.router.navigate(['/views']);
-}
-  
+  onView(): void {
+    this.router.navigate(['/views']);
+  }
+
   treeControl = new FlatTreeControl<ExampleFlatNode>(
     (node) => node.level,
     (node) => node.expandable
@@ -89,7 +85,7 @@ onView(): void {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-ngOnInit() {
+  ngOnInit() {
     this.dataSource.data = [
       {
         name: 'PRODUCT LISTS',
@@ -112,7 +108,6 @@ ngOnInit() {
       },
     ];
   }
-
 
   // Tree child check
   hasChild = (_: number, node: any) => node.expandable;
@@ -251,54 +246,55 @@ ngOnInit() {
     },
   ];
 
-onCategorySelect(category: string) {
-  if (category.toLowerCase() === 'product list' || category.toLowerCase() === 'product lists') {
-    this.selectedCategory = ''; // show all
-  } else {
-    this.selectedCategory = category.toLowerCase(); // filter by name like "coke"
-  }
-  this.currentPage = 1; // Reset pagination
-}
-
-
-get filteredProducts() {
-  let result = this.products;
-
-  // Filter by selected category if it's set
-  if (this.selectedCategory) {
-    result = result.filter((p) =>
-      p.productName.toLowerCase().includes(this.selectedCategory)
-    );
+  onCategorySelect(category: string) {
+    if (
+      category.toLowerCase() === 'product list' ||
+      category.toLowerCase() === 'product lists'
+    ) {
+      this.selectedCategory = ''; // show all
+    } else {
+      this.selectedCategory = category.toLowerCase(); // filter by name like "coke"
+    }
+    this.currentPage = 1; // Reset pagination
   }
 
-  // Apply name/code search
-  if (this.searchTerm) {
-    result = result.filter((p) =>
-      this.searchType === 'name'
-        ? p.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
-        : p.productCode.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+  get filteredProducts() {
+    let result = this.products;
+
+    // Filter by selected category if it's set
+    if (this.selectedCategory) {
+      result = result.filter((p) =>
+        p.productName.toLowerCase().includes(this.selectedCategory)
+      );
+    }
+
+    // Apply name/code search
+    if (this.searchTerm) {
+      result = result.filter((p) =>
+        this.searchType === 'name'
+          ? p.productName.toLowerCase().includes(this.searchTerm.toLowerCase())
+          : p.productCode.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+
+    // Sorting
+    if (this.sortType === 'name') {
+      result.sort((a, b) => a.productName.localeCompare(b.productName));
+    } else if (this.sortType === 'mrp') {
+      result.sort((a, b) => b.mrp - a.mrp);
+    }
+
+    // Table-wide search
+    if (this.tableSearch) {
+      result = result.filter((p) =>
+        Object.values(p).some((val) =>
+          val.toString().toLowerCase().includes(this.tableSearch.toLowerCase())
+        )
+      );
+    }
+
+    return result;
   }
-
-  // Sorting
-  if (this.sortType === 'name') {
-    result.sort((a, b) => a.productName.localeCompare(b.productName));
-  } else if (this.sortType === 'mrp') {
-    result.sort((a, b) => b.mrp - a.mrp);
-  }
-
-  // Table-wide search
-  if (this.tableSearch) {
-    result = result.filter((p) =>
-      Object.values(p).some((val) =>
-        val.toString().toLowerCase().includes(this.tableSearch.toLowerCase())
-      )
-    );
-  }
-
-  return result;
-}
-
 
   pageSize = 5; // Number of products per page
   currentPage = 1;
