@@ -72,16 +72,12 @@ showDialog: boolean = false;
 showRowInDialog(row: any) {
   this.selectedRow = { ...row }; // create a copy to edit
   this.showDialog = true; 
-
-  
     const dialogRef = this.dialog.open(DialogBox, {
    
-    data: [...this.rows], //  Pass a copy of the full array to the dialog
+    data: [...this.rows], 
   });
 
 }
-
-
 
   ngAfterViewInit() {
     this.focusLastHSCode();
@@ -114,27 +110,46 @@ selectedRow: Row | null = null;
       width: '100%',
       position: { right: '0' },
      data: {
-      dialogRows: this.dialogRows,       // send current dialog data
+      dialogRows: this.rows,       // send current dialog data
       selectedRow: this.selectedRow      // send current selection
     }
     });
 
-   dialogRef.afterClosed().subscribe((result) => {
-  if (result?.selectedRow) {
-   
-    const index = this.rows.findIndex(r => r.productCode === result.selectedRow.productCode);
-    if (index !== -1) {
-      this.rows[index] = result.selectedRow; 
-      this.rows.push(result.selectedRow); 
+dialogRef.afterClosed().subscribe((result) => {
+    if (result?.selectedRow) {
+      const index = this.rows.findIndex(r => r.productCode === result.selectedRow.productCode);
+      if (index !== -1) {
+        this.rows[index] = result.selectedRow;
+      } else {
+        this.rows.push(result.selectedRow);
+      }
+    } else if (result?.updatedRows) {
+      this.rows = result.updatedRows;
     }
-  } else if (result?.updatedRows) {
-  
-    this.rows = result.updatedRows;
-  }
-});
+  });
+
 
   }
   
+dialogRef: any;
+
+  selectedName: string = '';
+  searchtext: string = '';
+  
+onRowDoubleClick(row: Row) {
+  this.dialogRef.close({ selectedRow: row }); // on double-click
+}
+
+get filteredDialogRows() {
+  if (!this.searchtext || this.searchtext.trim() === '') return this.dialogRows;
+  const search = this.searchtext.toLowerCase();
+  return this.dialogRows.filter(row =>
+    row.productName.toLowerCase().includes(search) ||
+    row.productCode.toLowerCase().includes(search) ||
+    row.hsCode.toLowerCase().includes(search) ||
+    row.mfgDate.toLowerCase().includes(search)
+  );
+}
 
   addRow() {
     this.rows.push({

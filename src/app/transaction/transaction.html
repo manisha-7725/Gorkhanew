@@ -181,6 +181,17 @@
   border-radius: 50%"><strong>-</strong></button>
       </td>
     </tr>
+
+<tr *ngFor="let row of filteredDialogRows "  (dblclick)="onRowDoubleClick(row)" >
+          <td>{{ row.productName }}</td>
+          <td>{{ row.productCode }}</td>
+          <td>{{ row.hsCode }}</td>
+          <td>{{ row.mfgDate}}</td>
+          <!-- Add new fields  -->
+        </tr>
+
+
+
   </tbody>
 </table>
 

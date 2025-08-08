@@ -102,6 +102,10 @@ selectRow(row: any) {
 
   selectedName: string = '';
   searchtext: string = '';
+  
+onRowDoubleClick(row: Row) {
+  this.dialogRef.close({ selectedRow: row }); // on double-click
+}
 
 
  supplierData = [
