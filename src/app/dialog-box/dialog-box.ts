@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
-import { FilterPipe } from '../filter-pipe';
+
 
 
 interface Row {
@@ -56,29 +56,20 @@ export class DialogBox {
 public data: Row[];
   constructor(
     public dialogRef: MatDialogRef<DialogBox>,
-    @Inject(MAT_DIALOG_DATA) public dialogRows: Row[] //receive the data
+    @Inject(MAT_DIALOG_DATA) public dialogRows: Row[] 
   ) {
     this.data = dialogRows;
   }
-selectedRow: any = null; // define this at the top of the class
+selectedRow: any = null;
 
 selectRow(row: any) {
   this.selectedRow = row;
 }
-// showRowInDialog(row: Row): void {
-//   this.dialog.open(DialogBox, {
-//     width: '600px',
-//     data: row, // 
-//   });
-// }
-
   ngOnInit(): void {
-    console.log(this.dialogRows); // Now you can display or edit these rows in the dialog
+    console.log(this.dialogRows); 
   }
-
   addRow(): void {
-    // console.log('Double click worked!');
-    // Clone and push the new row
+  
     this.dialogRows.push({ ...this.newRow });
 
     this.newRow = {
@@ -97,14 +88,14 @@ selectRow(row: any) {
   }
 
   closeDialog(): void {
-    this.dialogRef.close(this.dialogRows); // return updated data
+    this.dialogRef.close(this.dialogRows); 
   }
 
   selectedName: string = '';
   searchtext: string = '';
   
 onRowDoubleClick(row: Row) {
-  this.dialogRef.close({ selectedRow: row }); // on double-click
+  this.dialogRef.close({ selectedRow: row }); 
 }
 
 

@@ -32,9 +32,6 @@ export class Transaction implements AfterViewInit {
 
   selectedPayment: string = '';
 
-
-  
-
   rows: Row[] = [
     {
       hsCode: '',
@@ -50,6 +47,7 @@ export class Transaction implements AfterViewInit {
       expDate: ''
     }
   ];
+
 
   showConfirm = false;
   indexToDelete: number | null = null;
@@ -110,8 +108,8 @@ selectedRow: Row | null = null;
       width: '100%',
       position: { right: '0' },
      data: {
-      dialogRows: this.rows,       // send current dialog data
-      selectedRow: this.selectedRow      // send current selection
+      dialogRows: this.rows,      
+      selectedRow: this.selectedRow      
     }
     });
 
@@ -128,8 +126,7 @@ dialogRef.afterClosed().subscribe((result) => {
     }
   });
 
-
-  }
+}
   
 dialogRef: any;
 
@@ -137,7 +134,7 @@ dialogRef: any;
   searchtext: string = '';
   
 onRowDoubleClick(row: Row) {
-  this.dialogRef.close({ selectedRow: row }); // on double-click
+  this.dialogRef.close({ selectedRow: row }); 
 }
 
 get filteredDialogRows() {

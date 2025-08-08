@@ -22,9 +22,6 @@ goBack() {
 }
 
 
-
-
-// Inside your component.ts
 selectedSubGroupA = '';
 
 subGroupsA = [

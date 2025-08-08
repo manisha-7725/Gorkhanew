@@ -61,12 +61,9 @@ export class Master {
   searchType: 'name' | 'code' = 'name';
   sortType: 'name' | 'mrp' = 'name';
 searchtext: string = '';
-
- // Tree search variables
   searchItemGroup = '';
   originalData: FoodNode[] = [];
-  // selectedCategory = '';
-
+  
 
   private _transformer = (node: FoodNode, level: number) => {
     return {
@@ -76,7 +73,6 @@ searchtext: string = '';
     };
   };
   selectedCategory: string = ''; 
-
   constructor(private router: Router, ) {}
 
   onView(): void {
@@ -123,11 +119,9 @@ searchtext: string = '';
       this.dataSource.data = this.originalData;
   }
 
-  // Tree child check
   hasChild = (_: number, node: any) => node.expandable;
 
  
-
   products: Product[] = [
     {
       productCode: '10CBG650B0',
@@ -262,17 +256,16 @@ searchtext: string = '';
       category.toLowerCase() === 'product list' ||
       category.toLowerCase() === 'product lists'
     ) {
-      this.selectedCategory = ''; // show all
+      this.selectedCategory = ''; 
     } else {
-      this.selectedCategory = category.toLowerCase(); // filter by name like "coke"
+      this.selectedCategory = category.toLowerCase(); // filter by name 
     }
-    this.currentPage = 1; // Reset pagination
+    this.currentPage = 1; 
   }
-
   get filteredProducts() {
     let result = this.products;
 
-    // Filter by selected category if it's set
+  
     if (this.selectedCategory) {
       result = result.filter((p) =>
         p.productName.toLowerCase().includes(this.selectedCategory)
@@ -288,7 +281,6 @@ searchtext: string = '';
       );
     }
 
-    // Sorting
     if (this.sortType === 'name') {
       result.sort((a, b) => a.productName.localeCompare(b.productName));
     } else if (this.sortType === 'mrp') {
@@ -307,7 +299,7 @@ searchtext: string = '';
     return result;
   }
 
-  pageSize = 5; // Number of products per page
+  pageSize = 5;
   currentPage = 1;
 
   get totalPages(): number {
@@ -339,7 +331,7 @@ searchtext: string = '';
   }
 
 
-  
+
 
 onSearchChange(searchValue: string) {
   if (!searchValue) {
@@ -363,10 +355,11 @@ filterTree(nodes: any[], searchText: string): any[] {
       if (node.children) {
         const filteredChildren = this.filterTree(node.children, searchText);
         if (filteredChildren.length > 0) {
-          return { ...node, children: filteredChildren }; // Keep parent if children match
+          return { ...node, children: filteredChildren }; 
+          // Keep parent if children match
         }
       }
-      return null; // No match
+      return null;
     })
     .filter(node => node !== null) as any[];
 }
