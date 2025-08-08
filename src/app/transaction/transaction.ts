@@ -178,6 +178,7 @@ get filteredDialogRows() {
     this.indexToDelete = index;
     this.showConfirm = true;
   }
+  
 
   deleteConfirmed() {
     if (this.indexToDelete !== null) {
@@ -197,4 +198,37 @@ get filteredDialogRows() {
   }
 
   isDisabled = true;
+
+
+
+
+
+
+
+
+showReceivedModal = false;
+
+onReceivedClick() {
+  this.showReceivedModal = true;
+}
+
+confirmReceived() {
+  this.showReceivedModal = false;
+  alert('Marked as RECEIVED!');
+  // Add your logic here, like API call or state update
+}
+
+cancelReceived() {
+  this.showReceivedModal = false;
+}
+
+
+
+
+
+
+
+
+
+
 }

@@ -24,7 +24,8 @@
 
   <div class="d-flex gap-2">
     <button class="btn btn-danger" style="font-size: 12px">RESET F3</button>
-    <button class="btn btn-info" style="font-size: 12px">RECEIVED[End]</button>
+    
+    <button class="btn btn-info" style="font-size: 12px" (click)="onReceivedClick()" >RECEIVED[End]</button>
     <button class="btn btn-info" style="font-size: 12px">VIEW F4</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="goBack()" type="button" >Back</button>
   </div>
@@ -205,9 +206,26 @@
   </div>
 </div>
 
+
+ 
 <button (click)="addRow()" style="background-color: #17a2b8; color: white; margin-top: 10px; width: 25px ;
   height: 25px ;
   border-radius: 50%"><strong>+</strong></button>
+
+
+<!-- Modal Overlay -->
+<div class="modal-overlay" *ngIf="showReceivedModal">
+  <div class="modal-box">
+  <h3>⚠️ Information !!!</h3>
+
+    <p>Supplier can not be null </p>
+    <div class="modal-buttons">
+      <button  class="btn btn-info" (click)="cancelReceived()">OK</button>
+    </div>
+  </div>
+</div>
+
+
 
 
 <footer
