@@ -23,10 +23,11 @@
           type="text"
           placeholder="Search Item Group"
           class="form-control mb-3"
-          
+           [(ngModel)]="searchItemGroup"
+  (input)="onSearchChange(searchItemGroup)"
  
         />
- <!-- [(ngModel)]="categorySearchText" -->
+
        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <!-- parent node -->
 

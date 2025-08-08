@@ -14,6 +14,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { FilterPipe } from '../filter-pipe';
 import { FormsModule } from '@angular/forms';
 
+
 interface FoodNode {
   name: string;
   children?: FoodNode[];
@@ -52,10 +53,20 @@ interface Product {
   ],
   templateUrl: './master.html',
   styleUrl: './master.css',
-  // categorySearchText = '';
+ 
 })
 export class Master {
-  searchtext: string = '';
+ searchTerm = '';
+  tableSearch = '';
+  searchType: 'name' | 'code' = 'name';
+  sortType: 'name' | 'mrp' = 'name';
+searchtext: string = '';
+
+ // Tree search variables
+  searchItemGroup = '';
+  originalData: FoodNode[] = [];
+  // selectedCategory = '';
+
 
   private _transformer = (node: FoodNode, level: number) => {
     return {
@@ -64,8 +75,9 @@ export class Master {
       level: level,
     };
   };
-  selectedCategory: string = ''; //  Add this line
-  constructor(private router: Router) {}
+  selectedCategory: string = ''; 
+
+  constructor(private router: Router, ) {}
 
   onView(): void {
     this.router.navigate(['/views']);
@@ -86,7 +98,7 @@ export class Master {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   ngOnInit() {
-    this.dataSource.data = [
+    this.originalData  = [
       {
         name: 'PRODUCT LISTS',
         children: [
@@ -107,15 +119,14 @@ export class Master {
         ],
       },
     ];
+
+      this.dataSource.data = this.originalData;
   }
 
   // Tree child check
   hasChild = (_: number, node: any) => node.expandable;
 
-  searchTerm = '';
-  tableSearch = '';
-  searchType: 'name' | 'code' = 'name';
-  sortType: 'name' | 'mrp' = 'name';
+ 
 
   products: Product[] = [
     {
@@ -326,4 +337,43 @@ export class Master {
       this.currentPage--;
     }
   }
+
+
+  
+
+onSearchChange(searchValue: string) {
+  if (!searchValue) {
+    // Reset to original full tree if search is empty
+    this.dataSource.data = this.originalData;
+    return;
+  }
+
+  const filtered = this.filterTree(this.originalData, searchValue.toLowerCase());
+  this.dataSource.data = filtered;
 }
+
+// Recursive function to filter the tree
+filterTree(nodes: any[], searchText: string): any[] {
+  return nodes
+    .map(node => {
+      if (node.name.toLowerCase().includes(searchText)) {
+        return node; // Keep matching node (with children)
+      }
+
+      if (node.children) {
+        const filteredChildren = this.filterTree(node.children, searchText);
+        if (filteredChildren.length > 0) {
+          return { ...node, children: filteredChildren }; // Keep parent if children match
+        }
+      }
+      return null; // No match
+    })
+    .filter(node => node !== null) as any[];
+}
+
+
+
+
+
+}
+
