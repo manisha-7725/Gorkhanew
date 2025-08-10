@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBox } from '../dialog-box/dialog-box';
 import { TransactionData } from '../services/transaction-data';
+import { NgForm } from '@angular/forms';
+import { ViewChild } from '@angular/core';
 
 
 interface Row {
@@ -29,6 +31,9 @@ interface Row {
 })
 export class Transaction implements AfterViewInit {
   @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
+  @ViewChild('form1') form1!: NgForm;
+@ViewChild('form2') form2!: NgForm;
+@ViewChild('form3') form3!: NgForm;
 
   selectedPayment: string = '';
 
@@ -49,6 +54,46 @@ export class Transaction implements AfterViewInit {
       expDate: ''
     }
   ];
+
+invoiceNo: string = '';
+invoiceDate: string = '';
+chequeNo1:string=''
+chequeNo2:string=''
+address: string = '';
+vatNo: string = '';
+remark: string = '';
+
+resetData() {
+  this.rows = [
+    {
+      hsCode: '',
+      productCode: '',
+      productName: '',
+      upc: '',
+      unit: '',
+      quantity: '0.00',
+      rate: '0.00',
+      gAmt: '0.00',
+      netAmt: '0.00',
+      mfgDate: '',
+      expDate: ''
+    }
+  ];
+  
+  this.selectedPayment = '';
+  this.showConfirm = false;
+  this.indexToDelete = null;
+  this.showReceivedModal = false;
+  this.selectedName = '';
+  this.searchtext = '';
+  this.selectedRow = null;
+  
+
+  if (this.form1) this.form1.resetForm();
+  if (this.form2) this.form2.resetForm();
+  if (this.form3) this.form3.resetForm();
+  // If you have any other variables that hold user input, reset them here similarly.
+}
 
 
  
@@ -232,6 +277,34 @@ updateNetAmt(row: Row) {
 
   row.gAmt = (qty * rate).toFixed(2);
   row.netAmt = (qty * rate * 1.13).toFixed(2);
+}
+
+
+showResetConfirm = false;
+
+onResetClicked() {
+  this.showResetConfirm = true;
+}
+
+confirmReset() {
+  this.resetData();
+  this.showResetConfirm = false;
+
+
+
+  this.dialog.open(DialogBox, {
+  width: '375px',
+  position: { right: '0' },
+  data: this.rows  // your Row[] data
+});
+}
+
+
+
+
+
+cancelReset() {
+  this.showResetConfirm = false;
 }
 
 

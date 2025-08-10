@@ -1,4 +1,4 @@
-<div
+<div 
   class="d-flex align-items-center justify-content-between px-4 py-2 bg-light"
 >
   <div class="d-flex align-items-center gap-3">
@@ -23,8 +23,19 @@
   </div>
 
   <div class="d-flex gap-2">
-    <button class="btn btn-danger" style="font-size: 12px"   >RESET F3</button>
-    
+    <button class="btn btn-danger" style="font-size: 12px"  (click)="onResetClicked()">RESET F3</button>  
+
+<div *ngIf="showResetConfirm" class="modal-overlay">
+  <div class="modal-box reset-confirm-box">
+    <h3>Confirm Reset</h3>
+    <p> ⚠️ Are you sure you want to reset all data?</p>
+    <div class="modal-buttons">
+      <button class="btn btn-secondary" (click)="cancelReset()">Cancel</button>
+      <button class="btn btn-danger" (click)="confirmReset()">Yes, Reset</button>
+    </div>
+  </div>
+</div>
+
     <button class="btn btn-info" style="font-size: 12px" (click)="onReceivedClick()" >RECEIVED[End]</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="view()">VIEW F4</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="goBack()" type="button" >Back</button>
@@ -32,7 +43,7 @@
 </div>
 
  <div class="form-container">
- <form class="form-box">
+ <form class="form-box"  #form1="ngForm">
   <table>
     <tr>
       <th *ngFor="let row of rows; let i = index">
@@ -51,7 +62,7 @@
     <tr>
       <td >Invoice No:</td>
       <td colspan="2">
-    <input type="text"  />
+    <input type="text" [(ngModel)]="invoiceNo" name="invoiceNo"  />
   </td>
     
     
@@ -59,14 +70,14 @@
 
     <tr>
       <td>Invoice Date:</td>
-      <td><input type="date" value="07/21/2025" /></td>
-      <td><input type="date" /></td>
+      <td><input type="date" value="07/21/2025" [(ngModel)]="invoiceDate" name="invoiceDate" /></td>
+      <td><input type="date" [(ngModel)]="invoiceDate" name="invoiceDate" /></td>
     </tr>
  </table>
     </form>
 
 
- <form class="form-box">
+ <form class="form-box"  #form2="ngForm">
   <table>
     <tr>
       <td>
@@ -101,8 +112,8 @@
     </tr>
     <tr>
       <td>Cheque No:</td>
-      <td><input type="text"></td>
-      <td><input type="text"value="mm/dd/y"></td>
+      <td><input type="text"  [(ngModel)]="chequeNo1" name="chequeNo1"></td>
+      <td><input type="Date"  [(ngModel)]="chequeNo2" name="chequeNo2"></td>
     </tr>
     <tr>
     <td>Godown</td>
@@ -112,7 +123,7 @@
  </form>
 
 
-    <form class="form-box">
+    <form class="form-box"  #form3="ngForm">
     <table style="width: 100%;">
     <tr>
       <td>Supplier</td>
@@ -121,15 +132,15 @@
     </tr>
     <tr>
       <td>Address</td>
-      <td colspan="2"><input type="text"></td>
+      <td colspan="2"><input type="text" [(ngModel)]="address" name="address"></td>
     </tr>
     <tr>
       <td>Vat No</td>
-    <td colspan="2"><input type="text"></td>
+    <td colspan="2"><input type="text" [(ngModel)]="vatNo" name="vatNo"></td>
   </tr>
     <tr>
       <td>Remark</td>
-    <td colspan="2"><input type="text"></td>
+    <td colspan="2"><input type="text" [(ngModel)]="remark" name="remark"></td>
   </tr>
   </table>
   </form>
@@ -228,6 +239,12 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
 
 
 
