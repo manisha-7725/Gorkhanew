@@ -384,6 +384,29 @@ filterTree(nodes: any[], searchText: string): any[] {
 
 
 
+ exportProductToExcel() {
+    const productData = [
+      { Code: 'PRD001', Name: 'Product A', Category: 'Cat1', Price: 150 },
+      { Code: 'PRD002', Name: 'Product B', Category: 'Cat2', Price: 250 },
+    ];
+
+    const worksheet = XLSX.utils.json_to_sheet(productData);
+    const workbook = {
+      Sheets: { ProductList: worksheet },
+      SheetNames: ['ProductList'],
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    const data: Blob = new Blob([excelBuffer], {
+      type: 'application/octet-stream',
+    });
+    saveAs(data, 'ProductExport.xlsx');
+  }
+
+
+
 }
 
 

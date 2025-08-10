@@ -31,10 +31,7 @@ constructor(public dialogRef: MatDialogRef<ExportMasterDialog>) {}
     { ProductCode: 'P002', ProductName: 'Product 2', Price: 200 },
   ];
 
-  productData = [
-    { Code: 'PRD001', Name: 'Product A', Category: 'Cat1', Price: 150 },
-    { Code: 'PRD002', Name: 'Product B', Category: 'Cat2', Price: 250 },
-  ];
+ 
 
 
   exportToExcel() {
@@ -49,4 +46,10 @@ constructor(public dialogRef: MatDialogRef<ExportMasterDialog>) {}
 
   }
 
+
+  
+
+
+
+  
 }
