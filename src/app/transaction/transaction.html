@@ -163,11 +163,13 @@
       <td><input type="text" [(ngModel)]="row.productName" /></td>
       <td><input type="text" [(ngModel)]="row.upc" [disabled]="true"   style="cursor: not-allowed;"/></td>
       <td><input type="text" [(ngModel)]="row.unit"[disabled]="true"   style="cursor: not-allowed;" /></td>
-      <td><input type="text" [(ngModel)]="row.quantity" /></td>
-      <td><input type="text" [(ngModel)]="row.rate" [disabled]="true"   style="cursor: not-allowed;"/></td>
-      <td><input type="text" [(ngModel)]="row.gAmt" [disabled]="true"   style="cursor: not-allowed;"/></td>
+
+
+      <td><input type="text" [(ngModel)]="row.quantity"(input)="updateNetAmt(row)"  /></td>
+      <td><input type="text" [(ngModel)]="row.rate" (input)="updateNetAmt(row)"   style="cursor: not-allowed;"/></td>
+      <td><input type="text" [(ngModel)]="row.gAmt"    style="cursor: not-allowed;"/></td>
      
-      <td><input type="text" [(ngModel)]="row.netAmt"   /></td>
+      <td><input type="text" [(ngModel)]="row.netAmt"  readonly  /></td>
       <td><input type="date" [(ngModel)]="row.mfgDate" /></td>
  <td><input type="date" [(ngModel)]="row.expDate"[disabled]="true"  style="cursor: not-allowed;" /></td>
 

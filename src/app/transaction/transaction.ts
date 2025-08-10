@@ -238,6 +238,17 @@ cancelReceived() {
 }
 
 
+//adding vat and calculation total value
+
+updateNetAmt(row: Row) {
+  const qty = parseFloat(row.quantity) || 0;
+  const rate = parseFloat(row.rate) || 0;
+
+  row.gAmt = (qty * rate).toFixed(2);
+  row.netAmt = (qty * rate * 1.13).toFixed(2);
+}
+
+
 
 
 
