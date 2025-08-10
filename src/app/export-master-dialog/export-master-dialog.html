@@ -1,0 +1,33 @@
+<div class="box">
+   <div class="custom-box ">
+    <div class="dialog-header">
+      <h6 mat-dialog-title>Price Master Export  Option</h6>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+  <div class="form-row">
+    <label class="form-label">From:</label>
+    <input type="date" class="form-input" />
+    
+    <label class="form-label">To:</label>
+    <input type="date" class="form-input" />
+  </div>
+
+  <div class="form-row">
+    <label class="form-label">Status:</label>
+    <select class="form-select">
+      <option value="All">All</option>
+      <option value="UnApproved">Un-Approved</option>
+      <option value="Approved">Approved</option>
+    </select>
+  </div>
+
+  <div class="form-row note-row">
+    <label><strong>Note:</strong> All Price are selected if Status is not chosen.</label>
+    <button class="btn btn-info export-btn"  (click)="exportToExcel()">Export</button>
+  </div>
+
+
+</div>

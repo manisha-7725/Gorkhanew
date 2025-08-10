@@ -13,6 +13,10 @@ import {
 import { MatTreeModule } from '@angular/material/tree';
 import { FilterPipe } from '../filter-pipe';
 import { FormsModule } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ExportMasterDialog } from '../export-master-dialog/export-master-dialog';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 
 interface FoodNode {
@@ -50,6 +54,7 @@ interface Product {
     MatTreeModule,
     FilterPipe,
     FormsModule,
+   
   ],
   templateUrl: './master.html',
   styleUrl: './master.css',
@@ -65,6 +70,14 @@ searchtext: string = '';
   originalData: FoodNode[] = [];
   
 
+
+
+
+  openExportDialog(): void {
+    this.dialog.open(ExportMasterDialog, { width: '400px' });
+  }
+
+
   private _transformer = (node: FoodNode, level: number) => {
     return {
       expandable: !!node.children && node.children.length > 0,
@@ -73,7 +86,10 @@ searchtext: string = '';
     };
   };
   selectedCategory: string = ''; 
-  constructor(private router: Router, ) {}
+  constructor(private router: Router,private dialog: MatDialog ) {}
+
+
+
 
   onView(): void {
     this.router.navigate(['/views']);
@@ -369,4 +385,5 @@ filterTree(nodes: any[], searchText: string): any[] {
 
 
 }
+
 

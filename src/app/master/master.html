@@ -6,12 +6,16 @@
   </label>
 
   <div class="d-flex gap-2">
-    <button class="btn btn-info" style="font-size: 12px">Back</button>
-
-    <button class="btn btn-info" style="font-size: 12px">Export Product</button>
-    <button class="btn btn-info" style="font-size: 12px">
+    <button
+      class="btn btn-info"
+      style="font-size: 12px"
+      (click)="openExportDialog()"
+    >
       Export Price Master
     </button>
+    <button class="btn btn-info" style="font-size: 12px"  >Export Product</button>
+    
+    <button class="btn btn-info" style="font-size: 12px">Back</button>
   </div>
 </div>
 
@@ -23,33 +27,33 @@
           type="text"
           placeholder="Search Item Group"
           class="form-control mb-3"
-           [(ngModel)]="searchItemGroup"
-  (input)="onSearchChange(searchItemGroup)"
- 
+          [(ngModel)]="searchItemGroup"
+          (input)="onSearchChange(searchItemGroup)"
         />
 
-       <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-  <!-- parent node -->
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+          <!-- parent node -->
 
-  <mat-tree-node *matTreeNodeDef="let node "  matTreeNodePadding>
+          <mat-tree-node *matTreeNodeDef="let node " matTreeNodePadding>
+            <mat-icon class="me-2">folder</mat-icon>
+            <span (click)="onCategorySelect(node.name)">{{ node.name }}</span>
+          </mat-tree-node>
 
-    <mat-icon class="me-2">folder</mat-icon>
-    <span (click)="onCategorySelect(node.name)">{{ node.name }}</span>
-  </mat-tree-node>
-
-  <!-- Expandable node -->
-  <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-
-    <button mat-icon-button matTreeNodeToggle>
-      <mat-icon>
-        {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-      </mat-icon>
-    </button>
-     <mat-icon class="me-2">folder</mat-icon>
-    <span (click)="onCategorySelect(node.name)">{{ node.name }}</span>
-  </mat-tree-node>
-</mat-tree>
- 
+          <!-- Expandable node -->
+          <mat-tree-node
+            *matTreeNodeDef="let node; when: hasChild"
+            matTreeNodePadding
+          >
+            <button mat-icon-button matTreeNodeToggle>
+              <mat-icon>
+                {{ treeControl.isExpanded(node) ? 'expand_more' :
+                'chevron_right' }}
+              </mat-icon>
+            </button>
+            <mat-icon class="me-2">folder</mat-icon>
+            <span (click)="onCategorySelect(node.name)">{{ node.name }}</span>
+          </mat-tree-node>
+        </mat-tree>
       </div>
     </mat-sidenav>
 
@@ -106,7 +110,12 @@
           <label class="form-check-label">Sort By MRP</label>
         </div>
 
-        <input type="text" class="form-control w-25" placeholder="Search..."  [(ngModel)]="searchtext" />
+        <input
+          type="text"
+          class="form-control w-25"
+          placeholder="Search..."
+          [(ngModel)]="searchtext"
+        />
       </div>
 
       <hr />
@@ -127,7 +136,9 @@
         </thead>
 
         <tbody>
-          <tr *ngFor="let product of paginatedProducts | filter:searchtext; let i = index">
+          <tr
+            *ngFor="let product of paginatedProducts | filter:searchtext; let i = index"
+          >
             <td>{{ (currentPage - 1) * pageSize + i + 1 }}</td>
             <td>{{ product.productCode }}</td>
             <td>{{ product.productName }}</td>

@@ -10,8 +10,7 @@ import {
 } from '@angular/router';
 import { DialogBox } from './dialog-box/dialog-box';
 import {MatDialog} from '@angular/material/dialog';
-
-
+import { ExportMasterDialog } from './export-master-dialog/export-master-dialog';
 
 
 
@@ -26,7 +25,6 @@ import {MatDialog} from '@angular/material/dialog';
     MatIconModule,
     MatButtonModule,
 
- 
 ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -36,5 +34,9 @@ export class App {
   readonly dialog = inject(MatDialog);
   openDialog():void{
     this.dialog.open(DialogBox);
+    
   }
+  // openExportDialog(): void {
+  //   this.dialog.open(ExportMasterDialog, { width: '400px' });
+  // }
 }
