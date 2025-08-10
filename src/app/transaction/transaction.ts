@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBox } from '../dialog-box/dialog-box';
-
+import { TransactionData } from '../services/transaction-data';
 
 
 interface Row {
@@ -32,6 +32,9 @@ export class Transaction implements AfterViewInit {
 
   selectedPayment: string = '';
 
+  showConfirm = false;
+
+  
   rows: Row[] = [
     {
       hsCode: '',
@@ -49,10 +52,15 @@ export class Transaction implements AfterViewInit {
   ];
 
 
-  showConfirm = false;
+ 
   indexToDelete: number | null = null;
 
-  constructor(private router: Router, private dialog: MatDialog) {}
+  constructor(private router: Router, private dialog: MatDialog,private transactionService: TransactionData) {}
+rowss: any[] = [];
+
+
+
+
 
  openRowDialog(row: Row) {
     this.dialog.open(DialogBox, {
@@ -83,6 +91,9 @@ showRowInDialog(row: any) {
 
   goBack() {
     this.router.navigate(['/master']);
+  }
+  view(){
+    this.router.navigate(['./master'])
   }
 
   ngOnInit(): void {
@@ -164,8 +175,12 @@ get filteredDialogRows() {
     });
 
  
-    setTimeout(() => this.focusLastHSCode());
+
+
+  setTimeout(() => this.focusLastHSCode());
   }
+
+ 
 
   focusLastHSCode() {
     const lastInput = this.hsCodeInputs.last;
@@ -221,8 +236,6 @@ confirmReceived() {
 cancelReceived() {
   this.showReceivedModal = false;
 }
-
-
 
 
 

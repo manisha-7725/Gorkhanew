@@ -27,6 +27,7 @@ interface Row {
 }
 
 @Component({
+    standalone: true,
   selector: 'app-dialog-box',
   imports: [
     MatButtonModule,
