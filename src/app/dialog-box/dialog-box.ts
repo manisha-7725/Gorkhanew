@@ -11,7 +11,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inject } from '@angular/core';
 
 
-
 interface Row {
   hsCode: string;
   productCode: string;
@@ -25,6 +24,9 @@ interface Row {
   mfgDate: string;
   expDate: string;
 }
+
+
+
 
 @Component({
     standalone: true,
@@ -114,6 +116,14 @@ onRowDoubleClick(row: Row) {
       vatNo: '123456789',
     },
   ];
+  
+
+
+selectSupplier(supplier: any) {
+  this.dialogRef.close(supplier);
+}
+
+
 
 get filteredData() {
   if (!this.searchtext || this.searchtext.trim() === '') return this.supplierData;

@@ -34,7 +34,6 @@ export class Transaction implements AfterViewInit {
 
   showConfirm = false;
 
-  
   rows: Row[] = [
     {
       hsCode: '',
@@ -57,8 +56,6 @@ export class Transaction implements AfterViewInit {
 
   constructor(private router: Router, private dialog: MatDialog,private transactionService: TransactionData) {}
 rowss: any[] = [];
-
-
 
 
 
@@ -173,10 +170,6 @@ get filteredDialogRows() {
       mfgDate: '',
       expDate: ''
     });
-
- 
-
-
   setTimeout(() => this.focusLastHSCode());
   }
 
@@ -215,12 +208,6 @@ get filteredDialogRows() {
   isDisabled = true;
 
 
-
-
-
-
-
-
 showReceivedModal = false;
 
 onReceivedClick() {
@@ -238,8 +225,7 @@ cancelReceived() {
 }
 
 
-//adding vat and calculation total value
-
+//adding vat and calculation  net amt
 updateNetAmt(row: Row) {
   const qty = parseFloat(row.quantity) || 0;
   const rate = parseFloat(row.rate) || 0;
@@ -247,9 +233,6 @@ updateNetAmt(row: Row) {
   row.gAmt = (qty * rate).toFixed(2);
   row.netAmt = (qty * rate * 1.13).toFixed(2);
 }
-
-
-
 
 
 

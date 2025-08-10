@@ -156,18 +156,18 @@
       </tr>
     </thead>
  <tbody>
-    <tr *ngFor="let row of rows; let i = index " (dblclick)="showRowInDialog(row)">
+    <tr *ngFor="let row of rows; let i = index ">
       <td>{{ i + 1 }}</td>
       <td><input type="text" [(ngModel)]="row.hsCode" #hsCodeInput/></td>
       <td><input type="text" [(ngModel)]="row.productCode" /></td>
-      <td><input type="text" [(ngModel)]="row.productName" /></td>
+      <td><input type="text" [(ngModel)]="row.productName" #productNameInput /></td>
       <td><input type="text" [(ngModel)]="row.upc" [disabled]="true"   style="cursor: not-allowed;"/></td>
       <td><input type="text" [(ngModel)]="row.unit"[disabled]="true"   style="cursor: not-allowed;" /></td>
 
 
       <td><input type="text" [(ngModel)]="row.quantity"(input)="updateNetAmt(row)"  /></td>
-      <td><input type="text" [(ngModel)]="row.rate" (input)="updateNetAmt(row)"   style="cursor: not-allowed;"/></td>
-      <td><input type="text" [(ngModel)]="row.gAmt"    style="cursor: not-allowed;"/></td>
+      <td><input type="text" [(ngModel)]="row.rate" (input)="updateNetAmt(row)"  /></td>
+      <td><input type="text" [(ngModel)]="row.gAmt"    /></td>
      
       <td><input type="text" [(ngModel)]="row.netAmt"  readonly  /></td>
       <td><input type="date" [(ngModel)]="row.mfgDate" /></td>
@@ -180,13 +180,15 @@
       </td>
     </tr>
 
+    
+<!-- 
 <tr *ngFor="let row of filteredDialogRows "  (dblclick)="onRowDoubleClick(row)" >
           <td>{{ row.productName }}</td>
           <td>{{ row.productCode }}</td>
           <td>{{ row.hsCode }}</td>
           <td>{{ row.mfgDate}}</td>
-          <!-- Add new fields  -->
-        </tr>
+          Add new fields 
+        </tr> -->
 
 
 
