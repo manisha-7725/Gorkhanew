@@ -7,6 +7,7 @@ import { DialogBox } from '../dialog-box/dialog-box';
 import { TransactionData } from '../services/transaction-data';
 import { NgForm } from '@angular/forms';
 import { ViewChild } from '@angular/core';
+import { DialogView } from '../dialog-view/dialog-view';
 
 
 interface Row {
@@ -36,7 +37,6 @@ export class Transaction implements AfterViewInit {
 @ViewChild('form3') form3!: NgForm;
 
   selectedPayment: string = '';
-
   showConfirm = false;
 
   rows: Row[] = [
@@ -104,6 +104,22 @@ rowss: any[] = [];
 
 
 
+setSelectedRow(row: any) {
+  this.selectedRow = row;
+}
+
+openViewDialog(row: any) {
+ 
+  this.dialog.open(DialogView, {
+    width: '800px',
+    data: row
+  });
+}
+
+
+
+
+
  openRowDialog(row: Row) {
     this.dialog.open(DialogBox, {
       width: '375px',
@@ -134,9 +150,7 @@ showRowInDialog(row: any) {
   goBack() {
     this.router.navigate(['/master']);
   }
-  view(){
-    this.router.navigate(['./master'])
-  }
+  
 
   ngOnInit(): void {
   const dialogRef = this.dialog.open(DialogBox, {

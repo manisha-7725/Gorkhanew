@@ -1,0 +1,70 @@
+.align-right-dialog .mat-dialog-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+/* .custom-dialog-right .mat-dialog-container {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0;
+  height: 100%;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+  max-width: unset !important;
+  width: auto !important;
+} */
+
+
+
+.custom-box {
+  width:560px;
+  height: 550px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* More visible shadow */
+  padding: 10px;
+  border-radius: 4px;
+  margin-left: auto;
+  border: 0px  solid  white;
+ 
+   
+  .box .custom-box{
+    right: 0;
+  } 
+
+}
+.dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: inset;
+  background-color: #7ed0ff;
+  border: 2px solid rgb(247, 243, 237);
+}
+.dialog-header h5 {
+  margin: 0;
+  color: black;
+}
+.dialog-header button {
+  color: black;
+border-radius: 50%;
+}
+.search {
+  width: 500px; 
+  margin: 10px 0; 
+}
+
+.search input[type="text"] {
+  width: 100%;         
+  padding: 8px 12px;   
+  border-radius: 8px;   /* rounded corners */
+  border: 1px solid #ccc; /* light border */
+  box-sizing: border-box; /* include padding in width */
+  font-size: 14px;
+  outline: none;
+}
+
+.search input[type="text"]:focus {
+  border-color: #66afe9;
+  box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
+}

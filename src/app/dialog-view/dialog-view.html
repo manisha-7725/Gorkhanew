@@ -1,0 +1,56 @@
+<!-- <h2 mat-dialog-title>Transaction Details</h2>
+<mat-dialog-content>
+  <p><strong>Invoice No:</strong> {{ data.invoiceNo }}</p>
+  <p><strong>Amount:</strong> {{ data.amount }}</p>
+  Add more fields as needed//
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions> -->
+  <div class="custom-box ">
+    <div class="dialog-header">
+      <h5 mat-dialog-title>Supplier</h5>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+<select [(ngModel)]="selectedVoucherNo" class="search" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px;" >
+<option value="Select Filter Option">Select Filter Option</option>
+    <option value="Cash">VOUCHERNO</option>
+    <option value="Date">Date</option>
+    <option value="Invoice No">Invoice No</option>
+    <option value="Supplier">Supplier</option>
+    <option value="Amount">Amount</option>
+</select>
+
+<div class="search">
+<input type="text" placeholder="Enter keyword to search"   [(ngModel)]="searchText">
+</div>
+
+<table class="table">
+  <thead class="table-primary">
+   <tr>
+    <th>VOUCHERNO</th>
+    <th>Date</th>
+    <th>Invoice No</th>
+    <th>Supplier</th>
+    <th>AMOUNT</th>
+   </tr>
+  </thead>
+
+  <tbody>
+<tr *ngFor =" let data of filteredData()" >
+  <td>{{data.voucherno}}</td>
+  <td>{{data.date}}</td>
+  <td>{{data.invoiceNo}}</td>
+  <td>{{data.supplier}}</td>
+  <td>{{data.amount}}</td>
+
+</tr>
+  </tbody>
+</table>
+
+
+
+    </div>

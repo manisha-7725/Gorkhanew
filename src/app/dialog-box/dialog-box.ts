@@ -99,6 +99,11 @@ onRowDoubleClick(row: Row) {
   this.dialogRef.close({ selectedRow: row }); 
 }
 
+onSupplierDoubleClick(supplier: any) {
+  this.dialogRef.close(supplier);
+}
+
+
 
  supplierData = [
     {
@@ -116,10 +121,6 @@ onRowDoubleClick(row: Row) {
   ];
   
 
-
-selectSupplier(supplier: any) {
-  this.dialogRef.close(supplier);
-}
 
 
 

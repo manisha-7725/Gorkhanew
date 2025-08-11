@@ -18,7 +18,6 @@ import { ExportMasterDialog } from '../export-master-dialog/export-master-dialog
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 
-
 interface FoodNode {
   name: string;
   children?: FoodNode[];
@@ -54,29 +53,22 @@ interface Product {
     MatTreeModule,
     FilterPipe,
     FormsModule,
-   
   ],
   templateUrl: './master.html',
   styleUrl: './master.css',
- 
 })
 export class Master {
- searchTerm = '';
+  searchTerm = '';
   tableSearch = '';
   searchType: 'name' | 'code' = 'name';
   sortType: 'name' | 'mrp' = 'name';
-searchtext: string = '';
+  searchtext: string = '';
   searchItemGroup = '';
   originalData: FoodNode[] = [];
-  
-
-
-
 
   openExportDialog(): void {
     this.dialog.open(ExportMasterDialog, { width: '400px' });
   }
-
 
   private _transformer = (node: FoodNode, level: number) => {
     return {
@@ -85,11 +77,8 @@ searchtext: string = '';
       level: level,
     };
   };
-  selectedCategory: string = ''; 
-  constructor(private router: Router,private dialog: MatDialog ) {}
-
-
-
+  selectedCategory: string = '';
+  constructor(private router: Router, private dialog: MatDialog) {}
 
   onView(): void {
     this.router.navigate(['/views']);
@@ -110,7 +99,7 @@ searchtext: string = '';
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
   ngOnInit() {
-    this.originalData  = [
+    this.originalData = [
       {
         name: 'PRODUCT LISTS',
         children: [
@@ -132,12 +121,11 @@ searchtext: string = '';
       },
     ];
 
-      this.dataSource.data = this.originalData;
+    this.dataSource.data = this.originalData;
   }
 
   hasChild = (_: number, node: any) => node.expandable;
 
- 
   products: Product[] = [
     {
       productCode: '10CBG650B0',
@@ -272,16 +260,15 @@ searchtext: string = '';
       category.toLowerCase() === 'product list' ||
       category.toLowerCase() === 'product lists'
     ) {
-      this.selectedCategory = ''; 
+      this.selectedCategory = '';
     } else {
-      this.selectedCategory = category.toLowerCase(); // filter by name 
+      this.selectedCategory = category.toLowerCase(); // filter by name
     }
-    this.currentPage = 1; 
+    this.currentPage = 1;
   }
   get filteredProducts() {
     let result = this.products;
 
-  
     if (this.selectedCategory) {
       result = result.filter((p) =>
         p.productName.toLowerCase().includes(this.selectedCategory)
@@ -346,48 +333,85 @@ searchtext: string = '';
     }
   }
 
+  onSearchChange(searchValue: string) {
+    if (!searchValue) {
+      // Reset to original full tree if search is empty
+      this.dataSource.data = this.originalData;
+      return;
+    }
 
-
-
-onSearchChange(searchValue: string) {
-  if (!searchValue) {
-    // Reset to original full tree if search is empty
-    this.dataSource.data = this.originalData;
-    return;
+    const filtered = this.filterTree(
+      this.originalData,
+      searchValue.toLowerCase()
+    );
+    this.dataSource.data = filtered;
   }
 
-  const filtered = this.filterTree(this.originalData, searchValue.toLowerCase());
-  this.dataSource.data = filtered;
-}
-
-// Recursive function to filter the tree
-filterTree(nodes: any[], searchText: string): any[] {
-  return nodes
-    .map(node => {
-      if (node.name.toLowerCase().includes(searchText)) {
-        return node; // Keep matching node (with children)
-      }
-
-      if (node.children) {
-        const filteredChildren = this.filterTree(node.children, searchText);
-        if (filteredChildren.length > 0) {
-          return { ...node, children: filteredChildren }; 
-          // Keep parent if children match
+  // Recursive function to filter the tree
+  filterTree(nodes: any[], searchText: string): any[] {
+    return nodes
+      .map((node) => {
+        if (node.name.toLowerCase().includes(searchText)) {
+          return node; // Keep matching node (with children)
         }
-      }
-      return null;
-    })
-    .filter(node => node !== null) as any[];
-}
 
+        if (node.children) {
+          const filteredChildren = this.filterTree(node.children, searchText);
+          if (filteredChildren.length > 0) {
+            return { ...node, children: filteredChildren };
+            // Keep parent if children match
+          }
+        }
+        return null;
+      })
+      .filter((node) => node !== null) as any[];
+  }
 
-
-
-
- exportProductToExcel() {
+  exportProductToExcel() {
     const productData = [
-      { Code: 'PRD001', Name: 'Product A', Category: 'Cat1', Price: 150 },
-      { Code: 'PRD002', Name: 'Product B', Category: 'Cat2', Price: 250 },
+      {
+        MaterialCode: 'PRD001',
+        MaterialName: 'Product A',
+        UOM: 'Cat1',
+        PriceCategoryCode: 150,
+      },
+      {
+        MaterialCode: 'PRD001',
+        MaterialName: 'Product A',
+        UOM: 'Cat1',
+        PriceCategoryCode: 150,
+      },
+      {
+        MaterialCode: 'PRD001',
+        MaterialName: 'Product A',
+        UOM: 'Cat1',
+        PriceCategoryCode: 150,
+      },
+      {
+        MaterialCode: 'PRD001',
+        MaterialName: 'Product A',
+        UOM: 'Cat1',
+        PriceCategoryCode: 150,
+      },
+      {
+        MaterialCode: 'PRD001',
+        MaterialName: 'Product A',
+        UOM: 'Cat1',
+        PriceCategoryCode: 150,
+      },
+      {
+        MaterialCode: 'PRD001',
+        MaterialName: 'Product A',
+        UOM: 'Cat1',
+        PriceCategoryCode: 150,
+      },
+      {
+        MaterialCode: 'PRD001',
+        MaterialName: 'Product A',
+        UOM: 'Cat1',
+        PriceCategoryCode: 150,
+      },
+
     ];
 
     const worksheet = XLSX.utils.json_to_sheet(productData);
@@ -405,8 +429,5 @@ filterTree(nodes: any[], searchText: string): any[] {
     saveAs(data, 'ProductExport.xlsx');
   }
 
-
-
+ 
 }
-
-
