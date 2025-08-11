@@ -266,8 +266,93 @@ get filteredDialogRows() {
 showReceivedModal = false;
 
 onReceivedClick() {
-  this.showReceivedModal = true;
+  // this.showReceivedModal = true;
+
+if (this.rows && this.rows.length > 0 && this.rows.some(row => row.hsCode.trim() !== '')) {
+    this.printData();
+  } else {
+    alert('No data available to print.');
+  }
 }
+
+printData() {
+  let printContents = `
+    <h2>Transaction Data</h2>
+    <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr>
+          <th>HS Code</th>
+          <th>Product Code</th>
+          <th>Product Name</th>
+          <th>Quantity</th>
+          <th>Rate</th>
+          <th>Gross Amount</th>
+          <th>Net Amount</th>
+          <th>Mfg Date</th>
+          <th>Exp Date</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  this.rows.forEach(row => {
+    printContents += `
+      <tr>
+        <td>${row.hsCode}</td>
+        <td>${row.productCode}</td>
+        <td>${row.productName}</td>
+        <td>${row.quantity}</td>
+        <td>${row.rate}</td>
+        <td>${row.gAmt}</td>
+        <td>${row.netAmt}</td>
+        <td>${row.mfgDate}</td>
+        <td>${row.expDate}</td>
+      </tr>
+    `;
+  });
+
+  printContents += `
+      </tbody>
+    </table>
+  `;
+
+  const popupWindow = window.open('', '_blank', 'width=800,height=600');
+  if (popupWindow) {
+    setTimeout(() => {
+      popupWindow.document.open();
+      popupWindow.document.write(`
+        <html>
+          <head>
+            <title>Print Transaction Data</title>
+            <style>
+              table { width: 100%; border-collapse: collapse; }
+              th, td { border: 1px solid black; padding: 8px; text-align: left; }
+              th { background-color: #f0f0f0; }
+            </style>
+          </head>
+          <body onload="window.print(); window.onafterprint = () => window.close();">
+            ${printContents}
+          </body>
+        </html>
+      `);
+      popupWindow.document.close();
+    }, 100);
+  } else {
+    alert('Popup blocked. Please allow popups for this site.');
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 confirmReceived() {
   this.showReceivedModal = false;
@@ -382,6 +467,35 @@ openViewDialogbtn() {
     }
   }
 });
+}
+
+
+
+//footer cal
+// Sum all quantities as number
+get totalQuantity(): number {
+  return this.rows.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
+}
+
+// Sum all gAmt as number (gross amount)
+get totalGross(): number {
+  return this.rows.reduce((sum, row) => sum + (parseFloat(row.gAmt) || 0), 0);
+}
+
+// For taxable, you might define your own logic, 
+// here assuming taxable = totalGross for demo
+get totalTaxable(): number {
+  return this.totalGross; // or custom logic
+}
+
+// VAT amount — say 13% of taxable amount
+get totalVAT(): number {
+  return this.totalTaxable * 0.13;
+}
+
+// Net amount = taxable + VAT
+get totalNetAmount(): number {
+  return this.totalTaxable + this.totalVAT;
 }
 
 

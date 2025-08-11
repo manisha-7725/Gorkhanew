@@ -37,6 +37,9 @@
 </div>
 
     <button class="btn btn-info" style="font-size: 12px" (click)="onReceivedClick()" >RECEIVED[End]</button>
+
+
+
     <button class="btn btn-info" style="font-size: 12px" (click)="openEditDialog()" >EDIT F7</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="openViewDialogbtn()">VIEW F4</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="goBack()" type="button" >Back</button>
@@ -221,7 +224,7 @@
 
 
 <!-- Modal Overlay -->
-<div class="modal-overlay" *ngIf="showReceivedModal">
+<!-- <div class="modal-overlay" *ngIf="showReceivedModal">
   <div class="modal-box">
   <h3>⚠️ Information !!!</h3>
 
@@ -230,40 +233,36 @@
       <button  class="btn btn-info" (click)="cancelReceived()">OK</button>
     </div>
   </div>
-</div>
+</div> -->
 
 
 
 <footer
-  style="
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #dfd8d8;
-    text-align: center;
-    padding: 10px 0;
-    font-size: 14px;
-    color: black;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  "
+  style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: #dfd8d8; text-align: center; padding: 10px 0; font-size: 14px; color: black; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); z-index: 1000;"
 >
-
-
-<table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
-  <tr>
-    <td style="text-align: center;">TOTAL QTY: 0.00</td>
-    <td style="text-align: center;">GROSS: 00</td>
-    <td style="text-align: center;">TAXABLE: 0.00</td>
-    <td style="text-align: center;">
-      VAT: <input type="text" value="0" style="width: 70%;" />
-    </td>
-    <td style="text-align: center;">
-      NET AMNT: <input type="text" value="0" style="width: 40%;" />
-    </td>
-    
-  </tr>
-</table>
-
+  <table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+    <tr>
+      <td style="text-align: center;">TOTAL QTY: {{ totalQuantity.toFixed(2) }}</td>
+      <td style="text-align: center;">GROSS: {{ totalGross.toFixed(2) }}</td>
+      <td style="text-align: center;">TAXABLE: {{ totalTaxable.toFixed(2) }}</td>
+      <td style="text-align: center;">
+        VAT: 
+        <input 
+          type="text" 
+          [value]="totalVAT.toFixed(2)" 
+          style="width: 70%;" 
+          readonly
+        />
+      </td>
+      <td style="text-align: center;">
+        NET AMNT: 
+        <input 
+          type="text" 
+          [value]="totalNetAmount.toFixed(2)" 
+          style="width: 40%;" 
+          readonly
+        />
+      </td>
+    </tr>
+  </table>
 </footer>
