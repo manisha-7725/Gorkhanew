@@ -4,16 +4,19 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
+import { Pagination } from '../pagination/pagination';
 
 @Component({
   selector: 'app-dialog-view',
-  imports: [MatDialogModule, MatIcon, FormsModule, CommonModule],
+  imports: [MatDialogModule, MatIcon, FormsModule, CommonModule,Pagination ],
   templateUrl: './dialog-view.html',
   styleUrl: './dialog-view.css',
 })
 export class DialogView {
   selectedVoucherNo = '';
   searchText = '';
+  currentPage = 1;
+  pageSize = 3;
 
   constructor(
     public dialogRef: MatDialogRef<DialogView>,
@@ -76,9 +79,30 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
     },
+    {
+      voucherno: 'PI62-KHT-82/83',
+      date: '2025-08-10',
+      invoiceNo: 'Gorkha 123',
+      supplier: 'Gorkha Brewery',
+      amount:' 475437.57',
+    },
+    {
+      voucherno: 'PI62-KHT-82/83',
+      date: '2025-08-10',
+      invoiceNo: 'Gorkha 123',
+      supplier: 'Gorkha Brewery',
+      amount:' 475437.57',
+    },
+    {
+      voucherno: 'PI62-KHT-82/83',
+      date: '2025-08-10',
+      invoiceNo: 'Gorkha 123',
+      supplier: 'Gorkha Brewery',
+      amount:' 475437.57',
+    },
   ];
 
-  filteredData() {
+  Data() {
     if (!this.searchText) return this.dataRow;
 
     return this.dataRow.filter(
@@ -90,5 +114,37 @@ export class DialogView {
         item.amount.toLowerCase().includes(this.searchText.toLowerCase())
     );
   }
+
+//  get filteredData() {
+//     if (!this.searchText) return this.dataRow;
+
+//     const search = this.searchText.toLowerCase();
+//     return this.dataRow.filter(
+//       item =>
+//         item.voucherno.toLowerCase().includes(search) ||
+//         item.date.toLowerCase().includes(search) ||
+//         item.invoiceNo.toLowerCase().includes(search) ||
+//         item.supplier.toLowerCase().includes(search) ||
+//         item.amount.toString().toLowerCase().includes(search)
+//     );
+//   }
+
+  get totalPages() {
+  return Math.ceil(this.Data().length / this.pageSize) || 1;
+}
+
+get pagedData() {
+  const startIndex = (this.currentPage - 1) * this.pageSize;
+  return this.Data().slice(startIndex, startIndex + this.pageSize);
+}
+
+
+  onPageChange(page: number) {
+    this.currentPage = page;
+  }
+
+
+
+
 
 }

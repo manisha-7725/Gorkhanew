@@ -40,7 +40,7 @@
   </thead>
 
   <tbody>
-<tr *ngFor =" let data of filteredData()" >
+<tr *ngFor =" let data of pagedData" >
   <td>{{data.voucherno}}</td>
   <td>{{data.date}}</td>
   <td>{{data.invoiceNo}}</td>
@@ -51,6 +51,13 @@
   </tbody>
 </table>
 
+
+ <!-- Pagination component -->
+  <app-pagination
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)"
+  ></app-pagination>
 
 
     </div>
