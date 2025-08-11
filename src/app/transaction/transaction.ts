@@ -116,10 +116,6 @@ openViewDialog(row: any) {
   });
 }
 
-
-
-
-
  openRowDialog(row: Row) {
     this.dialog.open(DialogBox, {
       width: '375px',
@@ -313,10 +309,6 @@ confirmReset() {
 });
 }
 
-
-
-
-
 cancelReset() {
   this.showResetConfirm = false;
 }
@@ -324,5 +316,81 @@ cancelReset() {
 
 
 
+openEditDialog() {
+  const dialogRef = this.dialog.open(DialogView, {
+    width: '700px',
+    data: {} // or pass any data if needed
+  });
+
+ dialogRef.afterClosed().subscribe(selectedRow => {
+  if (selectedRow) {
+    const newRow = {
+      hsCode: selectedRow.voucherno || '',        
+      productCode: selectedRow.invoiceNo || '',
+      productName: selectedRow.supplier || '',
+      upc: '12',        
+      unit: '',
+      quantity: selectedRow.quantity || '0',
+      rate: selectedRow.rate || '0.00',
+      gAmt: '0.00', 
+      netAmt: '0.00',
+      mfgDate: selectedRow.mfgdate || '',
+      expDate: selectedRow.mfgdate || '',
+    };
+
+    if (this.rows.length === 1 && this.rows[0].hsCode === '') {
+      // Replace the default empty row
+      this.rows[0] = newRow;
+      this.updateNetAmt(this.rows[0]);  // Calculate right after setting
+    } else {
+      this.rows.push(newRow);
+      this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
+    }
+  }
+});}
+
+
+openViewDialogbtn() {
+  const dialogRef = this.dialog.open(DialogView, {
+    width: '700px',
+    data: {} // pass if you want, else empty
+  });
+
+  dialogRef.afterClosed().subscribe(selectedRow => {
+  if (selectedRow) {
+    const newRow = {
+      hsCode: selectedRow.voucherno || '',        
+      productCode: selectedRow.invoiceNo || '',
+      productName: selectedRow.supplier || '',
+      upc: '12',        
+      unit: '',
+      quantity: selectedRow.quantity || '0',
+      rate: selectedRow.rate || '0.00',
+      gAmt: '0.00', 
+      netAmt: '0.00',
+      mfgDate: selectedRow.mfgdate || '',
+      expDate: selectedRow.mfgdate || '',
+    };
+
+    if (this.rows.length === 1 && this.rows[0].hsCode === '') {
+      // Replace the default empty row
+      this.rows[0] = newRow;
+      this.updateNetAmt(this.rows[0]);  // Calculate right after setting
+    } else {
+      this.rows.push(newRow);
+      this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
+    }
+  }
+});
+}
+
+
+
 
 }
+
+
+
+
+
+

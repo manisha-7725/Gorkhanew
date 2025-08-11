@@ -13,7 +13,7 @@ import { Pagination } from '../pagination/pagination';
   styleUrl: './dialog-view.css',
 })
 export class DialogView {
-  selectedVoucherNo = '';
+  selectedVoucherNo = 'VOUCHERNO';
   searchText = '';
   currentPage = 1;
   pageSize = 3;
@@ -30,75 +30,96 @@ export class DialogView {
   dataRow = [
     {
       voucherno: 'PI63-KHT-82/83',
-      date: '2025/08/10',
+      mfgdate: '2025/08/10',
       invoiceNo: '6',
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
+      quantity:'12',
+       rate:'2000'
     },
     {
       voucherno: 'PI63-KHT-82/83',
-      date: '2025/08/10',
+       mfgdate: '2025/08/10',
       invoiceNo: '123',
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
+      quantity:'5',
+       rate:'2000'
     },
     {
       voucherno: 'PI63-KHT-82/83',
-      date: '2025/08/10',
+       mfgdate: '2025/08/10',
       invoiceNo: '123',
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
+      quantity:'12',
+       rate:'2000'
     },
     {
       voucherno: 'PI63-KHT-82/83',
-      date: '2025/08/10',
+       mfgdate: '2025/08/10',
       invoiceNo: '123',
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
+      quantity:'2',
+       rate:'2000'
     },
     {
       voucherno: 'PI61-KHT-82/83',
-      date: '2025-08-08',
+      mfgdate: '2025-08-08',
       invoiceNo: 'PI61-KHT-82/83',
       supplier: 'Gorkha Brewery',
       amount:'19809.89' ,
+      quantity:'12',
+       rate:'2000'
     },
 
     {
       voucherno: 'PI63-KHT-82/83',
-      date: '2025-08-10',
+      mfgdate: '2025-08-10',
       invoiceNo: '123',
       supplier: 'Gorkha Brewery',
       amount: '70907.24',
+      quantity:'12',
+      rate:'2000',
+      
     },
 
     {
       voucherno: 'PI62-KHT-82/83',
-      date: '2025-08-10',
+      mfgdate: '2025-08-10',
       invoiceNo: 'Gorkha 123',
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
+      quantity:'12',
+       rate:'2000'
     },
     {
       voucherno: 'PI62-KHT-82/83',
-      date: '2025-08-10',
+      mfgdate: '2025-08-10',
       invoiceNo: 'Gorkha 123',
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
+      quantity:'12',
+       rate:'2000'
     },
     {
       voucherno: 'PI62-KHT-82/83',
-      date: '2025-08-10',
+      mfgdate: '2025-08-10',
       invoiceNo: 'Gorkha 123',
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
+      quantity:'12',
+       rate:'2000'
     },
     {
       voucherno: 'PI62-KHT-82/83',
-      date: '2025-08-10',
+      mfgdate: '2025-08-10',
       invoiceNo: 'Gorkha 123',
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
+      quantity:'12',
+       rate:'2000'
     },
   ];
 
@@ -108,7 +129,7 @@ export class DialogView {
     return this.dataRow.filter(
       (item) =>
         item.voucherno.toLowerCase().includes(this.searchText.toLowerCase()) ||
-        item.date.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        item.mfgdate.toLowerCase().includes(this.searchText.toLowerCase()) ||
         item.invoiceNo.toLowerCase().includes(this.searchText.toLowerCase()) ||
         item.supplier.toLowerCase().includes(this.searchText.toLowerCase()) ||
         item.amount.toLowerCase().includes(this.searchText.toLowerCase())
@@ -144,7 +165,18 @@ get pagedData() {
   }
 
 
+selectRow(row: any) {
+  this.dialogRef.close(row); // close dialog and send selected row data back
+}
+
+
+onRowDoubleClick(dataRow: any) {
+    this.dialogRef.close(dataRow); // send data back to Transaction
+  }
 
 
 
+
+
+  
 }

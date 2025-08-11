@@ -7,6 +7,9 @@
 <mat-dialog-actions align="end">
   <button mat-button (click)="close()">Close</button>
 </mat-dialog-actions> -->
+
+
+
   <div class="custom-box ">
     <div class="dialog-header">
       <h5 mat-dialog-title>Supplier</h5>
@@ -17,7 +20,7 @@
 
 <select [(ngModel)]="selectedVoucherNo" class="search" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px;" >
 <option value="Select Filter Option">Select Filter Option</option>
-    <option value="Cash">VOUCHERNO</option>
+    <option value="VOUCHERNO">VOUCHERNO</option>
     <option value="Date">Date</option>
     <option value="Invoice No">Invoice No</option>
     <option value="Supplier">Supplier</option>
@@ -40,13 +43,12 @@
   </thead>
 
   <tbody>
-<tr *ngFor =" let data of pagedData" >
+<tr *ngFor =" let data of pagedData"  (dblclick)="selectRow(data)" >
   <td>{{data.voucherno}}</td>
-  <td>{{data.date}}</td>
+  <td>{{data.mfgdate}}</td>
   <td>{{data.invoiceNo}}</td>
   <td>{{data.supplier}}</td>
   <td>{{data.amount}}</td>
-
 </tr>
   </tbody>
 </table>
@@ -58,6 +60,12 @@
     [currentPage]="currentPage"
     (pageChange)="onPageChange($event)"
   ></app-pagination>
+
+<div>
+  <p><strong>SAP ID:</strong> </p>
+  <p><strong>Customer Name:</strong> Gorkha Brewery </p>
+  <p><strong>Address:</strong>Kirtipur </p>
+</div>
 
 
     </div>

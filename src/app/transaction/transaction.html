@@ -37,8 +37,8 @@
 </div>
 
     <button class="btn btn-info" style="font-size: 12px" (click)="onReceivedClick()" >RECEIVED[End]</button>
-    <button class="btn btn-info" style="font-size: 12px" >EDIT F7</button>
-    <button class="btn btn-info" style="font-size: 12px" (click)="openViewDialog(selectedRow)">VIEW F4</button>
+    <button class="btn btn-info" style="font-size: 12px" (click)="openEditDialog()" >EDIT F7</button>
+    <button class="btn btn-info" style="font-size: 12px" (click)="openViewDialogbtn()">VIEW F4</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="goBack()" type="button" >Back</button>
 
     
@@ -194,17 +194,6 @@
       </td>
     </tr>
 
-    
-<!-- 
-<tr *ngFor="let row of filteredDialogRows "  (dblclick)="onRowDoubleClick(row)" >
-          <td>{{ row.productName }}</td>
-          <td>{{ row.productCode }}</td>
-          <td>{{ row.hsCode }}</td>
-          <td>{{ row.mfgDate}}</td>
-          Add new fields 
-        </tr> -->
-
-
 
   </tbody>
 </table>
@@ -245,25 +234,6 @@
 
 
 
-
-
-
-
-
-
-<!-- Confirmation Modal -->
-<!-- <div class="modal-backdrop" *ngIf="showConfirm">
-  <div class="modal-box">
-    <h3>⚠️ Information !!!</h3>
-    <p>Are you sure you want to reset all data?</p>
-    <div class="modal-actions">
-      <button class="btn btn-secondary btn-sm" (click)="cancelReset()">Cancel</button>
-      <button class="btn btn-danger btn-sm" (click)="resetConfirmed()">Yes, Reset</button>
-    </div>
-  </div>
-</div> -->
-
-
 <footer
   style="
     position: fixed;
@@ -295,8 +265,5 @@
     
   </tr>
 </table>
-
-
-
 
 </footer>
