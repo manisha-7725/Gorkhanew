@@ -260,20 +260,27 @@ get filteredDialogRows() {
     this.rows.splice(index, 1);
   }
 
-  isDisabled = true;
 
-
+isDisabled = true;
 showReceivedModal = false;
+showNoDataDialog = false;
+msg=' ⚠️ Information !!!';
+alertMessage = 'Supplier can not be null';
+
+closeAlert() {
+  this.showNoDataDialog = false;
+}
 
 onReceivedClick() {
-  // this.showReceivedModal = true;
-
-if (this.rows && this.rows.length > 0 && this.rows.some(row => row.hsCode.trim() !== '')) {
+  if (this.rows && this.rows.length > 0 && this.rows.some(row => row.hsCode.trim() !== '')) {
     this.printData();
   } else {
-    alert('No data available to print.');
+    this.showNoDataDialog = true;
   }
 }
+
+
+
 
 printData() {
   let printContents = `

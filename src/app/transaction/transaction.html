@@ -48,6 +48,16 @@
   </div>
 </div>
 
+<div *ngIf="showNoDataDialog" class="custom-modal-backdrop">
+  <div class="custom-modal">
+    <h1>{{msg}}</h1>
+    <p>{{ alertMessage }}</p>
+    <button (click)="closeAlert()">OK</button>
+  </div>
+</div>
+
+
+
  <div class="form-container">
  <form class="form-box"  #form1="ngForm">
   <table>
