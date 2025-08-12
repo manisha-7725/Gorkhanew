@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Inject } from '@angular/core';
+import { Component,  Inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ export class DialogView {
   searchText = '';
   currentPage = 1;
   pageSize = 3;
+   selectedRow: any; 
 
   constructor(
     public dialogRef: MatDialogRef<DialogView>,
@@ -35,7 +36,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
       quantity:'12',
-       rate:'2000'
+       rate:'2000',
+        address: 'Kritiput',
+      vatNo: '123456789',
     },
     {
       voucherno: 'PI63-KHT-82/83',
@@ -44,7 +47,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
       quantity:'5',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
     {
       voucherno: 'PI63-KHT-82/83',
@@ -53,7 +58,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
       quantity:'12',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
     {
       voucherno: 'PI63-KHT-82/83',
@@ -62,7 +69,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
       quantity:'2',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
     {
       voucherno: 'PI61-KHT-82/83',
@@ -71,7 +80,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount:'19809.89' ,
       quantity:'12',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
 
     {
@@ -82,6 +93,8 @@ export class DialogView {
       amount: '70907.24',
       quantity:'12',
       rate:'2000',
+        address: 'Kritiput',
+      vatNo: '123456789',
       
     },
 
@@ -92,7 +105,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
       quantity:'12',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
     {
       voucherno: 'PI62-KHT-82/83',
@@ -101,7 +116,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
       quantity:'12',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
     {
       voucherno: 'PI62-KHT-82/83',
@@ -110,7 +127,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
       quantity:'12',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
     {
       voucherno: 'PI62-KHT-82/83',
@@ -119,7 +138,9 @@ export class DialogView {
       supplier: 'Gorkha Brewery',
       amount:' 475437.57',
       quantity:'12',
-       rate:'2000'
+       rate:'2000',
+         address: 'Kritiput',
+      vatNo: '123456789',
     },
   ];
 
@@ -176,6 +197,7 @@ onRowDoubleClick(dataRow: any) {
 
 
 
+//  this.dialogRef.close(this.selectedRow);
 
 
 

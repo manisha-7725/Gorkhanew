@@ -64,6 +64,7 @@ chequeNo2:string=''
 address: string = '';
 vatNo: string = '';
 remark: string = '';
+supplierName = '';
 
 resetData() {
   this.rows = [
@@ -424,6 +425,7 @@ openEditDialog() {
   });
 
  dialogRef.afterClosed().subscribe(selectedRow => {
+    console.log('Dialog returned:', selectedRow);
   if (selectedRow) {
     const newRow = {
       hsCode: selectedRow.voucherno || '',        
@@ -437,6 +439,7 @@ openEditDialog() {
       netAmt: '0.00',
       mfgDate: selectedRow.mfgdate || '',
       expDate: selectedRow.mfgdate || '',
+    
     };
 
     if (this.rows.length === 1 && this.rows[0].hsCode === '') {
@@ -445,10 +448,18 @@ openEditDialog() {
       this.updateNetAmt(this.rows[0]);  // Calculate right after setting
     } else {
       this.rows.push(newRow);
-      this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
+   
     }
+       this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
+      // **Add this part to update the form inputs:**
+      this.supplierName = selectedRow.supplier || '';
+      this.address = selectedRow.address || '';
+      this.vatNo = selectedRow.vatNo || '';
+      this.remark = selectedRow.remark || '';
+
   }
-});}
+});
+}
 
 
 openViewDialogbtn() {
@@ -481,45 +492,18 @@ openViewDialogbtn() {
       this.rows.push(newRow);
       this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
     }
+      this.updateNetAmt(this.rows[this.rows.length - 1]);  
+      this.supplierName = selectedRow.supplier || '';
+      this.address = selectedRow.address || '';
+      this.vatNo = selectedRow.vatNo || '';
+      this.remark = selectedRow.remark || '';
   }
 });
 }
 
 
 
- supplierName = '';
-
-
-// ngOnInit(): void {
-//   const dialogRef = this.dialog.open(DialogBox, {
-//     width: '600px',
-//     disableClose: true // optional: force user to select or close dialog explicitly
-//   });
-
-//   dialogRef.afterClosed().subscribe(result => {
-//     if (result) {
-//       // result is the supplier object from dialog
-//       this.supplierName = result.name || '';
-//       this.address = result.address || '';
-//       this.vatNo = result.vatNo || '';
-//       this.remark = '';  // optional, set as needed
-//     }
-//   });
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-//footer cal
+//footer 
 // Sum all quantities as number
 get totalQuantity(): number {
   return this.rows.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
