@@ -66,10 +66,8 @@
 
       <tr>
       <td>Enter Date</td>
-      <td><input type="text"  value="07/31/2025"   [disabled]="true"
-  style="cursor: not-allowed;"/></td>
-      <td><input type="date"    [disabled]="true"
-  style="cursor: not-allowed;"/></td>
+      <td><input type="date"   [(ngModel)]="mfgDate" name="mfgDate" [disabled]="true"style="cursor: not-allowed;"/></td>
+      <td><input type="date" [(ngModel)]="mfgDate" name="mfgDate"   [disabled]="true"style="cursor: not-allowed;"/></td>
     </tr>
    
     <tr>
@@ -83,7 +81,7 @@
 
     <tr>
       <td>Invoice Date:</td>
-      <td><input type="date" value="07/21/2025" [(ngModel)]="invoiceDate" name="invoiceDate" /></td>
+      <td><input type="date"  [(ngModel)]="invoiceDate" name="invoiceDate" /></td>
       <td><input type="date" [(ngModel)]="invoiceDate" name="invoiceDate" /></td>
     </tr>
  </table>
@@ -98,7 +96,7 @@
       </td>
 
      <td colspan="2"  >
-  <select  [(ngModel)]="selectedPayment" name="payment" required
+  <select  [(ngModel)]="selectedPayment" name="payment" value="Credit" required
    style="
   width: 100%;
   border-radius: 8px;
@@ -120,17 +118,17 @@
       <td >
          Account
       </td>
-      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account"   [disabled]="true"  [(ngModel)]="account" name="account"
-  style="cursor: not-allowed;"/></td>
+      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account"    [(ngModel)]="account" name="account"
+/></td>
     </tr>
     <tr>
       <td>Cheque No:</td>
-      <td><input type="text"  [(ngModel)]="chequeNo1" name="chequeNo1"></td>
-      <td><input type="Date"  [(ngModel)]="chequeNo2" name="chequeNo2"></td>
+      <td><input type="text" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="chequeNo1" name="chequeNo1"></td>
+      <td><input type="Date" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="chequeNo2" name="chequeNo2"></td>
     </tr>
     <tr>
     <td>Godown</td>
-    <td colspan="2"><input type="text" value="Main Warehouse"></td>
+    <td colspan="2"><input type="text" value="Main Warehouse" [disabled]="true"style="cursor: not-allowed;"></td>
   </tr>
   </table>
  </form>
@@ -143,8 +141,8 @@
       <td >
         <input type="text" 
         placeholder="Press ENTER or TAB to  select Supplier" 
-       
-  style="cursor: not-allowed;"
+       [disabled]="true"style="cursor: not-allowed;"
+ 
   [(ngModel)]="supplierName"
    name="supplierName"
    />
@@ -192,18 +190,18 @@
       <td>{{ i + 1 }}</td>
       <td><input type="text" [(ngModel)]="row.hsCode" #hsCodeInput/></td>
       <td><input type="text" [(ngModel)]="row.productCode" /></td>
-      <td><input type="text" [(ngModel)]="row.productName" #productNameInput /></td>
+      <td><input type="text" [(ngModel)]="row.productName" name="productName" #productNameInput  class="product-name-input" /></td>
       <td><input type="text" [(ngModel)]="row.upc" [disabled]="true"   style="cursor: not-allowed;"/></td>
       <td><input type="text" [(ngModel)]="row.unit"[disabled]="true"   style="cursor: not-allowed;" /></td>
 
 
       <td><input type="text" [(ngModel)]="row.quantity"(input)="updateNetAmt(row)"  /></td>
       <td><input type="text" [(ngModel)]="row.rate" (input)="updateNetAmt(row)"  /></td>
-      <td><input type="text" [(ngModel)]="row.gAmt"    /></td>
+      <td><input type="text" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="row.gAmt"    /></td>
      
-      <td><input type="text" [(ngModel)]="row.netAmt"  readonly  /></td>
+      <td><input type="text" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="row.netAmt"  readonly  /></td>
       <td><input type="date" [(ngModel)]="row.mfgDate" /></td>
- <td><input type="date" [(ngModel)]="row.expDate"[disabled]="true"  style="cursor: not-allowed;" /></td>
+ <td><input type="date" [(ngModel)]="row.expDate" [disabled]="true"  style="cursor: not-allowed;" /></td>
 
       <td>
         <button  (click)="confirmRemoveRow(i)" style="background-color: red; color: white;  width: 25px ;

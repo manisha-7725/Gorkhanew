@@ -65,6 +65,9 @@ address: string = '';
 vatNo: string = '';
 remark: string = '';
 supplierName = '';
+mfgDate: string = '';
+expDate: string = '';
+
 
 resetData() {
   this.rows = [
@@ -167,10 +170,13 @@ showRowInDialog(row: any) {
       this.account = result.name || '';
       this.address = result.address || '';
       this.vatNo = result.vatNo || '';
-      this.invoiceDate = result.invoiceDate || '';
-      this.remark = '';
+      this.invoiceDate = result.invoiceDate || this.invoiceDate; // keep today's if none returned
+      setTimeout(() => this.focusLastProductName(), 0);
+      this.remark = ''; 
     }
-
+  const today = new Date();
+  this.invoiceDate = today.toISOString().substring(0, 10);
+  this.mfgDate = today.toISOString().substring(0,10)
 
   });
 
@@ -245,8 +251,8 @@ get filteredDialogRows() {
     });
   setTimeout(() => this.focusLastHSCode());
   }
+ @ViewChildren('productNameInput') productNameInputs!: QueryList<ElementRef>;
 
- 
 
   focusLastHSCode() {
     const lastInput = this.hsCodeInputs.last;
@@ -402,8 +408,6 @@ confirmReset() {
   this.resetData();
   this.showResetConfirm = false;
 
-
-
   this.dialog.open(DialogBox, {
   width: '375px',
   position: { right: '0' },
@@ -415,21 +419,37 @@ cancelReset() {
   this.showResetConfirm = false;
 }
 
+focusLastProductName() {
+  const lastInput = this.productNameInputs.last;
+  if (lastInput) {
+    lastInput.nativeElement.focus();
+  }
+}
+
+
 
 
 
 openEditDialog() {
   const dialogRef = this.dialog.open(DialogView, {
     width: '700px',
-    data: {} // or pass any data if needed
+    data: {} 
   });
+
+//changing date in dd/mm/yyyy
+function formatToDateInput(dateStr: string): string {
+  if (!dateStr) return '';
+  const [day, month, year] = dateStr.split('/');
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+}
+
 
  dialogRef.afterClosed().subscribe(selectedRow => {
     console.log('Dialog returned:', selectedRow);
   if (selectedRow) {
     const newRow = {
       hsCode: selectedRow.voucherno || '',        
-      productCode: selectedRow.invoiceNo || '',
+      productCode: selectedRow.productcode || '',
       productName: selectedRow.supplier || '',
       upc: '12',        
       unit: '',
@@ -437,25 +457,26 @@ openEditDialog() {
       rate: selectedRow.rate || '0.00',
       gAmt: '0.00', 
       netAmt: '0.00',
-      mfgDate: selectedRow.mfgdate || '',
-      expDate: selectedRow.mfgdate || '',
+       mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
+  expDate: formatToDateInput(selectedRow.mfgdate) || '',
     
     };
 
     if (this.rows.length === 1 && this.rows[0].hsCode === '') {
-      // Replace the default empty row
       this.rows[0] = newRow;
-      this.updateNetAmt(this.rows[0]);  // Calculate right after setting
+      this.updateNetAmt(this.rows[0]);  
     } else {
       this.rows.push(newRow);
    
     }
        this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
-      // **Add this part to update the form inputs:**
+      // **Added to update the form inputs:**
       this.supplierName = selectedRow.supplier || '';
+      this.account = selectedRow.supplier || '';
       this.address = selectedRow.address || '';
       this.vatNo = selectedRow.vatNo || '';
-      this.remark = selectedRow.remark || '';
+      this.invoiceNo = selectedRow.invoiceNo || '';
+      setTimeout(() => this.focusLastProductName(), 0);
 
   }
 });
@@ -465,14 +486,21 @@ openEditDialog() {
 openViewDialogbtn() {
   const dialogRef = this.dialog.open(DialogView, {
     width: '700px',
-    data: {} // pass if you want, else empty
+    data: {} // pass if want,or empty
   });
+
+  function formatToDateInput(dateStr: string): string {
+  if (!dateStr) return '';
+  const [day, month, year] = dateStr.split('/');
+  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+}
 
   dialogRef.afterClosed().subscribe(selectedRow => {
   if (selectedRow) {
+    
     const newRow = {
       hsCode: selectedRow.voucherno || '',        
-      productCode: selectedRow.invoiceNo || '',
+      productCode: selectedRow.productcode  || '',
       productName: selectedRow.supplier || '',
       upc: '12',        
       unit: '',
@@ -480,23 +508,25 @@ openViewDialogbtn() {
       rate: selectedRow.rate || '0.00',
       gAmt: '0.00', 
       netAmt: '0.00',
-      mfgDate: selectedRow.mfgdate || '',
-      expDate: selectedRow.mfgdate || '',
+       mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
+  expDate: formatToDateInput(selectedRow.mfgdate) || '',
     };
 
     if (this.rows.length === 1 && this.rows[0].hsCode === '') {
-      // Replace the default empty row
       this.rows[0] = newRow;
       this.updateNetAmt(this.rows[0]);  // Calculate right after setting
     } else {
       this.rows.push(newRow);
       this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
     }
+    this.invoiceNo = selectedRow.voucherno || '';
       this.updateNetAmt(this.rows[this.rows.length - 1]);  
       this.supplierName = selectedRow.supplier || '';
       this.address = selectedRow.address || '';
       this.vatNo = selectedRow.vatNo || '';
       this.remark = selectedRow.remark || '';
+      this.invoiceDate = selectedRow.mfgdate || '';
+      setTimeout(() => this.focusLastProductName(), 0);
   }
 });
 }
@@ -504,37 +534,24 @@ openViewDialogbtn() {
 
 
 //footer 
-// Sum all quantities as number
 get totalQuantity(): number {
   return this.rows.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
 }
-
-// Sum all gAmt as number (gross amount)
 get totalGross(): number {
   return this.rows.reduce((sum, row) => sum + (parseFloat(row.gAmt) || 0), 0);
 }
-
-// For taxable, you might define your own logic, 
-// here assuming taxable = totalGross for demo
+//  taxable = totalGross
 get totalTaxable(): number {
-  return this.totalGross; // or custom logic
+  return this.totalGross; 
 }
-
-// VAT amount — say 13% of taxable amount
+// VAT amount 
 get totalVAT(): number {
   return this.totalTaxable * 0.13;
 }
-
-// Net amount = taxable + VAT
+// Net amount 
 get totalNetAmount(): number {
   return this.totalTaxable + this.totalVAT;
 }
-
-
-
-
-
-
 
 
 
