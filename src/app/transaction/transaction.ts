@@ -38,6 +38,7 @@ export class Transaction implements AfterViewInit {
 
   selectedPayment: string = '';
   showConfirm = false;
+   account: string = ''; 
 
   rows: Row[] = [
     {
@@ -51,7 +52,8 @@ export class Transaction implements AfterViewInit {
       gAmt: '0.00',
       netAmt: '0.00',
       mfgDate: '',
-      expDate: ''
+      expDate: '',
+     
     }
   ];
 
@@ -76,7 +78,8 @@ resetData() {
       gAmt: '0.00',
       netAmt: '0.00',
       mfgDate: '',
-      expDate: ''
+      expDate: '',
+      
     }
   ];
   
@@ -152,16 +155,30 @@ showRowInDialog(row: any) {
   const dialogRef = this.dialog.open(DialogBox, {
     width: '375px',
     position: { right: '0' },
-  
+  disableClose: true ,
     data: this.rows
   });
 
-  dialogRef.afterClosed().subscribe((updatedRows :Row[]) => {
-    if (updatedRows) {
-      this.rows = updatedRows;
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      // result is the selected supplier object from dialog
+      this.supplierName = result.name || '';
+      this.account = result.name || '';
+      this.address = result.address || '';
+      this.vatNo = result.vatNo || '';
+      this.invoiceDate = result.invoiceDate || '';
+      this.remark = '';
     }
+
+
   });
+
+
+  
 }
+
+
+
 dialogRows: Row[] = []; 
 selectedRow: Row | null = null;
 
@@ -353,14 +370,6 @@ printData() {
 
 
 
-
-
-
-
-
-
-
-
 confirmReceived() {
   this.showReceivedModal = false;
   alert('Marked as RECEIVED!');
@@ -478,6 +487,38 @@ openViewDialogbtn() {
 
 
 
+ supplierName = '';
+
+
+// ngOnInit(): void {
+//   const dialogRef = this.dialog.open(DialogBox, {
+//     width: '600px',
+//     disableClose: true // optional: force user to select or close dialog explicitly
+//   });
+
+//   dialogRef.afterClosed().subscribe(result => {
+//     if (result) {
+//       // result is the supplier object from dialog
+//       this.supplierName = result.name || '';
+//       this.address = result.address || '';
+//       this.vatNo = result.vatNo || '';
+//       this.remark = '';  // optional, set as needed
+//     }
+//   });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
 //footer cal
 // Sum all quantities as number
 get totalQuantity(): number {
@@ -504,6 +545,12 @@ get totalVAT(): number {
 get totalNetAmount(): number {
   return this.totalTaxable + this.totalVAT;
 }
+
+
+
+
+
+
 
 
 

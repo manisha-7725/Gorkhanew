@@ -37,9 +37,6 @@
 </div>
 
     <button class="btn btn-info" style="font-size: 12px" (click)="onReceivedClick()" >RECEIVED[End]</button>
-
-
-
     <button class="btn btn-info" style="font-size: 12px" (click)="openEditDialog()" >EDIT F7</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="openViewDialogbtn()">VIEW F4</button>
     <button class="btn btn-info" style="font-size: 12px" (click)="goBack()" type="button" >Back</button>
@@ -97,7 +94,7 @@
   <table>
     <tr>
       <td>
-        Payment
+        Payment Terms
       </td>
 
      <td colspan="2"  >
@@ -121,9 +118,9 @@
     </tr>
     <tr>
       <td >
-        Terms Account
+         Account
       </td>
-      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account"   [disabled]="true"
+      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account"   [disabled]="true"  [(ngModel)]="account" name="account"
   style="cursor: not-allowed;"/></td>
     </tr>
     <tr>
@@ -143,8 +140,16 @@
     <table style="width: 100%;">
     <tr>
       <td>Supplier</td>
-      <td ><input type="text" placeholder="Press ENTER or TAB to  select Supplier"   [disabled]="true"
-  style="cursor: not-allowed;" /></td>
+      <td >
+        <input type="text" 
+        placeholder="Press ENTER or TAB to  select Supplier" 
+       
+  style="cursor: not-allowed;"
+  [(ngModel)]="supplierName"
+   name="supplierName"
+   />
+
+</td>
     </tr>
     <tr>
       <td>Address</td>
@@ -210,6 +215,8 @@
 
   </tbody>
 </table>
+
+
 
 
 <!-- Confirmation Modal -->
