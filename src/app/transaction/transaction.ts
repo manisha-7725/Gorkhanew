@@ -449,12 +449,13 @@ function addOneYear(dateStr: string): string {
   const [day, month, year] = dateStr.split('/');
   const dateObj = new Date(+year, +month - 1, +day);
   dateObj.setFullYear(dateObj.getFullYear() + 1);
+  dateObj.setMonth(dateObj.getMonth() + 4); 
 
   const newYear = dateObj.getFullYear();
   const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
   const newDay = String(dateObj.getDate()).padStart(2, '0');
 
-  return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd for <input type="date">
+  return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd 
 }
 
 
@@ -519,6 +520,7 @@ function addOneYear(dateStr: string): string {
   const [day, month, year] = dateStr.split('/');
   const dateObj = new Date(+year, +month - 1, +day);
   dateObj.setFullYear(dateObj.getFullYear() + 1);
+  dateObj.setMonth(dateObj.getMonth() + 4); 
 
   const newYear = dateObj.getFullYear();
   const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -589,9 +591,6 @@ get totalVAT(): number {
 get totalNetAmount(): number {
   return this.totalTaxable + this.totalVAT;
 }
-
-
-
 
 }
 
