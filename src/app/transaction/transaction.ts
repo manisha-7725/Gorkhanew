@@ -443,6 +443,22 @@ function formatToDateInput(dateStr: string): string {
   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
 
+// added 1  year in expdate
+function addOneYear(dateStr: string): string {
+  if (!dateStr) return '';
+  const [day, month, year] = dateStr.split('/');
+  const dateObj = new Date(+year, +month - 1, +day);
+  dateObj.setFullYear(dateObj.getFullYear() + 1);
+
+  const newYear = dateObj.getFullYear();
+  const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const newDay = String(dateObj.getDate()).padStart(2, '0');
+
+  return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd for <input type="date">
+}
+
+
+
 
  dialogRef.afterClosed().subscribe(selectedRow => {
     console.log('Dialog returned:', selectedRow);
@@ -458,7 +474,7 @@ function formatToDateInput(dateStr: string): string {
       gAmt: '0.00', 
       netAmt: '0.00',
        mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
-  expDate: formatToDateInput(selectedRow.mfgdate) || '',
+      expDate: addOneYear(selectedRow.mfgdate) || '',
     
     };
 
@@ -475,7 +491,10 @@ function formatToDateInput(dateStr: string): string {
       this.account = selectedRow.supplier || '';
       this.address = selectedRow.address || '';
       this.vatNo = selectedRow.vatNo || '';
-      this.invoiceNo = selectedRow.invoiceNo || '';
+     this.invoiceDate = formatToDateInput(selectedRow.mfgdate) || '';
+       this.mfgDate = formatToDateInput(selectedRow.mfgdate) || '';
+      this.expDate = formatToDateInput(selectedRow.mfgdate) || '';
+
       setTimeout(() => this.focusLastProductName(), 0);
 
   }
@@ -494,6 +513,21 @@ openViewDialogbtn() {
   const [day, month, year] = dateStr.split('/');
   return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
 }
+// add  1 year for exp
+function addOneYear(dateStr: string): string {
+  if (!dateStr) return '';
+  const [day, month, year] = dateStr.split('/');
+  const dateObj = new Date(+year, +month - 1, +day);
+  dateObj.setFullYear(dateObj.getFullYear() + 1);
+
+  const newYear = dateObj.getFullYear();
+  const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
+  const newDay = String(dateObj.getDate()).padStart(2, '0');
+
+  return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd for <input type="date">
+}
+
+
 
   dialogRef.afterClosed().subscribe(selectedRow => {
   if (selectedRow) {
@@ -509,7 +543,7 @@ openViewDialogbtn() {
       gAmt: '0.00', 
       netAmt: '0.00',
        mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
-  expDate: formatToDateInput(selectedRow.mfgdate) || '',
+  expDate: addOneYear(selectedRow.mfgdate) || '',
     };
 
     if (this.rows.length === 1 && this.rows[0].hsCode === '') {
@@ -525,7 +559,10 @@ openViewDialogbtn() {
       this.address = selectedRow.address || '';
       this.vatNo = selectedRow.vatNo || '';
       this.remark = selectedRow.remark || '';
-      this.invoiceDate = selectedRow.mfgdate || '';
+    this.invoiceDate = formatToDateInput(selectedRow.mfgdate) || '';
+
+      this.mfgDate = formatToDateInput(selectedRow.mfgdate) || '';
+      this.expDate = formatToDateInput(selectedRow.mfgdate) || '';
       setTimeout(() => this.focusLastProductName(), 0);
   }
 });
