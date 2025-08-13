@@ -45,13 +45,13 @@ export class DialogBox {
     {
       name: 'Gorkha Brewery',
       code: 'C001',
-      address: 'Kritiput',
+      address: 'Kritipur',
       vatNo: '123456789',
     },
     {
       name: 'Raj Brewery',
       code: 'C002',
-      address: 'Kritiput',
+      address: 'Kritipur',
       vatNo: '123456789',
     },
   ];

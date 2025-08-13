@@ -1,0 +1,59 @@
+  <div class="custom-box ">
+    <div class="dialog-header">
+      <h5 mat-dialog-title>PRODUCTS</h5>
+      <button mat-icon-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="username">
+      <select
+    
+        name="name"
+        required
+        class="input-bordered"
+      >
+        <option value="" disabled selected>NAME</option>
+        <option value="">Select Filter Option</option>
+        <option value="Gorkha Brewery">DESCRIPTION</option>
+        <option value="Raj Brewery">ITEM CODE</option>
+        <option value="Other Supplier">GROUP NAME</option>
+        <option value="Other Supplier">P- QTY</option>
+        <option value="Other Supplier">ISSUE QTY</option>
+        <option value="Other Supplier">NETRATE</option>
+      </select>
+      <input
+        class="input-bordered"
+        type="text"
+        placeholder="Enter Keyword to search" 
+        
+      />
+    </div>
+
+    <table class="table">
+      <thead class="table-primary">
+        <tr>
+          <th>DESCRIPTION</th>
+          <th>ITEM CODE</th>
+          <th>STOCK</th>
+          <th>STOCK (In Case)</th>
+          <th>GROUP NAME </th>
+          <th>STOCK(Each)</th>
+        </tr>
+      </thead>
+      <tbody>
+     <tr *ngFor="let item of products"  (dblclick)="selectProduct(item)"  >
+          <td>{{ item.description }}</td>
+          <td>{{ item.itemcode }}</td>
+          <td>{{ item.stock}}</td>
+          <td>{{ item.stockCase }}</td>
+          <td>{{ item.groupname }}</td>
+          <td>{{ item.stockeach }}</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+
+
+

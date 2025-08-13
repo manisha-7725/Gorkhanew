@@ -161,8 +161,12 @@ thead th {
 .custom-modal button:hover {
   background-color: #0056b3;
 }
-.product-name-input:focus {
-  /* font-weight: bold;
-  outline: none; */
-  border: 2px solid #0e0e0e; /* optional: blue border on focus */
+/* .product-name-input:focus {
+   font-weight: bold;
+  outline: none; 
+border: 2px solid #0e0e0e;  
+} */
+
+tr td input:focus{
+  border: 2px solid #0e0e0e;
 }

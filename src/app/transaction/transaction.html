@@ -185,16 +185,23 @@
         <th></th>
       </tr>
     </thead>
- <tbody>
-    <tr *ngFor="let row of rows; let i = index ">
+ <tbody  >
+    <tr *ngFor="let row of rows; let i = index " class="product-name-input">
       <td>{{ i + 1 }}</td>
       <td><input type="text" [(ngModel)]="row.hsCode" #hsCodeInput/></td>
-      <td><input type="text" [(ngModel)]="row.productCode" /></td>
-      <td><input type="text" [(ngModel)]="row.productName" name="productName" #productNameInput  class="product-name-input" /></td>
+      <td><input type="text" [(ngModel)]="row.productCode"  /></td>
+
+      <td><input type="text" 
+        [(ngModel)]="row.productName" 
+        name="productName" 
+        #productNameInput  
+        class="product-name-input"
+         value="Press ENTER to Select item" 
+           (keydown.enter)="openProductDialog()"
+         /></td>
+
       <td><input type="text" [(ngModel)]="row.upc" [disabled]="true"   style="cursor: not-allowed;"/></td>
       <td><input type="text" [(ngModel)]="row.unit"[disabled]="true"   style="cursor: not-allowed;" /></td>
-
-
       <td><input type="text" [(ngModel)]="row.quantity"(input)="updateNetAmt(row)"  /></td>
       <td><input type="text" [(ngModel)]="row.rate" (input)="updateNetAmt(row)"  /></td>
       <td><input type="text" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="row.gAmt"    /></td>

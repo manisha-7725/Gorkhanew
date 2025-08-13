@@ -8,6 +8,7 @@ import { TransactionData } from '../services/transaction-data';
 import { NgForm } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { DialogView } from '../dialog-view/dialog-view';
+import { ProductDialog } from '../product-dialog/product-dialog';
 
 
 interface Row {
@@ -103,6 +104,37 @@ resetData() {
 }
 
 
+
+
+
+openProductDialog() {
+    const dialogRef = this.dialog.open(ProductDialog, {
+      width: '600px',
+      position: { right: '0' },
+      data: { /* pass any data you want */ }
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+    if (result?.selectedRow) {
+      const selected = result.selectedRow;
+      this.rows.push({
+        hsCode: '',
+        productCode: selected.itemcode || '',
+        productName: selected.description || '',
+        upc: '',
+        unit: '',
+        quantity: '0.00',
+        rate: selected.rate || '',
+        gAmt: '0.00',
+        netAmt: '0.00',
+        mfgDate: '',
+        expDate: ''
+      });
+    }
+  });
+}
+  
+
  
   indexToDelete: number | null = null;
 
@@ -114,6 +146,14 @@ rowss: any[] = [];
 setSelectedRow(row: any) {
   this.selectedRow = row;
 }
+
+
+
+
+
+
+
+
 
 openViewDialog(row: any) {
  
@@ -179,9 +219,7 @@ showRowInDialog(row: any) {
   this.mfgDate = today.toISOString().substring(0,10)
 
   });
-
-
-  
+ 
 }
 
 
@@ -302,9 +340,6 @@ onReceivedClick() {
     this.showNoDataDialog = true;
   }
 }
-
-
-
 
 printData() {
   let printContents = `
