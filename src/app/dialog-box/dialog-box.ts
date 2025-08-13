@@ -84,6 +84,9 @@ export class DialogBox {
     );
   }
 
+
+
+  
   // --- Search filter for product rows ---
   // get filteredDialogRows() {
   //   if (!this.searchtext.trim()) return this.dialogRows;

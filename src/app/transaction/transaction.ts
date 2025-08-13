@@ -529,27 +529,60 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
     row.netAmt = (qty * rate * 1.13).toFixed(2);
   }
 
-  showResetConfirm = false;
 
+  //reset
+
+  showResetConfirm = false;
   onResetClicked() {
     this.showResetConfirm = true;
   }
-
   confirmReset() {
-    this.resetData();
-    this.showResetConfirm = false;
+  this.resetData();
+  this.showResetConfirm = false;
 
-    this.dialog.open(DialogBox, {
-      width: '375px',
-      position: { right: '0' },
-      data: this.rows, // your Row[] data
-    });
-  }
+  const dialogRef = this.dialog.open(DialogBox, {
+    width: '375px',
+    position: { right: '0' },
+    data: this.rows, // your Row[] data
+  });
+
+  dialogRef.afterClosed().subscribe((result: any) => {
+    if (!result) return; // user closed dialog without selection
+
+    // --- Supplier Selection ---
+    if ('name' in result) {
+      this.supplierName = result.name || '';
+      this.account = result.name || '';
+      this.address = result.address || '';
+      this.vatNo = result.vatNo || '';
+    }
+
+    // --- Product Selection ---
+    else if ('productName' in result) {
+      const rowIndex = this.selectedRowIndex ?? 0;
+
+      this.rows[rowIndex] = {
+        ...this.rows[rowIndex],
+        productCode: result.productCode || '',
+        productName: result.productName || '',
+        rate: result.rate || '',
+        hsCode: result.hsCode || '',
+        mfgDate: result.mfgDate || '',
+        expDate: result.expDate || '',
+      };
+
+      this.focusNextInput(rowIndex, 'productName');
+    }
+  });
+}
+//reset end
+
+
+  
 
   cancelReset() {
     this.showResetConfirm = false;
   }
-
   focusLastProductName() {
     const lastInput = this.productNameInputs.last;
     if (lastInput) {
