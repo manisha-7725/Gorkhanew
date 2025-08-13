@@ -1,4 +1,4 @@
-<div 
+<div
   class="d-flex align-items-center justify-content-between px-4 py-2 bg-light"
 >
   <div class="d-flex align-items-center gap-3">
@@ -9,7 +9,7 @@
     >
       Hide Details[F1]
     </button>
- 
+
     <label
       style="
         font-family: 'Segoe UI Light';
@@ -23,25 +23,58 @@
   </div>
 
   <div class="d-flex gap-2">
-    <button class="btn btn-danger" style="font-size: 12px"  (click)="onResetClicked()">RESET F3</button>  
+    <button
+      class="btn btn-danger"
+      style="font-size: 12px"
+      (click)="onResetClicked()"
+    >
+      RESET F3
+    </button>
 
-<div *ngIf="showResetConfirm" class="modal-overlay">
-  <div class="modal-box reset-confirm-box">
-    <h3>Confirm Reset</h3>
-    <p> ⚠️ Are you sure you want to reset all data?</p>
-    <div class="modal-buttons">
-      <button class="btn btn-secondary" (click)="cancelReset()">Cancel</button>
-      <button class="btn btn-danger" (click)="confirmReset()">Yes, Reset</button>
+    <div *ngIf="showResetConfirm" class="modal-overlay">
+      <div class="modal-box reset-confirm-box">
+        <h3>Confirm Reset</h3>
+        <p>⚠️ Are you sure you want to reset all data?</p>
+        <div class="modal-buttons">
+          <button class="btn btn-secondary" (click)="cancelReset()">
+            Cancel
+          </button>
+          <button class="btn btn-danger" (click)="confirmReset()">
+            Yes, Reset
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
-    <button class="btn btn-info" style="font-size: 12px" (click)="onReceivedClick()" >RECEIVED[End]</button>
-    <button class="btn btn-info" style="font-size: 12px" (click)="openEditDialog()" >EDIT F7</button>
-    <button class="btn btn-info" style="font-size: 12px" (click)="openViewDialogbtn()">VIEW F4</button>
-    <button class="btn btn-info" style="font-size: 12px" (click)="goBack()" type="button" >Back</button>
-
-    
+    <button
+      class="btn btn-info"
+      style="font-size: 12px"
+      (click)="onReceivedClick()"
+    >
+      RECEIVED[End]
+    </button>
+    <button
+      class="btn btn-info"
+      style="font-size: 12px"
+      (click)="openEditDialog()"
+    >
+      EDIT F7
+    </button>
+    <button
+      class="btn btn-info"
+      style="font-size: 12px"
+      (click)="openViewDialogbtn()"
+    >
+      VIEW F4
+    </button>
+    <button
+      class="btn btn-info"
+      style="font-size: 12px"
+      (click)="goBack()"
+      type="button"
+    >
+      Back
+    </button>
   </div>
 </div>
 
@@ -53,182 +86,318 @@
   </div>
 </div>
 
-
-
- <div class="form-container">
- <form class="form-box"  #form1="ngForm">
-  <table>
-    <tr>
-      <th *ngFor="let row of rows; let i = index">
-<!-- {{column}} -->
-      </th>
-    </tr>
-
+<div class="form-container">
+  <form class="form-box" #form1="ngForm">
+    <table>
       <tr>
-      <td>Enter Date</td>
-      <td><input type="date"   [(ngModel)]="mfgDate" name="mfgDate" [disabled]="true"style="cursor: not-allowed;"/></td>
-      <td><input type="date" [(ngModel)]="mfgDate" name="mfgDate"   [disabled]="true"style="cursor: not-allowed;"/></td>
-    </tr>
-   
-    <tr>
-      <td >Invoice No:</td>
-      <td colspan="2">
-    <input type="text" [(ngModel)]="invoiceNo" name="invoiceNo"  />
-  </td>
-    
-    
-    </tr>
-
-    <tr>
-      <td>Invoice Date:</td>
-      <td><input type="date"  [(ngModel)]="invoiceDate" name="invoiceDate" /></td>
-      <td><input type="date" [(ngModel)]="invoiceDate" name="invoiceDate" /></td>
-    </tr>
- </table>
-    </form>
-
-
- <form class="form-box"  #form2="ngForm">
-  <table>
-    <tr>
-      <td>
-        Payment Terms
-      </td>
-
-     <td colspan="2"  >
-  <select  [(ngModel)]="selectedPayment" name="payment" value="Credit" required
-   style="
-  width: 100%;
-  border-radius: 8px;
-  padding: 6px 10px;  
-  border: 1px solid #ccc; 
-  outline: none;
-  width: 100%;
-    "
-  >
-
-    <option value="Cash">Cash</option>
-    <option value="Credit">Credit</option>
-    <option value="Cheque">Cheque</option>
-  </select>
-</td>
-
-    </tr>
-    <tr>
-      <td >
-         Account
-      </td>
-      <td colspan="2"><input type="text" placeholder=" Press Enter to select Account"    [(ngModel)]="account" name="account"
-/></td>
-    </tr>
-    <tr>
-      <td>Cheque No:</td>
-      <td><input type="text" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="chequeNo1" name="chequeNo1"></td>
-      <td><input type="Date" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="chequeNo2" name="chequeNo2"></td>
-    </tr>
-    <tr>
-    <td>Godown</td>
-    <td colspan="2"><input type="text" value="Main Warehouse" [disabled]="true"style="cursor: not-allowed;"></td>
-  </tr>
-  </table>
- </form>
-
-
-    <form class="form-box"  #form3="ngForm">
-    <table style="width: 100%;">
-    <tr>
-      <td>Supplier</td>
-      <td >
-        <input type="text" 
-        placeholder="Press ENTER or TAB to  select Supplier" 
-       [disabled]="true"style="cursor: not-allowed;"
- 
-  [(ngModel)]="supplierName"
-   name="supplierName"
-   />
-
-</td>
-    </tr>
-    <tr>
-      <td>Address</td>
-      <td colspan="2"><input type="text" [(ngModel)]="address" name="address"></td>
-    </tr>
-    <tr>
-      <td>Vat No</td>
-    <td colspan="2"><input type="text" [(ngModel)]="vatNo" name="vatNo"></td>
-  </tr>
-    <tr>
-      <td>Remark</td>
-    <td colspan="2"><input type="text" [(ngModel)]="remark" name="remark"></td>
-  </tr>
-  </table>
-  </form>
- </div>
-<br>
-
- <table class="table">
-    <thead >
-      <tr>
-        <th>S.No</th>
-        <th>
-          HS Code</th>
-        <th>Product Code</th>
-        <th>Product Name</th>
-        <th>UPC</th>
-        <th>Unit</th>
-        <th>Quantity</th>
-        <th>RATE</th>
-        <th>G.Amt</th>
-        <th>Net Amt</th>
-        <th>Mfg Date</th>
-        <th>Exp Date</th>
-        <th></th>
+        <th *ngFor="let row of rows; let i = index">
+          <!-- {{column}} -->
+        </th>
       </tr>
-    </thead>
- <tbody  >
+
+      <tr>
+        <td>Enter Date</td>
+        <td>
+          <input
+            type="date"
+            [(ngModel)]="mfgDate"
+            name="mfgDate"
+            [disabled]="true"
+            style="cursor: not-allowed"
+          />
+        </td>
+        <td>
+          <input
+            type="date"
+            [(ngModel)]="mfgDate"
+            name="mfgDate"
+            [disabled]="true"
+            style="cursor: not-allowed"
+          />
+        </td>
+      </tr>
+
+      <tr>
+        <td>Invoice No:</td>
+        <td colspan="2">
+          <input type="text" [(ngModel)]="invoiceNo" name="invoiceNo" />
+        </td>
+      </tr>
+
+      <tr>
+        <td>Invoice Date:</td>
+        <td>
+          <input type="date" [(ngModel)]="invoiceDate" name="invoiceDate" />
+        </td>
+        <td>
+          <input type="date" [(ngModel)]="invoiceDate" name="invoiceDate" />
+        </td>
+      </tr>
+    </table>
+  </form>
+
+  <form class="form-box" #form2="ngForm">
+    <table>
+      <tr>
+        <td>Payment Terms</td>
+
+        <td colspan="2">
+          <select
+            [(ngModel)]="selectedPayment"
+            name="payment"
+            value="Credit"
+            required
+            style="
+              width: 100%;
+              border-radius: 8px;
+              padding: 6px 10px;
+              border: 1px solid #ccc;
+              outline: none;
+              width: 100%;
+            "
+          >
+            <option value="Cash">Cash</option>
+            <option value="Credit">Credit</option>
+            <option value="Cheque">Cheque</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td>Account</td>
+        <td colspan="2">
+          <input
+            type="text"
+            placeholder=" Press Enter to select Account"
+            [(ngModel)]="account"
+            name="account"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Cheque No:</td>
+        <td>
+          <input
+            type="text"
+            [disabled]="true"
+            style="cursor: not-allowed"
+            [(ngModel)]="chequeNo1"
+            name="chequeNo1"
+          />
+        </td>
+        <td>
+          <input
+            type="Date"
+            [disabled]="true"
+            style="cursor: not-allowed"
+            [(ngModel)]="chequeNo2"
+            name="chequeNo2"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Godown</td>
+        <td colspan="2">
+          <input
+            type="text"
+            value="Main Warehouse"
+            [disabled]="true"
+            style="cursor: not-allowed"
+          />
+        </td>
+      </tr>
+    </table>
+  </form>
+
+  <form class="form-box" #form3="ngForm">
+    <table style="width: 100%">
+      <tr>
+        <td>Supplier</td>
+        <td>
+          <input
+            type="text"
+            placeholder="Press ENTER or TAB to  select Supplier"
+            [disabled]="true"
+            style="cursor: not-allowed"
+            [(ngModel)]="supplierName"
+            name="supplierName"
+          />
+        </td>
+      </tr>
+      <tr>
+        <td>Address</td>
+        <td colspan="2">
+          <input type="text" [(ngModel)]="address" name="address" />
+        </td>
+      </tr>
+      <tr>
+        <td>Vat No</td>
+        <td colspan="2">
+          <input type="text" [(ngModel)]="vatNo" name="vatNo" />
+        </td>
+      </tr>
+      <tr>
+        <td>Remark</td>
+        <td colspan="2">
+          <input type="text" [(ngModel)]="remark" name="remark" />
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+<br />
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>S.No</th>
+      <th>HS Code</th>
+      <th>Product Code</th>
+      <th>Product Name</th>
+      <th>UPC</th>
+      <th>Unit</th>
+      <th>Quantity</th>
+      <th>RATE</th>
+      <th>G.Amt</th>
+      <th>Net Amt</th>
+      <th>Mfg Date</th>
+      <th>Exp Date</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
     <tr *ngFor="let row of rows; let i = index " class="product-name-input">
       <td>{{ i + 1 }}</td>
-      <td><input type="text" [(ngModel)]="row.hsCode" #hsCodeInput/></td>
-      <td><input type="text" [(ngModel)]="row.productCode"  /></td>
-
-      <td><input type="text" 
-        [(ngModel)]="row.productName" 
-        name="productName" 
-        #productNameInput  
-        class="product-name-input"
-         value="Press ENTER to Select item" 
-           (keydown.enter)="openProductDialog()"
-         /></td>
-
-      <td><input type="text" [(ngModel)]="row.upc" [disabled]="true"   style="cursor: not-allowed;"/></td>
-      <td><input type="text" [(ngModel)]="row.unit"[disabled]="true"   style="cursor: not-allowed;" /></td>
-      <td><input type="text" [(ngModel)]="row.quantity"(input)="updateNetAmt(row)"  /></td>
-      <td><input type="text" [(ngModel)]="row.rate" (input)="updateNetAmt(row)"  /></td>
-      <td><input type="text" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="row.gAmt"    /></td>
-     
-      <td><input type="text" [disabled]="true"style="cursor: not-allowed;" [(ngModel)]="row.netAmt"  readonly  /></td>
-      <td><input type="date" [(ngModel)]="row.mfgDate" /></td>
- <td><input type="date" [(ngModel)]="row.expDate" [disabled]="true"  style="cursor: not-allowed;" /></td>
+      <td>
+        <input
+          type="text"
+          [(ngModel)]="row.hsCode"
+          #hsCodeInput
+           [disabled]="productSelected"
+    [style.cursor]="productSelected ? 'not-allowed' : 'text'"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          [(ngModel)]="row.productCode"
+             [disabled]="productSelected"
+    [style.cursor]="productSelected ? 'not-allowed' : 'text'"
+        />
+      </td>
 
       <td>
-        <button  (click)="confirmRemoveRow(i)" style="background-color: red; color: white;  width: 25px ;
-  height: 25px ;
-  border-radius: 50%"><strong>-</strong></button>
+        <input
+          type="text"
+          [(ngModel)]="row.productName"
+          name="productName"
+          #productNameInput
+          class="product-name-input"
+          value="Press ENTER to Select item"
+          (keydown.enter)="openProductDialog(i)"
+          (keydown.enter)="focusNextInput(i, 'productName')"
+          [disabled]="productSelected"
+    [style.cursor]="productSelected ? 'not-allowed' : 'text'"
+        />
+      </td>
+
+      <td>
+        <input
+          #Input
+          type="text"
+          [(ngModel)]="row.upc"
+          style="cursor: not-allowed"
+          (input)="updateNetAmt(row)"
+          style="cursor: not-allowed"
+          disabled
+        />
+      </td>
+      <td>
+        <input
+          #Input
+          type="text"
+          [(ngModel)]="row.unit"
+          style="cursor: not-allowed"
+          (input)="updateNetAmt(row)"
+          style="cursor: not-allowed"
+          disabled
+        />
+      </td>
+
+      <td>
+        <input
+         #quantityInput
+          type="number"
+           min="0" 
+          [(ngModel)]="row.quantity"
+          (input)="updateNetAmt(row)"
+          (keydown.enter)="focusNextInput(i, 'quantity')" 
+        />
+      </td>
+      <td>
+        <input
+         #rateInput
+          type="number"
+           min="0" 
+          [(ngModel)]="row.rate"
+          (input)="updateNetAmt(row)"
+          (keydown.enter)="focusNextInput(i, 'rate')"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          [disabled]="true"
+          style="cursor: pointer"
+          [(ngModel)]="row.gAmt"
+        />
+      </td>
+
+      <td>
+        <input
+          type="text"
+          [disabled]="true"
+          style="cursor: pointer"
+          [(ngModel)]="row.netAmt"
+          readonly
+        />
+      </td>
+      <td><input type="date" [(ngModel)]="row.mfgDate" 
+        #mfgDateInput 
+        (keydown.enter)="focusNextInput(i, 'mfgDate')"
+        /></td>
+
+
+      <td>
+        <input
+          type="date"
+          [(ngModel)]="row.expDate"
+          [disabled]="true"
+          style="cursor: not-allowed"
+          #expDateInput
+          
+        />
+      </td>
+
+      <td>
+        <button
+          (click)="confirmRemoveRow(i)"
+          style="
+            background-color: red;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+          "
+        >
+          <strong>-</strong>
+        </button>
       </td>
     </tr>
-
-
   </tbody>
 </table>
 
-
-
-
 <!-- Confirmation Modal -->
-<div
-  *ngIf="showConfirm"
-  class="confirm-overlay"
->
+<div *ngIf="showConfirm" class="confirm-overlay">
   <div class="confirm-box">
     <p>Do you want to delete this row?</p>
     <div class="confirm-buttons">
@@ -238,12 +407,19 @@
   </div>
 </div>
 
-
- 
-<button (click)="addRow()" style="background-color: #17a2b8; color: white; margin-top: 10px; width: 25px ;
-  height: 25px ;
-  border-radius: 50%"><strong>+</strong></button>
-
+<button
+  (click)="addRow()"
+  style="
+    background-color: #17a2b8;
+    color: white;
+    margin-top: 10px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+  "
+>
+  <strong>+</strong>
+</button>
 
 <!-- Modal Overlay -->
 <!-- <div class="modal-overlay" *ngIf="showReceivedModal">
@@ -257,31 +433,43 @@
   </div>
 </div> -->
 
-
-
 <footer
-  style="position: fixed; bottom: 0; left: 0; width: 100%; background-color: #dfd8d8; text-align: center; padding: 10px 0; font-size: 14px; color: black; box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); z-index: 1000;"
+  style="
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #dfd8d8;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    color: black;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  "
 >
-  <table style="width: 100%; table-layout: fixed; border-collapse: collapse;">
+  <table style="width: 100%; table-layout: fixed; border-collapse: collapse">
     <tr>
-      <td style="text-align: center;">TOTAL QTY: {{ totalQuantity.toFixed(2) }}</td>
-      <td style="text-align: center;">GROSS: {{ totalGross.toFixed(2) }}</td>
-      <td style="text-align: center;">TAXABLE: {{ totalTaxable.toFixed(2) }}</td>
-      <td style="text-align: center;">
-        VAT: 
-        <input 
-          type="text" 
-          [value]="totalVAT.toFixed(2)" 
-          style="width: 70%;" 
+      <td style="text-align: center">
+        TOTAL QTY: {{ totalQuantity.toFixed(2) }}
+      </td>
+      <td style="text-align: center">GROSS: {{ totalGross.toFixed(2) }}</td>
+      <td style="text-align: center">TAXABLE: {{ totalTaxable.toFixed(2) }}</td>
+      <td style="text-align: center">
+        VAT:
+        <input
+          type="text"
+          [value]="totalVAT.toFixed(2)"
+          style="width: 70%"
           readonly
         />
       </td>
-      <td style="text-align: center;">
-        NET AMNT: 
-        <input 
-          type="text" 
-          [value]="totalNetAmount.toFixed(2)" 
-          style="width: 40%;" 
+      <td style="text-align: center">
+        NET AMNT:
+        <input
+          type="text"
+          [value]="totalNetAmount.toFixed(2)"
+          style="width: 40%"
           readonly
         />
       </td>

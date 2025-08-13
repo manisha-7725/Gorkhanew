@@ -197,6 +197,8 @@ get pagedData() {
   }
 
 
+
+  
 selectRow(row: any) {
   this.dialogRef.close(row); // close dialog and send selected row data back
 }

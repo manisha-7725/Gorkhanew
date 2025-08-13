@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, AfterViewInit, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  ElementRef,
+  QueryList,
+  ViewChildren,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,36 +16,37 @@ import { ViewChild } from '@angular/core';
 import { DialogView } from '../dialog-view/dialog-view';
 import { ProductDialog } from '../product-dialog/product-dialog';
 
-
 interface Row {
   hsCode: string;
   productCode: string;
   productName: string;
   upc: string;
   unit: string;
-  quantity: string;
+  quantity: number;
   rate: string;
   gAmt: string;
   netAmt: string;
   mfgDate: string;
   expDate: string;
+  editable?: boolean;
 }
 
 @Component({
   selector: 'app-transaction',
   imports: [CommonModule, FormsModule],
   templateUrl: './transaction.html',
-  styleUrls: ['./transaction.css']
+  styleUrls: ['./transaction.css'],
 })
 export class Transaction implements AfterViewInit {
   @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
   @ViewChild('form1') form1!: NgForm;
-@ViewChild('form2') form2!: NgForm;
-@ViewChild('form3') form3!: NgForm;
+  @ViewChild('form2') form2!: NgForm;
+  @ViewChild('form3') form3!: NgForm;
 
   selectedPayment: string = '';
   showConfirm = false;
-   account: string = ''; 
+  account: string = '';
+  productSelected: boolean = false;
 
   rows: Row[] = [
     {
@@ -48,143 +55,96 @@ export class Transaction implements AfterViewInit {
       productName: '',
       upc: '',
       unit: '',
-      quantity: '0.00',
+      quantity: 0,
       rate: '0.00',
       gAmt: '0.00',
       netAmt: '0.00',
       mfgDate: '',
       expDate: '',
-     
-    }
+    },
   ];
 
-invoiceNo: string = '';
-invoiceDate: string = '';
-chequeNo1:string=''
-chequeNo2:string=''
-address: string = '';
-vatNo: string = '';
-remark: string = '';
-supplierName = '';
-mfgDate: string = '';
-expDate: string = '';
+  invoiceNo: string = '';
+  invoiceDate: string = '';
+  chequeNo1: string = '';
+  chequeNo2: string = '';
+  address: string = '';
+  vatNo: string = '';
+  remark: string = '';
+  supplierName = '';
+  mfgDate: string = '';
+  expDate: string = '';
 
-
-resetData() {
-  this.rows = [
-    {
-      hsCode: '',
-      productCode: '',
-      productName: '',
-      upc: '',
-      unit: '',
-      quantity: '0.00',
-      rate: '0.00',
-      gAmt: '0.00',
-      netAmt: '0.00',
-      mfgDate: '',
-      expDate: '',
-      
-    }
-  ];
-  
-  this.selectedPayment = '';
-  this.showConfirm = false;
-  this.indexToDelete = null;
-  this.showReceivedModal = false;
-  this.selectedName = '';
-  this.searchtext = '';
-  this.selectedRow = null;
-  
-
-  if (this.form1) this.form1.resetForm();
-  if (this.form2) this.form2.resetForm();
-  if (this.form3) this.form3.resetForm();
-  // If you have any other variables that hold user input, reset them here similarly.
-}
-
-
-
-
-
-openProductDialog() {
-    const dialogRef = this.dialog.open(ProductDialog, {
-      width: '600px',
-      position: { right: '0' },
-      data: { /* pass any data you want */ }
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-    if (result?.selectedRow) {
-      const selected = result.selectedRow;
-      this.rows.push({
+  resetData() {
+    this.rows = [
+      {
         hsCode: '',
-        productCode: selected.itemcode || '',
-        productName: selected.description || '',
+        productCode: '',
+        productName: '',
         upc: '',
         unit: '',
-        quantity: '0.00',
-        rate: selected.rate || '',
+        quantity: 0,
+        rate: '0.00',
         gAmt: '0.00',
         netAmt: '0.00',
         mfgDate: '',
-        expDate: ''
-      });
-    }
-  });
-}
-  
+        expDate: '',
+      },
+    ];
 
- 
+    this.selectedPayment = '';
+    this.showConfirm = false;
+    this.indexToDelete = null;
+    this.showReceivedModal = false;
+    this.selectedName = '';
+    this.searchtext = '';
+    this.selectedRow = null;
+
+    if (this.form1) this.form1.resetForm();
+    if (this.form2) this.form2.resetForm();
+    if (this.form3) this.form3.resetForm();
+    // If you have any other variables that hold user input, reset them here similarly.
+  }
+
   indexToDelete: number | null = null;
 
-  constructor(private router: Router, private dialog: MatDialog,private transactionService: TransactionData) {}
-rowss: any[] = [];
+  constructor(
+    private router: Router,
+    private dialog: MatDialog,
+    private transactionService: TransactionData
+  ) {}
+  rowss: any[] = [];
 
+  setSelectedRow(row: any) {
+    this.selectedRow = row;
+  }
 
+  openViewDialog(row: any) {
+    this.dialog.open(DialogView, {
+      width: '800px',
+      data: row,
+    });
+  }
 
-setSelectedRow(row: any) {
-  this.selectedRow = row;
-}
-
-
-
-
-
-
-
-
-
-openViewDialog(row: any) {
- 
-  this.dialog.open(DialogView, {
-    width: '800px',
-    data: row
-  });
-}
-
- openRowDialog(row: Row) {
+  openRowDialog(row: Row) {
     this.dialog.open(DialogBox, {
       width: '375px',
-        position: { right: '0' },
+      position: { right: '0' },
       data: {
         dialogRows: this.rows,
         selectedRow: row,
       },
-      
     });
   }
-showDialog: boolean = false;
+  showDialog: boolean = false;
 
-showRowInDialog(row: any) {
-  this.selectedRow = { ...row }; // create a copy to edit
-  this.showDialog = true; 
+  showRowInDialog(row: any) {
+    this.selectedRow = { ...row }; // create a copy to edit
+    this.showDialog = true;
     const dialogRef = this.dialog.open(DialogBox, {
-   
-    data: [...this.rows], 
-  });
-
-}
+      data: [...this.rows],
+    });
+  }
 
   ngAfterViewInit() {
     this.focusLastHSCode();
@@ -193,104 +153,244 @@ showRowInDialog(row: any) {
   goBack() {
     this.router.navigate(['/master']);
   }
-  
 
   ngOnInit(): void {
-  const dialogRef = this.dialog.open(DialogBox, {
-    width: '375px',
-    position: { right: '0' },
-  disableClose: true ,
-    data: this.rows
-  });
+    const dialogRef = this.dialog.open(DialogBox, {
+      width: '375px',
+      position: { right: '0' },
+      disableClose: true,
+      data: this.rows,
+    });
 
-  dialogRef.afterClosed().subscribe(result => {
-    if (result) {
-      // result is the selected supplier object from dialog
-      this.supplierName = result.name || '';
-      this.account = result.name || '';
-      this.address = result.address || '';
-      this.vatNo = result.vatNo || '';
-      this.invoiceDate = result.invoiceDate || this.invoiceDate; // keep today's if none returned
-      setTimeout(() => this.focusLastProductName(), 0);
-      this.remark = ''; 
-    }
-  const today = new Date();
-  this.invoiceDate = today.toISOString().substring(0, 10);
-  this.mfgDate = today.toISOString().substring(0,10)
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        // result is the selected supplier object from dialog
+        this.supplierName = result.name || '';
+        this.account = result.name || '';
+        this.address = result.address || '';
+        this.vatNo = result.vatNo || '';
+        this.invoiceDate = result.invoiceDate || this.invoiceDate; // keep today's if none returned
+        setTimeout(() => this.focusLastProductName(), 0);
+        this.remark = '';
+      }
+      const today = new Date();
+      this.invoiceDate = today.toISOString().substring(0, 10);
+      this.mfgDate = today.toISOString().substring(0, 10);
+    });
 
-  });
- 
-}
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.selectedRow) {
+        const selected = result.selectedRow;
 
+        this.rows[0] = {
+          hsCode: selected.itemcode || '',
+          productCode: selected.productcode || '',
+          productName: selected.description || '',
+          upc: '',
+          unit: '',
+          quantity: 0,
+          rate: '0',
+          gAmt: '0.00',
+          netAmt: '0.00',
+          mfgDate: '',
+          expDate: '',
+        };
+        setTimeout(() => {
+          const firstProductInput = this.productNameInputs.first;
+          if (firstProductInput) firstProductInput.nativeElement.focus();
+        }, 0);
+      }
+    });
+  }
 
-
-dialogRows: Row[] = []; 
-selectedRow: Row | null = null;
-
+  dialogRows: Row[] = [];
+  selectedRow: Row | null = null;
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogBox, {
       width: '100%',
       position: { right: '0' },
-     data: {
-      dialogRows: this.rows,      
-      selectedRow: this.selectedRow      
-    }
+      data: {
+        dialogRows: this.rows,
+        selectedRow: this.selectedRow,
+      },
     });
 
-dialogRef.afterClosed().subscribe((result) => {
-    if (result?.selectedRow) {
-      const index = this.rows.findIndex(r => r.productCode === result.selectedRow.productCode);
-      if (index !== -1) {
-        this.rows[index] = result.selectedRow;
-      } else {
-        this.rows.push(result.selectedRow);
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.selectedRow) {
+        const index = this.rows.findIndex(
+          (r) => r.productCode === result.selectedRow.productCode
+        );
+        if (index !== -1) {
+          this.rows[index] = result.selectedRow;
+        } else {
+          this.rows.push(result.selectedRow);
+        }
+      } else if (result?.updatedRows) {
+        this.rows = result.updatedRows;
       }
-    } else if (result?.updatedRows) {
-      this.rows = result.updatedRows;
-    }
-  });
+    });
+  }
 
-}
-  
-dialogRef: any;
-
+  dialogRef: any;
   selectedName: string = '';
   searchtext: string = '';
-  
-onRowDoubleClick(row: Row) {
-  this.dialogRef.close({ selectedRow: row }); 
-}
 
-get filteredDialogRows() {
-  if (!this.searchtext || this.searchtext.trim() === '') return this.dialogRows;
-  const search = this.searchtext.toLowerCase();
-  return this.dialogRows.filter(row =>
-    row.productName.toLowerCase().includes(search) ||
-    row.productCode.toLowerCase().includes(search) ||
-    row.hsCode.toLowerCase().includes(search) ||
-    row.mfgDate.toLowerCase().includes(search)
-  );
-}
+  onRowDoubleClick(row: Row) {
+    this.dialogRef.close({ selectedRow: row });
+  }
+
+  get filteredDialogRows() {
+    if (!this.searchtext || this.searchtext.trim() === '')
+      return this.dialogRows;
+    const search = this.searchtext.toLowerCase();
+    return this.dialogRows.filter(
+      (row) =>
+        row.productName.toLowerCase().includes(search) ||
+        row.productCode.toLowerCase().includes(search) ||
+        row.hsCode.toLowerCase().includes(search) ||
+        row.mfgDate.toLowerCase().includes(search)
+    );
+  }
+
+
+currentRowIndex: number = 0; // tracks the row where dialog is opened
+
 
   addRow() {
+    this.rows.forEach((r) => (r.editable = false));
     this.rows.push({
       hsCode: '',
       productCode: '',
       productName: '',
       upc: '',
       unit: '',
-      quantity: '0.00',
-      rate: '0.00',
+      quantity: 0,
+      rate: '0',
       gAmt: '0.00',
       netAmt: '0.00',
       mfgDate: '',
-      expDate: ''
+      expDate: '',
     });
-  setTimeout(() => this.focusLastHSCode());
+    setTimeout(() => {
+      const lastInput = this.productNameInputs.last;
+      lastInput?.nativeElement.focus();
+    }, 0);
   }
- @ViewChildren('productNameInput') productNameInputs!: QueryList<ElementRef>;
 
+  openProductDialog(rowIndex: number) {
+     this.currentRowIndex = rowIndex; 
+    const dialogRef = this.dialog.open(ProductDialog, {
+      width: '600px',
+      position: { right: '0' },
+       
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.selectedRow) {
+        const selected = result.selectedRow;
+
+// Fill the currently selected row
+      this.rows[this.currentRowIndex] = {
+        ...this.rows[this.currentRowIndex], // preserve other fields like quantity, dates
+        productCode: selected.itemcode || '',
+        productName: selected.description || '',
+        rate: selected.rate || '',
+      };
+
+
+        // Replace or push row
+        if (this.rows.length === 1 && !this.rows[0].productCode) {
+          this.rows[0] = {
+            hsCode: '',
+            productCode: selected.itemcode || '',
+            productName: selected.description || '',
+            upc: '',
+            unit: '',
+            quantity: 0,
+            rate: selected.rate || '',
+            gAmt: '0.00',
+            netAmt: '0.00',
+            mfgDate: '',
+            expDate: '',
+          };
+        } 
+
+        // Focus Quantity after Product Name
+        setTimeout(
+          () => this.focusNextInput(this.currentRowIndex,  'productName'),
+          0
+        );
+      }
+    });
+  }
+
+  @ViewChildren('productNameInput') productNameInputs!: QueryList<ElementRef>;
+  @ViewChildren('quantityInput') quantityInputs!: QueryList<ElementRef>;
+  @ViewChildren('rateInput') rateInputs!: QueryList<ElementRef>;
+  @ViewChildren('mfgDateInput') mfgDateInputs!: QueryList<ElementRef>;
+  @ViewChildren('expDateInput') expDateInputs!: QueryList<ElementRef>;
+
+ focusNextInput(
+    rowIndex: number,
+    field: 'productName' | 'quantity' | 'rate' | 'mfgDate'
+  ) {
+    setTimeout(() => {
+      switch (field) {
+        case 'productName':
+          this.quantityInputs.toArray()[rowIndex]?.nativeElement.focus();
+          break;
+        case 'quantity':
+          this.rateInputs.toArray()[rowIndex]?.nativeElement.focus();
+          break;
+        case 'rate':
+          this.mfgDateInputs.toArray()[rowIndex]?.nativeElement.focus();
+          break;
+        case 'mfgDate':
+          if (rowIndex === this.rows.length - 1) {
+            // Add new row first
+            this.addRow();
+
+            // Focus the **last productName input**, not using rowIndex
+            setTimeout(() => {
+              const lastInput = this.productNameInputs.toArray().pop();
+              lastInput?.nativeElement.focus();
+            }, 0);
+          } else {
+            this.productNameInputs
+              .toArray()
+              [rowIndex + 1]?.nativeElement.focus();
+          }
+          break;
+      }
+    }, 0);
+  }
+
+  // @ViewChildren('rowInput') rowInputs!: QueryList<ElementRef>;
+
+  // focusNext(event: KeyboardEvent) {
+  //   event.preventDefault();
+
+  //   const inputs = this.rowInputs.toArray();
+  //   const currentIndex = inputs.findIndex(
+  //     (input) => input.nativeElement === event.target
+  //   );
+
+  //   if (currentIndex !== -1) {
+  //     // find next enabled input
+  //     let nextIndex = currentIndex + 1;
+  //     while (
+  //       nextIndex < inputs.length &&
+  //       inputs[nextIndex].nativeElement.disabled
+  //     ) {
+  //       nextIndex++;
+  //     }
+
+  //     if (nextIndex < inputs.length) {
+  //       inputs[nextIndex].nativeElement.focus();
+  //     }
+  //   }
+  // }
 
   focusLastHSCode() {
     const lastInput = this.hsCodeInputs.last;
@@ -303,7 +403,6 @@ get filteredDialogRows() {
     this.indexToDelete = index;
     this.showConfirm = true;
   }
-  
 
   deleteConfirmed() {
     if (this.indexToDelete !== null) {
@@ -322,27 +421,30 @@ get filteredDialogRows() {
     this.rows.splice(index, 1);
   }
 
+  isDisabled = true;
+  showReceivedModal = false;
+  showNoDataDialog = false;
+  msg = ' ⚠️ Information !!!';
+  alertMessage = 'Supplier can not be null';
 
-isDisabled = true;
-showReceivedModal = false;
-showNoDataDialog = false;
-msg=' ⚠️ Information !!!';
-alertMessage = 'Supplier can not be null';
-
-closeAlert() {
-  this.showNoDataDialog = false;
-}
-
-onReceivedClick() {
-  if (this.rows && this.rows.length > 0 && this.rows.some(row => row.hsCode.trim() !== '')) {
-    this.printData();
-  } else {
-    this.showNoDataDialog = true;
+  closeAlert() {
+    this.showNoDataDialog = false;
   }
-}
 
-printData() {
-  let printContents = `
+  onReceivedClick() {
+    if (
+      this.rows &&
+      this.rows.length > 0 &&
+      this.rows.some((row) => row.hsCode.trim() !== '')
+    ) {
+      this.printData();
+    } else {
+      this.showNoDataDialog = true;
+    }
+  }
+
+  printData() {
+    let printContents = `
     <h2>Transaction Data</h2>
     <table border="1" cellpadding="5" cellspacing="0" style="width: 100%; border-collapse: collapse;">
       <thead>
@@ -361,8 +463,8 @@ printData() {
       <tbody>
   `;
 
-  this.rows.forEach(row => {
-    printContents += `
+    this.rows.forEach((row) => {
+      printContents += `
       <tr>
         <td>${row.hsCode}</td>
         <td>${row.productCode}</td>
@@ -375,18 +477,18 @@ printData() {
         <td>${row.expDate}</td>
       </tr>
     `;
-  });
+    });
 
-  printContents += `
+    printContents += `
       </tbody>
     </table>
   `;
 
-  const popupWindow = window.open('', '_blank', 'width=800,height=600');
-  if (popupWindow) {
-    setTimeout(() => {
-      popupWindow.document.open();
-      popupWindow.document.write(`
+    const popupWindow = window.open('', '_blank', 'width=800,height=600');
+    if (popupWindow) {
+      setTimeout(() => {
+        popupWindow.document.open();
+        popupWindow.document.write(`
         <html>
           <head>
             <title>Print Transaction Data</title>
@@ -401,236 +503,215 @@ printData() {
           </body>
         </html>
       `);
-      popupWindow.document.close();
-    }, 100);
-  } else {
-    alert('Popup blocked. Please allow popups for this site.');
-  }
-}
-
-
-
-
-
-confirmReceived() {
-  this.showReceivedModal = false;
-  alert('Marked as RECEIVED!');
-  // Add your logic here, like API call or state update
-}
-
-cancelReceived() {
-  this.showReceivedModal = false;
-}
-
-
-//adding vat and calculation  net amt
-updateNetAmt(row: Row) {
-  const qty = parseFloat(row.quantity) || 0;
-  const rate = parseFloat(row.rate) || 0;
-
-  row.gAmt = (qty * rate).toFixed(2);
-  row.netAmt = (qty * rate * 1.13).toFixed(2);
-}
-
-
-showResetConfirm = false;
-
-onResetClicked() {
-  this.showResetConfirm = true;
-}
-
-confirmReset() {
-  this.resetData();
-  this.showResetConfirm = false;
-
-  this.dialog.open(DialogBox, {
-  width: '375px',
-  position: { right: '0' },
-  data: this.rows  // your Row[] data
-});
-}
-
-cancelReset() {
-  this.showResetConfirm = false;
-}
-
-focusLastProductName() {
-  const lastInput = this.productNameInputs.last;
-  if (lastInput) {
-    lastInput.nativeElement.focus();
-  }
-}
-
-
-
-
-
-openEditDialog() {
-  const dialogRef = this.dialog.open(DialogView, {
-    width: '700px',
-    data: {} 
-  });
-
-//changing date in dd/mm/yyyy
-function formatToDateInput(dateStr: string): string {
-  if (!dateStr) return '';
-  const [day, month, year] = dateStr.split('/');
-  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-}
-
-// added 1  year in expdate
-function addOneYear(dateStr: string): string {
-  if (!dateStr) return '';
-  const [day, month, year] = dateStr.split('/');
-  const dateObj = new Date(+year, +month - 1, +day);
-  dateObj.setFullYear(dateObj.getFullYear() + 1);
-  dateObj.setMonth(dateObj.getMonth() + 4); 
-
-  const newYear = dateObj.getFullYear();
-  const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const newDay = String(dateObj.getDate()).padStart(2, '0');
-
-  return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd 
-}
-
-
-
-
- dialogRef.afterClosed().subscribe(selectedRow => {
-    console.log('Dialog returned:', selectedRow);
-  if (selectedRow) {
-    const newRow = {
-      hsCode: selectedRow.voucherno || '',        
-      productCode: selectedRow.productcode || '',
-      productName: selectedRow.supplier || '',
-      upc: '12',        
-      unit: '',
-      quantity: selectedRow.quantity || '0',
-      rate: selectedRow.rate || '0.00',
-      gAmt: '0.00', 
-      netAmt: '0.00',
-       mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
-      expDate: addOneYear(selectedRow.mfgdate) || '',
-    
-    };
-
-    if (this.rows.length === 1 && this.rows[0].hsCode === '') {
-      this.rows[0] = newRow;
-      this.updateNetAmt(this.rows[0]);  
+        popupWindow.document.close();
+      }, 100);
     } else {
-      this.rows.push(newRow);
-   
+      alert('Popup blocked. Please allow popups for this site.');
     }
-       this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
-      // **Added to update the form inputs:**
-      this.supplierName = selectedRow.supplier || '';
-      this.account = selectedRow.supplier || '';
-      this.address = selectedRow.address || '';
-      this.vatNo = selectedRow.vatNo || '';
-     this.invoiceDate = formatToDateInput(selectedRow.mfgdate) || '';
-       this.mfgDate = formatToDateInput(selectedRow.mfgdate) || '';
-      this.expDate = formatToDateInput(selectedRow.mfgdate) || '';
-
-      setTimeout(() => this.focusLastProductName(), 0);
-
   }
-});
-}
 
+  confirmReceived() {
+    this.showReceivedModal = false;
+    alert('Marked as RECEIVED!');
+    // Add your logic here, like API call or state update
+  }
 
-openViewDialogbtn() {
-  const dialogRef = this.dialog.open(DialogView, {
-    width: '700px',
-    data: {} // pass if want,or empty
-  });
+  cancelReceived() {
+    this.showReceivedModal = false;
+  }
 
-  function formatToDateInput(dateStr: string): string {
-  if (!dateStr) return '';
-  const [day, month, year] = dateStr.split('/');
-  return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-}
-// add  1 year for exp
-function addOneYear(dateStr: string): string {
-  if (!dateStr) return '';
-  const [day, month, year] = dateStr.split('/');
-  const dateObj = new Date(+year, +month - 1, +day);
-  dateObj.setFullYear(dateObj.getFullYear() + 1);
-  dateObj.setMonth(dateObj.getMonth() + 4); 
+  //adding vat and calculation  net amt
+  updateNetAmt(row: Row) {
+    const qty = row.quantity || 0;
+    const rate = parseFloat(row.rate) || 0;
 
-  const newYear = dateObj.getFullYear();
-  const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
-  const newDay = String(dateObj.getDate()).padStart(2, '0');
+    row.gAmt = (qty * rate).toFixed(2);
+    row.netAmt = (qty * rate * 1.13).toFixed(2);
+  }
 
-  return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd for <input type="date">
-}
+  showResetConfirm = false;
 
+  onResetClicked() {
+    this.showResetConfirm = true;
+  }
 
+  confirmReset() {
+    this.resetData();
+    this.showResetConfirm = false;
 
-  dialogRef.afterClosed().subscribe(selectedRow => {
-  if (selectedRow) {
-    
-    const newRow = {
-      hsCode: selectedRow.voucherno || '',        
-      productCode: selectedRow.productcode  || '',
-      productName: selectedRow.supplier || '',
-      upc: '12',        
-      unit: '',
-      quantity: selectedRow.quantity || '0',
-      rate: selectedRow.rate || '0.00',
-      gAmt: '0.00', 
-      netAmt: '0.00',
-       mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
-  expDate: addOneYear(selectedRow.mfgdate) || '',
-    };
+    this.dialog.open(DialogBox, {
+      width: '375px',
+      position: { right: '0' },
+      data: this.rows, // your Row[] data
+    });
+  }
 
-    if (this.rows.length === 1 && this.rows[0].hsCode === '') {
-      this.rows[0] = newRow;
-      this.updateNetAmt(this.rows[0]);  // Calculate right after setting
-    } else {
-      this.rows.push(newRow);
-      this.updateNetAmt(this.rows[this.rows.length - 1]);  // Calculate new last row
+  cancelReset() {
+    this.showResetConfirm = false;
+  }
+
+  focusLastProductName() {
+    const lastInput = this.productNameInputs.last;
+    if (lastInput) {
+      lastInput.nativeElement.focus();
     }
-    this.invoiceNo = selectedRow.voucherno || '';
-      this.updateNetAmt(this.rows[this.rows.length - 1]);  
-      this.supplierName = selectedRow.supplier || '';
-      this.address = selectedRow.address || '';
-      this.vatNo = selectedRow.vatNo || '';
-      this.remark = selectedRow.remark || '';
-    this.invoiceDate = formatToDateInput(selectedRow.mfgdate) || '';
-
-      this.mfgDate = formatToDateInput(selectedRow.mfgdate) || '';
-      this.expDate = formatToDateInput(selectedRow.mfgdate) || '';
-      setTimeout(() => this.focusLastProductName(), 0);
   }
-});
+
+
+selectedRowIndex: number | null = null;
+selectRow(index: number) {
+  this.selectedRowIndex = index;
 }
 
+  openEditDialog( ) {
+    const dialogRef = this.dialog.open(DialogView, {
+      width: '700px',
+      data: {},
+    });
 
+    //changing date in dd/mm/yyyy
+    function formatToDateInput(dateStr: string): string {
+      if (!dateStr) return '';
+      const [day, month, year] = dateStr.split('/');
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
 
-//footer 
-get totalQuantity(): number {
-  return this.rows.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
+    // added 1  year in expdate
+    function addOneYear(dateStr: string): string {
+      if (!dateStr) return '';
+      const [day, month, year] = dateStr.split('/');
+      const dateObj = new Date(+year, +month - 1, +day);
+      dateObj.setFullYear(dateObj.getFullYear() + 1);
+      dateObj.setMonth(dateObj.getMonth() + 4);
+
+      const newYear = dateObj.getFullYear();
+      const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const newDay = String(dateObj.getDate()).padStart(2, '0');
+
+      return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd
+    }
+
+    dialogRef.afterClosed().subscribe((selectedRow) => {
+      console.log('Dialog returned:', selectedRow);
+      if (selectedRow) {
+        const newRow = {
+          hsCode: selectedRow.voucherno || '',
+          productCode: selectedRow.productcode || '',
+          productName: selectedRow.supplier || '',
+          upc: '12',
+          unit: '',
+          quantity: selectedRow.quantity || 0,
+          rate: selectedRow.rate || '0',
+          gAmt: '0.00',
+          netAmt: '0.00',
+          mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
+          expDate: addOneYear(selectedRow.mfgdate) || '',
+        };
+
+        if (this.rows.length === 1 && this.rows[0].hsCode === '') {
+          this.rows[0] = newRow;
+          this.updateNetAmt(this.rows[0]);
+        } else {
+          this.rows.push(newRow);
+        }
+        this.updateNetAmt(this.rows[this.rows.length - 1]); // Calculate new last row
+
+        
+        // **Added to update the form inputs:**
+        this.supplierName = selectedRow.supplier || '';
+        this.account = selectedRow.supplier || '';
+        this.address = selectedRow.address || '';
+        this.vatNo = selectedRow.vatNo || '';
+        this.invoiceDate = formatToDateInput(selectedRow.mfgdate) || '';
+        this.mfgDate = formatToDateInput(selectedRow.mfgdate) || '';
+        this.expDate = formatToDateInput(selectedRow.mfgdate) || '';
+
+        setTimeout(() => this.focusLastProductName(), 0);
+      }
+    });
+  }
+
+  openViewDialogbtn() {
+    const dialogRef = this.dialog.open(DialogView, {
+      width: '700px',
+      data: {}, // pass if want,or empty
+    });
+
+    function formatToDateInput(dateStr: string): string {
+      if (!dateStr) return '';
+      const [day, month, year] = dateStr.split('/');
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    // add  1 year for exp
+    function addOneYear(dateStr: string): string {
+      if (!dateStr) return '';
+      const [day, month, year] = dateStr.split('/');
+      const dateObj = new Date(+year, +month - 1, +day);
+      dateObj.setFullYear(dateObj.getFullYear() + 1);
+      dateObj.setMonth(dateObj.getMonth() + 4);
+
+      const newYear = dateObj.getFullYear();
+      const newMonth = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const newDay = String(dateObj.getDate()).padStart(2, '0');
+
+      return `${newYear}-${newMonth}-${newDay}`; // yyyy-mm-dd for <input type="date">
+    }
+
+    dialogRef.afterClosed().subscribe((selectedRow) => {
+      if (selectedRow) {
+        const newRow = {
+          hsCode: selectedRow.voucherno || '',
+          productCode: selectedRow.productcode || '',
+          productName: selectedRow.supplier || '',
+          upc: '12',
+          unit: '',
+          quantity: selectedRow.quantity || 0,
+          rate: selectedRow.rate || '0',
+          gAmt: '0.00',
+          netAmt: '0.00',
+          mfgDate: formatToDateInput(selectedRow.mfgdate) || '',
+          expDate: addOneYear(selectedRow.mfgdate) || '',
+        };
+
+        if (this.rows.length === 1 && this.rows[0].hsCode === '') {
+          this.rows[0] = newRow;
+          this.updateNetAmt(this.rows[0]); // Calculate right after setting
+        } else {
+          this.rows.push(newRow);
+          this.updateNetAmt(this.rows[this.rows.length - 1]); // Calculate new last row
+        }
+        this.invoiceNo = selectedRow.voucherno || '';
+        this.updateNetAmt(this.rows[this.rows.length - 1]);
+        this.supplierName = selectedRow.supplier || '';
+        this.address = selectedRow.address || '';
+        this.vatNo = selectedRow.vatNo || '';
+        this.remark = selectedRow.remark || '';
+        this.invoiceDate = formatToDateInput(selectedRow.mfgdate) || '';
+
+        this.mfgDate = formatToDateInput(selectedRow.mfgdate) || '';
+        this.expDate = formatToDateInput(selectedRow.mfgdate) || '';
+        setTimeout(() => this.focusLastProductName(), 0);
+      }
+    });
+  }
+
+  //footer
+  get totalQuantity(): number {
+    return this.rows.reduce((sum, row) => sum + (row.quantity || 0), 0);
+  }
+  get totalGross(): number {
+    return this.rows.reduce((sum, row) => sum + (parseFloat(row.gAmt) || 0), 0);
+  }
+  //  taxable = totalGross
+  get totalTaxable(): number {
+    return this.totalGross;
+  }
+  // VAT amount
+  get totalVAT(): number {
+    return this.totalTaxable * 0.13;
+  }
+  // Net amount
+  get totalNetAmount(): number {
+    return this.totalTaxable + this.totalVAT;
+  }
 }
-get totalGross(): number {
-  return this.rows.reduce((sum, row) => sum + (parseFloat(row.gAmt) || 0), 0);
-}
-//  taxable = totalGross
-get totalTaxable(): number {
-  return this.totalGross; 
-}
-// VAT amount 
-get totalVAT(): number {
-  return this.totalTaxable * 0.13;
-}
-// Net amount 
-get totalNetAmount(): number {
-  return this.totalTaxable + this.totalVAT;
-}
-
-}
-
-
-
-
-
-
