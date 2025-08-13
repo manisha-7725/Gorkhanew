@@ -22,8 +22,8 @@ interface Row {
   productName: string;
   upc: string;
   unit: string;
-  quantity: number;
-  rate: string;
+  quantity: string;
+  rate:string;
   gAmt: string;
   netAmt: string;
   mfgDate: string;
@@ -55,7 +55,7 @@ export class Transaction implements AfterViewInit {
       productName: '',
       upc: '',
       unit: '',
-      quantity: 0,
+      quantity: '0',
       rate: '0.00',
       gAmt: '0.00',
       netAmt: '0.00',
@@ -83,7 +83,7 @@ export class Transaction implements AfterViewInit {
         productName: '',
         upc: '',
         unit: '',
-        quantity: 0,
+        quantity:'0',
         rate: '0.00',
         gAmt: '0.00',
         netAmt: '0.00',
@@ -188,7 +188,7 @@ export class Transaction implements AfterViewInit {
           productName: selected.description || '',
           upc: '',
           unit: '',
-          quantity: 0,
+          quantity:'0' ,
           rate: '0',
           gAmt: '0.00',
           netAmt: '0.00',
@@ -265,7 +265,7 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
       productName: '',
       upc: '',
       unit: '',
-      quantity: 0,
+      quantity:'0',
       rate: '0',
       gAmt: '0.00',
       netAmt: '0.00',
@@ -307,7 +307,7 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
             productName: selected.description || '',
             upc: '',
             unit: '',
-            quantity: 0,
+            quantity: '0',
             rate: selected.rate || '',
             gAmt: '0.00',
             netAmt: '0.00',
@@ -521,13 +521,14 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
   }
 
   //adding vat and calculation  net amt
-  updateNetAmt(row: Row) {
-    const qty = row.quantity || 0;
-    const rate = parseFloat(row.rate) || 0;
+updateNetAmt(row: Row) {
+  const qtyNum = Number(row.quantity) || 0;
+  const rateNum = Number(row.rate) || 0;
 
-    row.gAmt = (qty * rate).toFixed(2);
-    row.netAmt = (qty * rate * 1.13).toFixed(2);
-  }
+  row.gAmt = (qtyNum * rateNum).toFixed(2);
+  row.netAmt = (qtyNum * rateNum * 1.13).toFixed(2);
+}
+
 
 
   //reset
@@ -590,11 +591,12 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
     }
   }
 
-
 selectedRowIndex: number | null = null;
 selectRow(index: number) {
   this.selectedRowIndex = index;
 }
+
+
 
   openEditDialog( ) {
     const dialogRef = this.dialog.open(DialogView, {
@@ -633,7 +635,7 @@ selectRow(index: number) {
           productName: selectedRow.supplier || '',
           upc: '12',
           unit: '',
-          quantity: selectedRow.quantity || 0,
+          quantity: selectedRow.quantity || '0',
           rate: selectedRow.rate || '0',
           gAmt: '0.00',
           netAmt: '0.00',
@@ -730,7 +732,8 @@ selectRow(index: number) {
 
   //footer
   get totalQuantity(): number {
-    return this.rows.reduce((sum, row) => sum + (row.quantity || 0), 0);
+    return this.rows.reduce((sum, row) =>  sum + (Number(row.quantity) || 0), 0);
+
   }
   get totalGross(): number {
     return this.rows.reduce((sum, row) => sum + (parseFloat(row.gAmt) || 0), 0);
