@@ -278,6 +278,8 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
     }, 0);
   }
 
+
+  //product-dialog 
   openProductDialog(rowIndex: number) {
      this.currentRowIndex = rowIndex; 
     const dialogRef = this.dialog.open(ProductDialog, {
@@ -315,7 +317,12 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
             expDate: '',
           };
         } 
-
+  // Auto-calculate Expiry Date if MFG date is already set
+      if (this.rows[this.currentRowIndex].mfgDate) {
+        this.rows[this.currentRowIndex].expDate = this.calculateExpDate(
+          this.rows[this.currentRowIndex].mfgDate
+        );
+      }
         // Focus Quantity after Product Name
         setTimeout(
           () => this.focusNextInput(this.currentRowIndex,  'productName'),
@@ -324,6 +331,20 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
       }
     });
   }
+
+  calculateExpDate(mfgDateStr: string): string {
+  const dateObj = new Date(mfgDateStr);
+  dateObj.setFullYear(dateObj.getFullYear() + 1);
+   dateObj.setMonth(dateObj.getMonth() + 4);
+  return dateObj.toISOString().split('T')[0]; // returns yyyy-MM-dd
+}
+
+onMfgDateChange(row: Row) {
+  if (row.mfgDate) {
+    row.expDate = this.calculateExpDate(row.mfgDate);
+  }
+}
+
 
   @ViewChildren('productNameInput') productNameInputs!: QueryList<ElementRef>;
   @ViewChildren('quantityInput') quantityInputs!: QueryList<ElementRef>;

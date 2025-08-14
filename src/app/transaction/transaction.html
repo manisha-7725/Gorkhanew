@@ -364,6 +364,7 @@
       <td><input type="date" [(ngModel)]="row.mfgDate" 
         #mfgDateInput 
         (keydown.enter)="focusNextInput(i, 'mfgDate')"
+          (change)="onMfgDateChange(row)"
         /></td>
 
 
