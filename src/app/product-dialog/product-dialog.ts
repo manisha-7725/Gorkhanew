@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -21,6 +21,9 @@ import { Pagination } from '../pagination/pagination';
 })
 export class ProductDialog implements OnInit {
   constructor(public dialogRef: MatDialogRef<ProductDialog>) {}
+  @ViewChildren('productRow') rows!: QueryList<ElementRef>;
+currentRowIndex: number = 0;
+
 
   selectProduct(product: any) {
     this.dialogRef.close({ selectedRow: product });
@@ -45,6 +48,7 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '',
         rate: '2000',
+        upc:'12',
       },
       {
         description: 'Beer 4',
@@ -54,6 +58,7 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '11',
         rate: '2100',
+           upc:'12',
       },
       {
         description: 'Carlsberg 500mlCan',
@@ -63,6 +68,8 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '11',
         rate: '2200',
+         upc:'12',
+
       },
       {
         description: 'Gorkha 330ml Bottle',
@@ -72,6 +79,7 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '11',
         rate: '2300',
+         upc:'12',
       },
       {
         description: 'Beer',
@@ -81,6 +89,7 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '11',
         rate: '2400',
+         upc:'12',
       },
       {
         description: 'Beer',
@@ -90,6 +99,7 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '11',
         rate: '2500',
+         upc:'12',
       },
       {
         description: 'Beer',
@@ -99,6 +109,7 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '11',
         rate: '2600',
+         upc:'12',
       },
       {
         description: 'Beer',
@@ -108,6 +119,7 @@ export class ProductDialog implements OnInit {
         groupname: 'PRODUCT LIST',
         stockeach: '11',
         rate: '2700',
+        upc:'12',
       },
     ];
 

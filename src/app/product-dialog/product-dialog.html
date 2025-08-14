@@ -43,7 +43,11 @@
         </tr>
       </thead>
       <tbody>
-     <tr *ngFor="let item of paginatedProducts"  (dblclick)="selectProduct(item)"  >
+     <tr  *ngFor="let item of paginatedProducts let i=index" 
+       #productRow
+        tabindex="0"
+        
+      (dblclick)="selectProduct(item)"  >
           <td>{{ item.description }}</td>
           <td>{{ item.itemcode }}</td>
           <td>{{ item.stock}}</td>

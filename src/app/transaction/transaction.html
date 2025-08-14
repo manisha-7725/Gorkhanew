@@ -315,16 +315,19 @@
           disabled
         />
       </td>
+      
       <td>
-        <input
-          #Input
-          type="text"
-          [(ngModel)]="row.unit"
-          style="cursor: not-allowed"
-          (input)="updateNetAmt(row)"
-          style="cursor: not-allowed"
-          disabled
-        />
+       
+        <select
+    [(ngModel)]="row.unit"
+    (change)="updateNetAmt(row)"
+    style="cursor: pointer"
+       disabled
+       value='CASE'
+  >
+    <option value="CASE">CASE</option>
+    <option value="EACH">EACH</option>
+  </select>
       </td>
 
       <td>

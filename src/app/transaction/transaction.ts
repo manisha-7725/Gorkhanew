@@ -52,9 +52,9 @@ export class Transaction implements AfterViewInit {
     {
       hsCode: '',
       productCode: '',
-      productName: '',
+      productName: 'Press Enter to Select item',
       upc: '',
-      unit: '',
+      unit: 'CASE',
       quantity: '0',
       rate: '0.00',
       gAmt: '0.00',
@@ -187,7 +187,7 @@ export class Transaction implements AfterViewInit {
           hsCode: selected.itemcode || '',
           productCode: selected.productcode || '',
           productName: selected.description || '',
-          upc: '',
+          upc: '12',
           unit: '',
           quantity:'0' ,
           rate: '0',
@@ -301,6 +301,8 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
         ...this.rows[this.currentRowIndex], // preserve other fields like quantity, dates
         productCode: selected.itemcode || '',
         productName: selected.description || '',
+        upc: this.rows[this.currentRowIndex].upc || '12', 
+        unit: this.rows[this.currentRowIndex].unit || 'CASE', 
         rate: selected.rate || '',
       };
 
@@ -311,8 +313,8 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
             hsCode: '',
             productCode: selected.itemcode || '',
             productName: selected.description || '',
-            upc: '',
-            unit: '',
+            upc:  '12',
+            unit: 'CASE',// default
             quantity: '0',
             rate: selected.rate || '',
             gAmt: '0.00',
@@ -570,6 +572,7 @@ updateNetAmt(row: Row) {
         productName: result.productName || '',
         rate: result.rate || '',
         hsCode: result.hsCode || '',
+        upc: result.upc || '',
         mfgDate: result.mfgDate || '',
         expDate: result.expDate || '',
       };

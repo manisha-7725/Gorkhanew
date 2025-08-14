@@ -38,6 +38,15 @@ input[type="password"] {
   outline: none;
   width: 100%;
 }
+
+select{
+    border-radius: 8px;
+  padding: 6px 10px;  
+  border: 1px solid #ccc; 
+  outline: none;
+  width: 70px;
+}
+
 thead th {
   padding: 8px 12px;
   background-color: rgb(235, 223, 223);
