@@ -292,6 +292,9 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
       if (result?.selectedRow) {
         const selected = result.selectedRow;
 
+
+        
+
 // Fill the currently selected row
       this.rows[this.currentRowIndex] = {
         ...this.rows[this.currentRowIndex], // preserve other fields like quantity, dates
@@ -387,32 +390,7 @@ onMfgDateChange(row: Row) {
     }, 0);
   }
 
-  // @ViewChildren('rowInput') rowInputs!: QueryList<ElementRef>;
-
-  // focusNext(event: KeyboardEvent) {
-  //   event.preventDefault();
-
-  //   const inputs = this.rowInputs.toArray();
-  //   const currentIndex = inputs.findIndex(
-  //     (input) => input.nativeElement === event.target
-  //   );
-
-  //   if (currentIndex !== -1) {
-  //     // find next enabled input
-  //     let nextIndex = currentIndex + 1;
-  //     while (
-  //       nextIndex < inputs.length &&
-  //       inputs[nextIndex].nativeElement.disabled
-  //     ) {
-  //       nextIndex++;
-  //     }
-
-  //     if (nextIndex < inputs.length) {
-  //       inputs[nextIndex].nativeElement.focus();
-  //     }
-  //   }
-  // }
-
+ 
   focusLastHSCode() {
     const lastInput = this.hsCodeInputs.last;
     if (lastInput) {
@@ -456,7 +434,8 @@ onMfgDateChange(row: Row) {
     if (
       this.rows &&
       this.rows.length > 0 &&
-      this.rows.some((row) => row.hsCode.trim() !== '')
+    this.rows.some((row) => row.productCode && row.productName)
+
     ) {
       this.printData();
     } else {
@@ -540,6 +519,7 @@ onMfgDateChange(row: Row) {
   cancelReceived() {
     this.showReceivedModal = false;
   }
+
 
   //adding vat and calculation  net amt
 updateNetAmt(row: Row) {

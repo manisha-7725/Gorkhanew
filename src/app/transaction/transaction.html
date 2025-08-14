@@ -272,16 +272,20 @@
           type="text"
           [(ngModel)]="row.hsCode"
           #hsCodeInput
-           [disabled]="productSelected"
-    [style.cursor]="productSelected ? 'not-allowed' : 'text'"
+           disabled
+            style="cursor: not-allowed"
+   
+    
         />
       </td>
       <td>
         <input
           type="text"
           [(ngModel)]="row.productCode"
-             [disabled]="productSelected"
-    [style.cursor]="productSelected ? 'not-allowed' : 'text'"
+           disabled
+            style="cursor: not-allowed"
+   
+    
         />
       </td>
 
