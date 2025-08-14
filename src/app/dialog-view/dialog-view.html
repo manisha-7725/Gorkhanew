@@ -1,16 +1,4 @@
-<!-- <h2 mat-dialog-title>Transaction Details</h2>
-<mat-dialog-content>
-  <p><strong>Invoice No:</strong> {{ data.invoiceNo }}</p>
-  <p><strong>Amount:</strong> {{ data.amount }}</p>
-  Add more fields as needed//
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button (click)="close()">Close</button>
-</mat-dialog-actions> -->
-
-
-
-  <div class="custom-box ">
+<div class="custom-box ">
     <div class="dialog-header">
       <h5 mat-dialog-title>Supplier</h5>
       <button mat-icon-button mat-dialog-close>
@@ -28,7 +16,7 @@
 </select>
 
 <div class="search">
-<input type="text" placeholder="Enter keyword to search"   [(ngModel)]="searchText">
+<input type="text" placeholder="Enter keyword to search"  [(ngModel)]="searchText"   >
 </div>
 
 <table class="table">
@@ -43,7 +31,9 @@
   </thead>
 
   <tbody>
-<tr *ngFor =" let data of pagedData"  (dblclick)="selectRow(data)" >
+<tr *ngFor=" let data of pagedData; let i = index"  
+ 
+(dblclick)="selectRow(data)" >
   <td>{{data.voucherno}}</td>
   <td>{{data.mfgdate}}</td>
   <td>{{data.invoiceNo}}</td>

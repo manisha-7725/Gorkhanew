@@ -32,7 +32,6 @@ export class DialogView {
     {
       voucherno: 'PI63-KHT-82/83',
       mfgdate: '10/08/2025',
-      // expdate: '10/08/2025',
       invoiceNo: '6',
       supplier: 'Gorkha Brewery',
       amount: 'Rs 70,907.24',
@@ -168,19 +167,7 @@ export class DialogView {
     );
   }
 
-//  get filteredData() {
-//     if (!this.searchText) return this.dataRow;
 
-//     const search = this.searchText.toLowerCase();
-//     return this.dataRow.filter(
-//       item =>
-//         item.voucherno.toLowerCase().includes(search) ||
-//         item.date.toLowerCase().includes(search) ||
-//         item.invoiceNo.toLowerCase().includes(search) ||
-//         item.supplier.toLowerCase().includes(search) ||
-//         item.amount.toString().toLowerCase().includes(search)
-//     );
-//   }
 
   get totalPages() {
   return Math.ceil(this.Data().length / this.pageSize) || 1;
@@ -210,13 +197,4 @@ onRowDoubleClick(dataRow: any) {
 
 
 
-//  this.dialogRef.close(this.selectedRow);
-
-
-
-  
-
-
-
-  
 }

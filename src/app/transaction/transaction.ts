@@ -103,7 +103,7 @@ export class Transaction implements AfterViewInit {
     if (this.form1) this.form1.resetForm();
     if (this.form2) this.form2.resetForm();
     if (this.form3) this.form3.resetForm();
-    // If you have any other variables that hold user input, reset them here similarly.
+    //  hold user input
   }
 
   indexToDelete: number | null = null;
@@ -122,6 +122,7 @@ export class Transaction implements AfterViewInit {
   openViewDialog(row: any) {
     this.dialog.open(DialogView, {
       width: '800px',
+      position: { right: '0' },
       data: row,
     });
   }
@@ -602,6 +603,7 @@ selectRow(index: number) {
   openEditDialog( ) {
     const dialogRef = this.dialog.open(DialogView, {
       width: '700px',
+       position: { right: '0' },
       data: {},
     });
 
@@ -670,6 +672,7 @@ selectRow(index: number) {
   openViewDialogbtn() {
     const dialogRef = this.dialog.open(DialogView, {
       width: '700px',
+            position: { right: '0' },
       data: {}, // pass if want,or empty
     });
 

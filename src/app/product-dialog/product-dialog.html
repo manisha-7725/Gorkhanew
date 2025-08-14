@@ -8,7 +8,7 @@
 
     <div class="username">
       <select
-    
+    class="search" style="width: 50%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px;  "
         name="name"
         required
         class="input-bordered"
@@ -25,11 +25,12 @@
       <input
         class="input-bordered"
         type="text"
+        (input)="searchProduct($event)"
         placeholder="Enter Keyword to search" 
-        
+        class="search" style="width: 50%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px;"
       />
     </div>
-
+<br>
     <table class="table">
       <thead class="table-primary">
         <tr>

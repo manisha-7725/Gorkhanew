@@ -26,15 +26,16 @@ export class ProductDialog implements OnInit {
     this.dialogRef.close({ selectedRow: product });
   }
 
-  // --- Pagination variables
+  // Pagination variables
   products: any[] = []; 
+ filterProducts: any[] = []; 
   paginatedProducts: any[] = []; 
   currentPage: number = 1;
   pageSize: number = 3;
   totalPages: number = 1;
 
   ngOnInit() {
-    // Load products (replace with real service if needed)
+    // Load products 
     this.products = [
       {
         description: 'Beer',
@@ -110,20 +111,39 @@ export class ProductDialog implements OnInit {
       },
     ];
 
-    this.totalPages = Math.ceil(this.products.length / this.pageSize);
-    this.updatePaginatedProducts();
-  }
 
-  updatePaginatedProducts() {
-    const start = (this.currentPage - 1) * this.pageSize;
-    const end = start + this.pageSize;
-    this.paginatedProducts = this.products.slice(start, end);
+
+  this.filterProducts = [...this.products]; // initially all products
+  this.totalPages = Math.ceil(this.filterProducts.length / this.pageSize);
+  this.updatePaginatedProducts();
   }
+searchProduct($event: Event) {
+  const input = $event.target as HTMLInputElement;
+  const searchText = input.value.toLowerCase();
+
+  // Filter from the full list
+  this.filterProducts = this.products.filter((product) =>
+    product.description.toLowerCase().includes(searchText)
+  );
+
+  // Update pagination based on filtered results
+  this.totalPages = Math.ceil(this.filterProducts.length / this.pageSize);
+  this.currentPage = 1; // reset to first page
+  this.updatePaginatedProducts();
+}
+
+updatePaginatedProducts() {
+  const start = (this.currentPage - 1) * this.pageSize;
+  const end = start + this.pageSize;
+  this.paginatedProducts = this.filterProducts.slice(start, end);
+}
+
+
 
   onPageChange(page: number) {
-    this.currentPage = page;
-    this.updatePaginatedProducts();
-  }
+  this.currentPage = page;
+  this.updatePaginatedProducts();
+}
 
   
 }

@@ -58,3 +58,6 @@ border-radius: 40%;
   border-color: #66afe9;
   box-shadow: 0 0 5px rgba(102, 175, 233, 0.6);
 }
+.username{
+  width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px;
+}
