@@ -1,4 +1,4 @@
-import { Component, OnInit ,ViewChildren, QueryList, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit ,ViewChildren, QueryList, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -23,19 +23,16 @@ export class ProductDialog implements OnInit {
   constructor(public dialogRef: MatDialogRef<ProductDialog>) {}
   @ViewChildren('productRow') rows!: QueryList<ElementRef>;
 currentRowIndex: number = 0;
+@ViewChild('searchInput') searchInput!: ElementRef;
 
 
-  selectProduct(product: any) {
-    this.dialogRef.close({ selectedRow: product });
-  }
-
-  // Pagination variables
   products: any[] = []; 
  filterProducts: any[] = []; 
   paginatedProducts: any[] = []; 
   currentPage: number = 1;
   pageSize: number = 3;
   totalPages: number = 1;
+  
 
   ngOnInit() {
     // Load products 
@@ -133,7 +130,7 @@ searchProduct($event: Event) {
   const input = $event.target as HTMLInputElement;
   const searchText = input.value.toLowerCase();
 
-  // Filter from the full list
+  // Filter 
   this.filterProducts = this.products.filter((product) =>
     product.description.toLowerCase().includes(searchText)||
     product.itemcode.toLowerCase().includes(searchText)||
@@ -143,24 +140,97 @@ searchProduct($event: Event) {
     product.groupname.toLowerCase().includes(searchText)
   );
 
-  // Update pagination based on filtered results
+  // Update pagination 
+   this.currentPage = 1; 
   this.totalPages = Math.ceil(this.filterProducts.length / this.pageSize);
-  this.currentPage = 1; // reset to first page
-  this.updatePaginatedProducts();
+  this.updatePaginatedProducts(true);
+
+  
+  setTimeout(() => this.searchInput.nativeElement.focus(), 0);
 }
 
-updatePaginatedProducts() {
+updatePaginatedProducts(resetFocus: boolean = false) {
   const start = (this.currentPage - 1) * this.pageSize;
   const end = start + this.pageSize;
   this.paginatedProducts = this.filterProducts.slice(start, end);
+
+  if (resetFocus && this.rows) {
+    setTimeout(() => {
+      this.currentRowIndex = 0; // always start at first row
+      const rowArray = this.rows.toArray();
+      if (rowArray[0]) {
+        rowArray[0].nativeElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      
+      }
+    });
+  }
+}
+
+onPageChange(newPage: number) {
+  this.currentPage = newPage;
+  this.updatePaginatedProducts(true); // scroll to first row
+}
+
+selectProduct(product: any, index: number) {
+  this.currentRowIndex = index;   
+  this.dialogRef.close({ selectedRow: product });
+}
+
+
+ngAfterViewInit() {
+  this.rows.changes.subscribe(() => {
+    if (this.rows && this.rows.length > 0) {
+      this.currentRowIndex = 0;
+      this.scrollToRow(this.currentRowIndex);
+    }
+  });
+
+  // focus the first row 
+  setTimeout(() => {
+    if (this.rows && this.rows.length > 0) {
+      this.currentRowIndex = 0;
+      this.scrollToRow(this.currentRowIndex);
+    }
+  });
 }
 
 
 
-  onPageChange(page: number) {
-  this.currentPage = page;
-  this.updatePaginatedProducts();
+onKeyDown(event: KeyboardEvent) {
+  if (!this.paginatedProducts || this.paginatedProducts.length === 0) return;
+
+  if (event.key === 'ArrowDown') {
+
+    if (this.currentRowIndex < this.paginatedProducts.length - 1) {
+      this.currentRowIndex++;
+      this.scrollToRow(this.currentRowIndex);
+    }
+    event.preventDefault();
+  } else if (event.key === 'ArrowUp') {
+   
+    if (this.currentRowIndex > 0) {
+      this.currentRowIndex--;
+      this.scrollToRow(this.currentRowIndex);
+    }
+    event.preventDefault();
+  } else if (event.key === 'Enter') {
+   
+    const selectedProduct = this.paginatedProducts[this.currentRowIndex];
+    if (selectedProduct) {
+      this.selectProduct(selectedProduct, this.currentRowIndex);
+    }
+  }
 }
 
-  
+scrollToRow(index: number) {
+  const rowArray = this.rows.toArray();
+  if (rowArray[index]) {
+    rowArray[index].nativeElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+     rowArray[index].nativeElement.focus(); 
+  }
+}
+
+
+
+
 }

@@ -170,7 +170,7 @@ export class Transaction implements AfterViewInit {
         this.account = result.name || '';
         this.address = result.address || '';
         this.vatNo = result.vatNo || '';
-        this.invoiceDate = result.invoiceDate || this.invoiceDate; // keep today's if none returned
+        this.invoiceDate = result.invoiceDate || this.invoiceDate; 
         setTimeout(() => this.focusLastProductName(), 0);
         this.remark = '';
       }
@@ -286,6 +286,7 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
     const dialogRef = this.dialog.open(ProductDialog, {
       width: '600px',
       position: { right: '0' },
+          autoFocus: false, 
        
     });
 
@@ -358,40 +359,38 @@ onMfgDateChange(row: Row) {
   @ViewChildren('mfgDateInput') mfgDateInputs!: QueryList<ElementRef>;
   @ViewChildren('expDateInput') expDateInputs!: QueryList<ElementRef>;
 
- focusNextInput(
-    rowIndex: number,
-    field: 'productName' | 'quantity' | 'rate' | 'mfgDate'
-  ) {
-    setTimeout(() => {
-      switch (field) {
-        case 'productName':
-          this.quantityInputs.toArray()[rowIndex]?.nativeElement.focus();
-          break;
-        case 'quantity':
-          this.rateInputs.toArray()[rowIndex]?.nativeElement.focus();
-          break;
-        case 'rate':
-          this.mfgDateInputs.toArray()[rowIndex]?.nativeElement.focus();
-          break;
-        case 'mfgDate':
-          if (rowIndex === this.rows.length - 1) {
-            // Add new row first
-            this.addRow();
+focusNextInput(
+  rowIndex: number,
+  field: 'productName' | 'quantity' | 'mfgDate'
+) {
+  setTimeout(() => {
+    switch (field) {
+      case 'productName':
+        this.quantityInputs.toArray()[rowIndex]?.nativeElement.focus();
+        break;
+      case 'quantity':
+        this.mfgDateInputs.toArray()[rowIndex]?.nativeElement.focus();
+        break;
+      case 'mfgDate':
+        if (rowIndex === this.rows.length - 1) {
+          // Add new row first
+          this.addRow();
 
-            // Focus the **last productName input**, not using rowIndex
-            setTimeout(() => {
-              const lastInput = this.productNameInputs.toArray().pop();
-              lastInput?.nativeElement.focus();
-            }, 0);
-          } else {
-            this.productNameInputs
-              .toArray()
-              [rowIndex + 1]?.nativeElement.focus();
-          }
-          break;
-      }
-    }, 0);
-  }
+          // Focus the **last productName input**, not using rowIndex
+          setTimeout(() => {
+            const lastInput = this.productNameInputs.toArray().pop();
+            lastInput?.nativeElement.focus();
+          }, 0);
+        } else {
+          this.productNameInputs
+            .toArray()
+            [rowIndex + 1]?.nativeElement.focus();
+        }
+        break;
+    }
+  }, 0);
+}
+
 
  
   focusLastHSCode() {

@@ -1,53 +1,83 @@
-  <div class="custom-box ">
-    <div class="dialog-header">
-      <h5 mat-dialog-title>PRODUCTS</h5>
-      <button mat-icon-button mat-dialog-close>
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
+<div class="custom-box">
+  <div class="dialog-header">
+    <h5 mat-dialog-title>PRODUCTS</h5>
+    <button mat-icon-button mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
-    <div class="username">
-      <select
-    class="search" style="width: 50%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px;  "
-        name="name"
-        required
-        class="input-bordered"
-      >
-        <option value="" disabled selected>NAME</option>
-        <option value="">Select Filter Option</option>
-        <option value="Gorkha Brewery">DESCRIPTION</option>
-        <option value="Raj Brewery">ITEM CODE</option>
-        <option value="Other Supplier">GROUP NAME</option>
-        <option value="Other Supplier">P- QTY</option>
-        <option value="Other Supplier">ISSUE QTY</option>
-        <option value="Other Supplier">NETRATE</option>
-      </select>
-      <input
-        class="input-bordered"
-        type="text"
-        (input)="searchProduct($event)"
-        placeholder="Enter Keyword to search" 
-        class="search" style="width: 50%; padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px;"
-      />
-    </div>
-<br>
-    <table class="table">
+  <div class="username">
+    <select
+      class="search"
+      style="
+        width: 50%;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 14px;
+      "
+      name="name"
+      required
+      class="input-bordered"
+    >
+      <option value="" disabled selected>NAME</option>
+      <option value="">Select Filter Option</option>
+      <option value="Gorkha Brewery">DESCRIPTION</option>
+      <option value="Raj Brewery">ITEM CODE</option>
+      <option value="Other Supplier">GROUP NAME</option>
+      <option value="Other Supplier">P- QTY</option>
+      <option value="Other Supplier">ISSUE QTY</option>
+      <option value="Other Supplier">NETRATE</option>
+    </select>
+    <input
+      #searchInput
+      class="input-bordered"
+      type="text"
+      (input)="searchProduct($event)"
+      placeholder="Enter Keyword to search"
+      class="search"
+      style="
+        width: 50%;
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        font-size: 14px;
+      "
+    />
+  </div>
+  <br />
+
+  <div
+
+
+    class="table-wrapper"
+    tabindex="0"
+    (keydown)="onKeyDown($event)"
+    #tableWrapper
+  >
+    <table class="dialog-table table">
       <thead class="table-primary">
         <tr>
           <th>DESCRIPTION</th>
           <th>ITEM CODE</th>
           <th>STOCK</th>
           <th>STOCK (In Case)</th>
-          <th>GROUP NAME </th>
+          <th>GROUP NAME</th>
           <th>STOCK(Each)</th>
         </tr>
       </thead>
       <tbody>
-     <tr  *ngFor="let item of paginatedProducts let i=index" 
-       #productRow
-        tabindex="0"
-        
-      (dblclick)="selectProduct(item)"  >
+        <tr
+          *ngFor="let item of paginatedProducts let i=index"
+          #productRow
+            #searchInput
+          tabindex="0"
+          class="dialog-table"
+          [class.selected]="i === currentRowIndex"
+          (click)="selectProduct(item,i)"
+        >
           <td>{{ item.description }}</td>
           <td>{{ item.itemcode }}</td>
           <td>{{ item.stock}}</td>
@@ -55,15 +85,16 @@
           <td>{{ item.groupname }}</td>
           <td>{{ item.stockeach }}</td>
         </tr>
-
       </tbody>
     </table>
+  </div>
+  <!-- (dblclick)="selectProduct(item)"  -->
 
-
-<!-- Pagination Component -->
-<app-pagination
-  [totalPages]="totalPages"
-  [currentPage]="currentPage"
-  (pageChange)="onPageChange($event)">
-</app-pagination>
-
+  <!-- Pagination Component -->
+  <app-pagination
+    [totalPages]="totalPages"
+    [currentPage]="currentPage"
+    (pageChange)="onPageChange($event)"
+  >
+  </app-pagination>
+</div>
