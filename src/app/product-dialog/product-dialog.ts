@@ -135,7 +135,12 @@ searchProduct($event: Event) {
 
   // Filter from the full list
   this.filterProducts = this.products.filter((product) =>
-    product.description.toLowerCase().includes(searchText)
+    product.description.toLowerCase().includes(searchText)||
+    product.itemcode.toLowerCase().includes(searchText)||
+    product.stock.toLowerCase().includes(searchText)||
+    product.stockCase.toLowerCase().includes(searchText)||
+    product.stockeach.toLowerCase().includes(searchText)||
+    product.groupname.toLowerCase().includes(searchText)
   );
 
   // Update pagination based on filtered results
