@@ -6,9 +6,13 @@
       routerLink="/pages/dashboard"
       class="btn btn-info"
       style="font-size: 12px"
+      (click)="onclick()"
     >
-      Hide Details[F1]
+{{ HideDetails['F1'] ? "Show Details [F1]" : "Hide Details [F1]" }}
+
+     
     </button>
+    
 
     <label
       style="
@@ -86,7 +90,7 @@
   </div>
 </div>
 
-<div class="form-container">
+<div *ngIf="visible" class="form-container">
   <form class="form-box" #form1="ngForm">
     <table>
       <tr>
@@ -246,7 +250,7 @@
 </div>
 <br />
 
-<table class="table">
+<table  class="table" >
   <thead>
     <tr>
       <th>S.No</th>
@@ -371,8 +375,10 @@ disabled
       </td>
       <td><input type="date" [(ngModel)]="row.mfgDate" 
         #mfgDateInput 
+         [max]="today"
         (keydown.enter)="focusNextInput(i, 'mfgDate')"
           (change)="onMfgDateChange(row)"
+
         /></td>
 
 

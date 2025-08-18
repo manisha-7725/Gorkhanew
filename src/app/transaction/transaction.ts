@@ -48,6 +48,16 @@ export class Transaction implements AfterViewInit {
   account: string = '';
   productSelected: boolean = false;
 
+  HideDetails: { [key: string]: boolean } = { F1: false }; // false = initially hidden
+visible = true; // if you also use visible for *ngIf
+
+onclick() {
+  // Toggle the same property to show/hide
+  this.HideDetails['F1'] = !this.HideDetails['F1'];
+  this.visible = !this.visible;
+}
+
+
   rows: Row[] = [
     {
       hsCode: '',
@@ -114,6 +124,13 @@ export class Transaction implements AfterViewInit {
     private transactionService: TransactionData
   ) {}
   rowss: any[] = [];
+
+// component.ts
+today: string = '';
+
+
+
+
 
   setSelectedRow(row: any) {
     this.selectedRow = row;
@@ -202,6 +219,13 @@ export class Transaction implements AfterViewInit {
         }, 0);
       }
     });
+
+//current date 
+  const now = new Date();
+  const yyyy = now.getFullYear();
+  const mm = String(now.getMonth() + 1).padStart(2, '0');
+  const dd = String(now.getDate()).padStart(2, '0');
+  this.today = `${yyyy}-${mm}-${dd}`;
   }
 
   dialogRows: Row[] = [];
@@ -528,6 +552,7 @@ updateNetAmt(row: Row) {
   const qtyNum = Number(row.quantity) || 0;
   const rateNum = Number(row.rate) || 0;
 
+  
   row.gAmt = (qtyNum * rateNum).toFixed(2);
   row.netAmt = (qtyNum * rateNum * 1.13).toFixed(2);
 }
@@ -750,7 +775,7 @@ selectRow(index: number) {
   }
   // VAT amount
   get totalVAT(): number {
-    return this.totalTaxable * 0.13;
+     return Number((this.totalTaxable * 0.13).toFixed(2));
   }
   // Net amount
   get totalNetAmount(): number {

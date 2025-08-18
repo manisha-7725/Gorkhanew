@@ -44,7 +44,7 @@ currentRowIndex: number = 0;
         stockCase: '',
         groupname: 'PRODUCT LIST',
         stockeach: '',
-        rate: '2000',
+        rate: '200',
         upc:'12',
       },
       {
@@ -54,7 +54,7 @@ currentRowIndex: number = 0;
         stockCase: '625',
         groupname: 'PRODUCT LIST',
         stockeach: '11',
-        rate: '2100',
+        rate: '210',
            upc:'12',
       },
       {
