@@ -1,3 +1,5 @@
+declare var $: any; // jQuery
+declare var NepaliFunctions: any;  // comes with nepali.datepicker.js
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -16,6 +18,9 @@ import { ViewChild } from '@angular/core';
 import { DialogView } from '../dialog-view/dialog-view';
 import { ProductDialog } from '../product-dialog/product-dialog';
 
+import { OnInit } from '@angular/core';
+
+
 interface Row {
   hsCode: string;
   productCode: string;
@@ -33,11 +38,11 @@ interface Row {
 
 @Component({
   selector: 'app-transaction',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,],
   templateUrl: './transaction.html',
   styleUrls: ['./transaction.css'],
 })
-export class Transaction implements AfterViewInit {
+export class Transaction implements   OnInit, AfterViewInit {
   @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
   @ViewChild('form1') form1!: NgForm;
   @ViewChild('form2') form2!: NgForm;
@@ -47,6 +52,7 @@ export class Transaction implements AfterViewInit {
   showConfirm = false;
   account: string = '';
   productSelected: boolean = false;
+   
 
   HideDetails: { [key: string]: boolean } = { F1: false }; // false = initially hidden
 visible = true; // if you also use visible for *ngIf
@@ -56,6 +62,16 @@ onclick() {
   this.HideDetails['F1'] = !this.HideDetails['F1'];
   this.visible = !this.visible;
 }
+
+
+
+
+
+
+
+
+
+
 
 
   rows: Row[] = [
@@ -128,6 +144,9 @@ onclick() {
 // component.ts
 today: string = '';
 
+nepaliInput: any; // jQuery object for Nepali datepicker
+ 
+
 
 
 
@@ -164,9 +183,43 @@ today: string = '';
     });
   }
 
-  ngAfterViewInit() {
+ngAfterViewInit() {
+    $('#dob').nepaliDatePicker({
+      ndpYear: true,
+      ndpMonth: true,
+      ndpYearCount: 10,
+      onChange: (nepaliDate: string) => {
+        // Convert Nepali date (BS) -> English date (AD)
+        const engDate = NepaliFunctions.BS2AD(nepaliDate);
+        this.invoiceDate = this.formatDate(engDate);
+      }
+    });
+
     this.focusLastHSCode();
   }
+// When English date is changed manually
+  onEnglishDateChange() {
+    if (this.invoiceDate) {
+      const engDate = new Date(this.invoiceDate);
+      // Convert AD → BS
+      const nepaliDate = NepaliFunctions.AD2BS({
+        year: engDate.getFullYear(),
+        month: engDate.getMonth() + 1,
+        day: engDate.getDate()
+      });
+      // Update Nepali input
+      ($('#dob') as any).val(`${nepaliDate.year}-${nepaliDate.month}-${nepaliDate.day}`);
+    }
+  }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`; // format yyyy-MM-dd for input[type=date]
+  }
+ 
+
 
   goBack() {
     this.router.navigate(['/master']);
@@ -192,8 +245,9 @@ today: string = '';
         this.remark = '';
       }
       const today = new Date();
-      this.invoiceDate = today.toISOString().substring(0, 10);
-      this.mfgDate = today.toISOString().substring(0, 10);
+     this.invoiceDate = this.formatDate(today);
+     this.mfgDate = today.toISOString().substring(0, 10);
+
     });
 
     dialogRef.afterClosed().subscribe((result) => {

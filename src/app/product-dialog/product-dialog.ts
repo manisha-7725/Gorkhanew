@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Pagination } from '../pagination/pagination';
 
+
 @Component({
   selector: 'app-product-dialog',
   imports: [
@@ -15,6 +16,7 @@ import { Pagination } from '../pagination/pagination';
     MatButtonModule,
     MatIconModule,
     Pagination,
+  
   ],
   templateUrl: './product-dialog.html',
   styleUrls: ['./product-dialog.css'],
