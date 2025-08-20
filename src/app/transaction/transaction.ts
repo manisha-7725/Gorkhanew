@@ -1,5 +1,5 @@
 declare var $: any; // jQuery
-declare var NepaliFunctions: any;  // comes with nepali.datepicker.js
+declare var NepaliFunctions: any; // comes with nepali.datepicker.js
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -20,7 +20,6 @@ import { ProductDialog } from '../product-dialog/product-dialog';
 
 import { OnInit } from '@angular/core';
 
-
 interface Row {
   hsCode: string;
   productCode: string;
@@ -28,7 +27,7 @@ interface Row {
   upc: string;
   unit: string;
   quantity: string;
-  rate:string;
+  rate: string;
   gAmt: string;
   netAmt: string;
   mfgDate: string;
@@ -38,11 +37,11 @@ interface Row {
 
 @Component({
   selector: 'app-transaction',
-  imports: [CommonModule, FormsModule,],
+  imports: [CommonModule, FormsModule],
   templateUrl: './transaction.html',
   styleUrls: ['./transaction.css'],
 })
-export class Transaction implements   OnInit, AfterViewInit {
+export class Transaction implements OnInit, AfterViewInit {
   @ViewChildren('hsCodeInput') hsCodeInputs!: QueryList<ElementRef>;
   @ViewChild('form1') form1!: NgForm;
   @ViewChild('form2') form2!: NgForm;
@@ -52,27 +51,15 @@ export class Transaction implements   OnInit, AfterViewInit {
   showConfirm = false;
   account: string = '';
   productSelected: boolean = false;
-   
 
   HideDetails: { [key: string]: boolean } = { F1: false }; // false = initially hidden
-visible = true; // if you also use visible for *ngIf
+  visible = true; // if you also use visible for *ngIf
 
-onclick() {
-  // Toggle the same property to show/hide
-  this.HideDetails['F1'] = !this.HideDetails['F1'];
-  this.visible = !this.visible;
-}
-
-
-
-
-
-
-
-
-
-
-
+  onclick() {
+    // Toggle the same property to show/hide
+    this.HideDetails['F1'] = !this.HideDetails['F1'];
+    this.visible = !this.visible;
+  }
 
   rows: Row[] = [
     {
@@ -109,7 +96,7 @@ onclick() {
         productName: '',
         upc: '',
         unit: '',
-        quantity:'0',
+        quantity: '0',
         rate: '0.00',
         gAmt: '0.00',
         netAmt: '0.00',
@@ -140,16 +127,21 @@ onclick() {
     private transactionService: TransactionData
   ) {}
   rowss: any[] = [];
-
-// component.ts
-today: string = '';
-
-nepaliInput: any; // jQuery object for Nepali datepicker
- 
-
-
-
-
+  today: string = '';
+  nepaliInput: any; // jQuery object for Nepali datepicker
+  showDialog: boolean = false;
+  mfgNepaliDate: string = '';
+  dialogRows: Row[] = [];
+  selectedRow: Row | null = null;
+  dialogRef: any;
+  selectedName: string = '';
+  searchtext: string = '';
+  currentRowIndex: number = 0;
+  isDisabled = true;
+  showReceivedModal = false;
+  showNoDataDialog = false;
+  msg = ' ⚠️ Information !!!';
+  alertMessage = 'Supplier can not be null';
 
   setSelectedRow(row: any) {
     this.selectedRow = row;
@@ -173,7 +165,6 @@ nepaliInput: any; // jQuery object for Nepali datepicker
       },
     });
   }
-  showDialog: boolean = false;
 
   showRowInDialog(row: any) {
     this.selectedRow = { ...row }; // create a copy to edit
@@ -183,34 +174,38 @@ nepaliInput: any; // jQuery object for Nepali datepicker
     });
   }
 
-ngAfterViewInit() {
+
+  
+  ngAfterViewInit() {
     $('#dob').nepaliDatePicker({
       ndpYear: true,
       ndpMonth: true,
       ndpYearCount: 10,
       onChange: (nepaliDate: string) => {
-       
         const engDate = NepaliFunctions.BS2AD(nepaliDate);
         this.invoiceDate = this.formatDate(engDate);
-      }
+      },
     });
 
     this.focusLastHSCode();
   }
-// When English date is changed manually
+  // When English date is changed manually
   onEnglishDateChange() {
     if (this.invoiceDate) {
       const engDate = new Date(this.invoiceDate);
-     
+
       const nepaliDate = NepaliFunctions.AD2BS({
         year: engDate.getFullYear(),
         month: engDate.getMonth() + 1,
-        day: engDate.getDate()
+        day: engDate.getDate(),
       });
 
-    const nepaliDateStr = `${nepaliDate.month.toString().padStart(2,'0')}/${nepaliDate.day.toString().padStart(2,'0')}/${nepaliDate.year}`;
-($('#dob') as any).val(nepaliDateStr);
-
+      const nepaliDateStr = `${nepaliDate.month
+        .toString()
+        .padStart(2, '0')}/${nepaliDate.day.toString().padStart(2, '0')}/${
+        nepaliDate.year
+      }`;
+      ($('#dob') as any).val(nepaliDateStr);
     }
   }
 
@@ -220,14 +215,6 @@ ngAfterViewInit() {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`; // format yyyy-MM-dd for input[type=date]
   }
- 
-
-
-  goBack() {
-    this.router.navigate(['/master']);
-  }
-
-  
 
   ngOnInit(): void {
     const dialogRef = this.dialog.open(DialogBox, {
@@ -237,7 +224,6 @@ ngAfterViewInit() {
       data: this.rows,
     });
 
-
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         // result is the selected supplier object from dialog
@@ -245,20 +231,24 @@ ngAfterViewInit() {
         this.account = result.name || '';
         this.address = result.address || '';
         this.vatNo = result.vatNo || '';
-        this.invoiceDate = result.invoiceDate || this.invoiceDate; 
+        this.invoiceDate = result.invoiceDate || this.invoiceDate;
         setTimeout(() => this.focusLastProductName(), 0);
         this.remark = '';
       }
       const today = new Date();
-     this.invoiceDate = this.formatDate(today);
-     this.mfgDate = today.toISOString().substring(0, 10);
-     
-         const nepaliObj = NepaliFunctions.AD2BS({
-      year: today.getFullYear(),
-      month: today.getMonth() + 1,
-      day: today.getDate()
-    });
- this.mfgNepaliDate = `${nepaliObj.month.toString().padStart(2,'0')}/${nepaliObj.day.toString().padStart(2,'0')}/${nepaliObj.year}`;
+      this.invoiceDate = this.formatDate(today);
+      this.mfgDate = today.toISOString().substring(0, 10);
+
+      const nepaliObj = NepaliFunctions.AD2BS({
+        year: today.getFullYear(),
+        month: today.getMonth() + 1,
+        day: today.getDate(),
+      });
+      this.mfgNepaliDate = `${nepaliObj.month
+        .toString()
+        .padStart(2, '0')}/${nepaliObj.day.toString().padStart(2, '0')}/${
+        nepaliObj.year
+      }`;
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -271,7 +261,7 @@ ngAfterViewInit() {
           productName: selected.description || '',
           upc: '12',
           unit: '',
-          quantity:'0' ,
+          quantity: '0',
           rate: '0',
           gAmt: '0.00',
           netAmt: '0.00',
@@ -285,17 +275,17 @@ ngAfterViewInit() {
       }
     });
 
-//current date 
-  const now = new Date();
-  const yyyy = now.getFullYear();
-  const mm = String(now.getMonth() + 1).padStart(2, '0');
-  const dd = String(now.getDate()).padStart(2, '0');
-  this.today = `${yyyy}-${mm}-${dd}`;
+    //current date
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, '0');
+    const dd = String(now.getDate()).padStart(2, '0');
+    this.today = `${yyyy}-${mm}-${dd}`;
   }
-mfgNepaliDate: string = '';
 
-  dialogRows: Row[] = [];
-  selectedRow: Row | null = null;
+  goBack() {
+    this.router.navigate(['/master']);
+  }
 
   openDialog(): void {
     const dialogRef = this.dialog.open(DialogBox, {
@@ -323,10 +313,6 @@ mfgNepaliDate: string = '';
     });
   }
 
-  dialogRef: any;
-  selectedName: string = '';
-  searchtext: string = '';
-
   onRowDoubleClick(row: Row) {
     this.dialogRef.close({ selectedRow: row });
   }
@@ -344,10 +330,6 @@ mfgNepaliDate: string = '';
     );
   }
 
-
-currentRowIndex: number = 0; // tracks the row where dialog is opened
-
-
   addRow() {
     this.rows.forEach((r) => (r.editable = false));
     this.rows.push({
@@ -356,7 +338,7 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
       productName: '',
       upc: '',
       unit: '',
-      quantity:'0',
+      quantity: '0',
       rate: '0',
       gAmt: '0.00',
       netAmt: '0.00',
@@ -369,34 +351,28 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
     }, 0);
   }
 
-
-  //product-dialog 
+  //product-dialog
   openProductDialog(rowIndex: number) {
-     this.currentRowIndex = rowIndex; 
+    this.currentRowIndex = rowIndex;
     const dialogRef = this.dialog.open(ProductDialog, {
       width: '600px',
       position: { right: '0' },
-          autoFocus: false, 
-       
+      autoFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result?.selectedRow) {
         const selected = result.selectedRow;
 
-
-        
-
-// Fill the currently selected row
-      this.rows[this.currentRowIndex] = {
-        ...this.rows[this.currentRowIndex], // preserve other fields like quantity, dates
-        productCode: selected.itemcode || '',
-        productName: selected.description || '',
-        upc: this.rows[this.currentRowIndex].upc || '12', 
-        unit: this.rows[this.currentRowIndex].unit || 'CASE', 
-        rate: selected.rate || '',
-      };
-
+        // Fill the currently selected row
+        this.rows[this.currentRowIndex] = {
+          ...this.rows[this.currentRowIndex], // preserve other fields like quantity, dates
+          productCode: selected.itemcode || '',
+          productName: selected.description || '',
+          upc: this.rows[this.currentRowIndex].upc || '12',
+          unit: this.rows[this.currentRowIndex].unit || 'CASE',
+          rate: selected.rate || '',
+        };
 
         // Replace or push row
         if (this.rows.length === 1 && !this.rows[0].productCode) {
@@ -404,8 +380,8 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
             hsCode: '',
             productCode: selected.itemcode || '',
             productName: selected.description || '',
-            upc:  '12',
-            unit: 'CASE',// default
+            upc: '12',
+            unit: 'CASE', // default
             quantity: '0',
             rate: selected.rate || '',
             gAmt: '0.00',
@@ -413,16 +389,16 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
             mfgDate: '',
             expDate: '',
           };
-        } 
-  // Auto-calculate Expiry Date if MFG date is already set
-      if (this.rows[this.currentRowIndex].mfgDate) {
-        this.rows[this.currentRowIndex].expDate = this.calculateExpDate(
-          this.rows[this.currentRowIndex].mfgDate
-        );
-      }
+        }
+        // Auto-calculate Expiry Date if MFG date is already set
+        if (this.rows[this.currentRowIndex].mfgDate) {
+          this.rows[this.currentRowIndex].expDate = this.calculateExpDate(
+            this.rows[this.currentRowIndex].mfgDate
+          );
+        }
         // Focus Quantity after Product Name
         setTimeout(
-          () => this.focusNextInput(this.currentRowIndex,  'productName'),
+          () => this.focusNextInput(this.currentRowIndex, 'productName'),
           0
         );
       }
@@ -430,22 +406,17 @@ currentRowIndex: number = 0; // tracks the row where dialog is opened
   }
 
   calculateExpDate(mfgDateStr: string): string {
-  const dateObj = new Date(mfgDateStr);
-  dateObj.setFullYear(dateObj.getFullYear() + 1);
-   dateObj.setMonth(dateObj.getMonth() + 4);
-  return dateObj.toISOString().split('T')[0]; // returns yyyy-MM-dd
-}
-
-onMfgDateChange(row: Row) {
-  if (row.mfgDate) {
-    row.expDate = this.calculateExpDate(row.mfgDate);
+    const dateObj = new Date(mfgDateStr);
+    dateObj.setFullYear(dateObj.getFullYear() + 1);
+    dateObj.setMonth(dateObj.getMonth() + 4);
+    return dateObj.toISOString().split('T')[0]; // returns yyyy-MM-dd
   }
-}
 
-
-
-
-
+  onMfgDateChange(row: Row) {
+    if (row.mfgDate) {
+      row.expDate = this.calculateExpDate(row.mfgDate);
+    }
+  }
 
   @ViewChildren('productNameInput') productNameInputs!: QueryList<ElementRef>;
   @ViewChildren('quantityInput') quantityInputs!: QueryList<ElementRef>;
@@ -453,40 +424,38 @@ onMfgDateChange(row: Row) {
   @ViewChildren('mfgDateInput') mfgDateInputs!: QueryList<ElementRef>;
   @ViewChildren('expDateInput') expDateInputs!: QueryList<ElementRef>;
 
-focusNextInput(
-  rowIndex: number,
-  field: 'productName' | 'quantity' | 'mfgDate'
-) {
-  setTimeout(() => {
-    switch (field) {
-      case 'productName':
-        this.quantityInputs.toArray()[rowIndex]?.nativeElement.focus();
-        break;
-      case 'quantity':
-        this.mfgDateInputs.toArray()[rowIndex]?.nativeElement.focus();
-        break;
-      case 'mfgDate':
-        if (rowIndex === this.rows.length - 1) {
-          // Add new row first
-          this.addRow();
+  focusNextInput(
+    rowIndex: number,
+    field: 'productName' | 'quantity' | 'mfgDate'
+  ) {
+    setTimeout(() => {
+      switch (field) {
+        case 'productName':
+          this.quantityInputs.toArray()[rowIndex]?.nativeElement.focus();
+          break;
+        case 'quantity':
+          this.mfgDateInputs.toArray()[rowIndex]?.nativeElement.focus();
+          break;
+        case 'mfgDate':
+          if (rowIndex === this.rows.length - 1) {
+            // Add new row first
+            this.addRow();
 
-          // Focus the **last productName input**, not using rowIndex
-          setTimeout(() => {
-            const lastInput = this.productNameInputs.toArray().pop();
-            lastInput?.nativeElement.focus();
-          }, 0);
-        } else {
-          this.productNameInputs
-            .toArray()
-            [rowIndex + 1]?.nativeElement.focus();
-        }
-        break;
-    }
-  }, 0);
-}
+            // Focus the **last productName input**, not using rowIndex
+            setTimeout(() => {
+              const lastInput = this.productNameInputs.toArray().pop();
+              lastInput?.nativeElement.focus();
+            }, 0);
+          } else {
+            this.productNameInputs
+              .toArray()
+              [rowIndex + 1]?.nativeElement.focus();
+          }
+          break;
+      }
+    }, 0);
+  }
 
-
- 
   focusLastHSCode() {
     const lastInput = this.hsCodeInputs.last;
     if (lastInput) {
@@ -516,12 +485,6 @@ focusNextInput(
     this.rows.splice(index, 1);
   }
 
-  isDisabled = true;
-  showReceivedModal = false;
-  showNoDataDialog = false;
-  msg = ' ⚠️ Information !!!';
-  alertMessage = 'Supplier can not be null';
-
   closeAlert() {
     this.showNoDataDialog = false;
   }
@@ -530,8 +493,7 @@ focusNextInput(
     if (
       this.rows &&
       this.rows.length > 0 &&
-    this.rows.some((row) => row.productCode && row.productName)
-
+      this.rows.some((row) => row.productCode && row.productName)
     ) {
       this.printData();
     } else {
@@ -616,69 +578,61 @@ focusNextInput(
     this.showReceivedModal = false;
   }
 
-
   //adding vat and calculation  net amt
-updateNetAmt(row: Row) {
-  const qtyNum = Number(row.quantity) || 0;
-  const rateNum = Number(row.rate) || 0;
+  updateNetAmt(row: Row) {
+    const qtyNum = Number(row.quantity) || 0;
+    const rateNum = Number(row.rate) || 0;
 
-  
-  row.gAmt = (qtyNum * rateNum).toFixed(2);
-  row.netAmt = (qtyNum * rateNum * 1.13).toFixed(2);
-}
-
-
+    row.gAmt = (qtyNum * rateNum).toFixed(2);
+    row.netAmt = (qtyNum * rateNum * 1.13).toFixed(2);
+  }
 
   //reset
-
   showResetConfirm = false;
   onResetClicked() {
     this.showResetConfirm = true;
   }
   confirmReset() {
-  this.resetData();
-  this.showResetConfirm = false;
+    this.resetData();
+    this.showResetConfirm = false;
 
-  const dialogRef = this.dialog.open(DialogBox, {
-    width: '375px',
-    position: { right: '0' },
-    data: this.rows, // your Row[] data
-  });
+    const dialogRef = this.dialog.open(DialogBox, {
+      width: '375px',
+      position: { right: '0' },
+      data: this.rows, // your Row[] data
+    });
 
-  dialogRef.afterClosed().subscribe((result: any) => {
-    if (!result) return; // user closed dialog without selection
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (!result) return; // user closed dialog without selection
 
-    // --- Supplier Selection ---
-    if ('name' in result) {
-      this.supplierName = result.name || '';
-      this.account = result.name || '';
-      this.address = result.address || '';
-      this.vatNo = result.vatNo || '';
-    }
+      // --- Supplier Selection ---
+      if ('name' in result) {
+        this.supplierName = result.name || '';
+        this.account = result.name || '';
+        this.address = result.address || '';
+        this.vatNo = result.vatNo || '';
+      }
 
-    // --- Product Selection ---
-    else if ('productName' in result) {
-      const rowIndex = this.selectedRowIndex ?? 0;
+      // --- Product Selection ---
+      else if ('productName' in result) {
+        const rowIndex = this.selectedRowIndex ?? 0;
 
-      this.rows[rowIndex] = {
-        ...this.rows[rowIndex],
-        productCode: result.productCode || '',
-        productName: result.productName || '',
-        rate: result.rate || '',
-        hsCode: result.hsCode || '',
-        upc: result.upc || '',
-        mfgDate: result.mfgDate || '',
-        expDate: result.expDate || '',
-      };
+        this.rows[rowIndex] = {
+          ...this.rows[rowIndex],
+          productCode: result.productCode || '',
+          productName: result.productName || '',
+          rate: result.rate || '',
+          hsCode: result.hsCode || '',
+          upc: result.upc || '',
+          mfgDate: result.mfgDate || '',
+          expDate: result.expDate || '',
+        };
 
-      this.focusNextInput(rowIndex, 'productName');
-    }
-  });
-}
-//reset end
-
-
-  
+        this.focusNextInput(rowIndex, 'productName');
+      }
+    });
+  }
+  //reset end
 
   cancelReset() {
     this.showResetConfirm = false;
@@ -690,17 +644,15 @@ updateNetAmt(row: Row) {
     }
   }
 
-selectedRowIndex: number | null = null;
-selectRow(index: number) {
-  this.selectedRowIndex = index;
-}
+  selectedRowIndex: number | null = null;
+  selectRow(index: number) {
+    this.selectedRowIndex = index;
+  }
 
-
-
-  openEditDialog( ) {
+  openEditDialog() {
     const dialogRef = this.dialog.open(DialogView, {
       width: '700px',
-       position: { right: '0' },
+      position: { right: '0' },
       data: {},
     });
 
@@ -751,7 +703,6 @@ selectRow(index: number) {
         }
         this.updateNetAmt(this.rows[this.rows.length - 1]); // Calculate new last row
 
-        
         // **Added to update the form inputs:**
         this.supplierName = selectedRow.supplier || '';
         this.account = selectedRow.supplier || '';
@@ -769,7 +720,7 @@ selectRow(index: number) {
   openViewDialogbtn() {
     const dialogRef = this.dialog.open(DialogView, {
       width: '700px',
-            position: { right: '0' },
+      position: { right: '0' },
       data: {}, // pass if want,or empty
     });
 
@@ -833,8 +784,7 @@ selectRow(index: number) {
 
   //footer
   get totalQuantity(): number {
-    return this.rows.reduce((sum, row) =>  sum + (Number(row.quantity) || 0), 0);
-
+    return this.rows.reduce((sum, row) => sum + (Number(row.quantity) || 0), 0);
   }
   get totalGross(): number {
     return this.rows.reduce((sum, row) => sum + (parseFloat(row.gAmt) || 0), 0);
@@ -845,7 +795,7 @@ selectRow(index: number) {
   }
   // VAT amount
   get totalVAT(): number {
-     return Number((this.totalTaxable * 0.13).toFixed(2));
+    return Number((this.totalTaxable * 0.13).toFixed(2));
   }
   // Net amount
   get totalNetAmount(): number {
