@@ -114,11 +114,13 @@
         <td>Enter Date</td>
         <td>
             <input
-            type="date"
-            [(ngModel)]="mfgDate"
+              id="mfgNepali"
+            type="text"
+             [value]="mfgNepaliDate"
+       
             name="mfgDate"
-            [disabled]="true"
-            style="cursor: not-allowed"
+        disabled
+    style="cursor: not-allowed"
           />
         </td>
         <td>
@@ -128,6 +130,7 @@
             name="mfgDate"
             [disabled]="true"
             style="cursor: not-allowed"
+            
           />
         </td>
       </tr>
@@ -144,13 +147,11 @@
         <td>
           <input type="text"  name="invoiceDate"
           id="dob"
-           placeholder="Nepali  Date" 
+          [value]="mfgNepaliDate"
         disabled
-
-           
           
            />
-          <!-- [(ngModel)]="invoiceDate" -->
+         
         </td>
         <td>
           <input type="date" [(ngModel)]="invoiceDate" name="invoiceDate" 

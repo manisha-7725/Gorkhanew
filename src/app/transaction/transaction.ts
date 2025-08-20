@@ -189,7 +189,7 @@ ngAfterViewInit() {
       ndpMonth: true,
       ndpYearCount: 10,
       onChange: (nepaliDate: string) => {
-        // Convert Nepali date (BS) -> English date (AD)
+       
         const engDate = NepaliFunctions.BS2AD(nepaliDate);
         this.invoiceDate = this.formatDate(engDate);
       }
@@ -201,14 +201,16 @@ ngAfterViewInit() {
   onEnglishDateChange() {
     if (this.invoiceDate) {
       const engDate = new Date(this.invoiceDate);
-      // Convert AD → BS
+     
       const nepaliDate = NepaliFunctions.AD2BS({
         year: engDate.getFullYear(),
         month: engDate.getMonth() + 1,
         day: engDate.getDate()
       });
-      // Update Nepali input
-      ($('#dob') as any).val(`${nepaliDate.year}-${nepaliDate.month}-${nepaliDate.day}`);
+
+    const nepaliDateStr = `${nepaliDate.month.toString().padStart(2,'0')}/${nepaliDate.day.toString().padStart(2,'0')}/${nepaliDate.year}`;
+($('#dob') as any).val(nepaliDateStr);
+
     }
   }
 
@@ -225,6 +227,8 @@ ngAfterViewInit() {
     this.router.navigate(['/master']);
   }
 
+  
+
   ngOnInit(): void {
     const dialogRef = this.dialog.open(DialogBox, {
       width: '375px',
@@ -232,6 +236,7 @@ ngAfterViewInit() {
       disableClose: true,
       data: this.rows,
     });
+
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -247,7 +252,13 @@ ngAfterViewInit() {
       const today = new Date();
      this.invoiceDate = this.formatDate(today);
      this.mfgDate = today.toISOString().substring(0, 10);
-
+     
+         const nepaliObj = NepaliFunctions.AD2BS({
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      day: today.getDate()
+    });
+ this.mfgNepaliDate = `${nepaliObj.month.toString().padStart(2,'0')}/${nepaliObj.day.toString().padStart(2,'0')}/${nepaliObj.year}`;
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -281,6 +292,7 @@ ngAfterViewInit() {
   const dd = String(now.getDate()).padStart(2, '0');
   this.today = `${yyyy}-${mm}-${dd}`;
   }
+mfgNepaliDate: string = '';
 
   dialogRows: Row[] = [];
   selectedRow: Row | null = null;
@@ -429,6 +441,10 @@ onMfgDateChange(row: Row) {
     row.expDate = this.calculateExpDate(row.mfgDate);
   }
 }
+
+
+
+
 
 
   @ViewChildren('productNameInput') productNameInputs!: QueryList<ElementRef>;
