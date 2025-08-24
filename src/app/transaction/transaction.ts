@@ -7,6 +7,7 @@ import {
   ElementRef,
   QueryList,
   ViewChildren,
+  NgZone
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -124,7 +125,8 @@ export class Transaction implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private transactionService: TransactionData
+    private transactionService: TransactionData,
+    private ngZone: NgZone
   ) {}
   rowss: any[] = [];
   today: string = '';
@@ -282,6 +284,9 @@ export class Transaction implements OnInit, AfterViewInit {
     const dd = String(now.getDate()).padStart(2, '0');
     this.today = `${yyyy}-${mm}-${dd}`;
   }
+
+
+
 
   goBack() {
     this.router.navigate(['/master']);
