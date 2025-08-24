@@ -183,6 +183,7 @@ export class Transaction implements OnInit, AfterViewInit {
       ndpYear: true,
       ndpMonth: true,
       ndpYearCount: 10,
+    
       onChange: (nepaliDate: string) => {
         const engDate = NepaliFunctions.BS2AD(nepaliDate);
         this.invoiceDate = this.formatDate(engDate);
