@@ -10,14 +10,17 @@ import {
 } from '@angular/router';
 import { DialogBox } from './dialog-box/dialog-box';
 import {MatDialog} from '@angular/material/dialog';
-import { ExportMasterDialog } from './export-master-dialog/export-master-dialog';
 
+
+import { FormsModule } from '@angular/forms';
 
 
 
 @Component({
+  standalone: true,
   selector: 'app-root',
   imports: [
+  
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
@@ -26,12 +29,15 @@ import { ExportMasterDialog } from './export-master-dialog/export-master-dialog'
     MatIconModule,
     MatButtonModule,
 
-
+    FormsModule
 ],
+
+
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+    mfgNepaliDate = ''; 
   protected title = 'gorkhanew';
   readonly dialog = inject(MatDialog);
   openDialog():void{

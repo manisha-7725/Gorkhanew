@@ -1,0 +1,12 @@
+ @media screen and (max-width:1350px) {
+   input{
+    font-size: 11px !important;
+    height: 21px !important;
+    padding: 5px 5px !important;
+  }i{
+      font-size: 11px !important;
+  top: 4px !important;
+  margin-right: -15px;
+   }
+ }
+

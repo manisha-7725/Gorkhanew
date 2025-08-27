@@ -28,12 +28,14 @@
               "src/custom-theme.scss",
               "src/styles.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-               "src/assets/nepali.datepicker.v5.0.6.min.css"
+              "src/assets/NepaliatePcker/nepali.datepicker.v4.0.8.min.css"
+
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-           
-              "src/assets/nepali.datepicker.v5.0.6.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/assets/NepaliatePcker/nepali.datepicker.v4.0.8.min.js"
+
 ]
           },
           "configurations": {

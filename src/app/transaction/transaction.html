@@ -1,3 +1,4 @@
+
 <div
   class="d-flex align-items-center justify-content-between px-4 py-2 bg-light"
 >
@@ -99,20 +100,19 @@
       <tr>
         <td>Enter Date</td>
         <td>
-          <input
-            id="mfgNepali"
+            <input
+              id="mfgNepali"
             type="text"
-            [value]="mfgNepaliDate"
-            name="mfgDate"
-            disabled
-            style="cursor: not-allowed"
+            
+       disabled
+    style="cursor: not-allowed"
           />
         </td>
         <td>
           <input
             type="date"
-            [(ngModel)]="mfgDate"
-            name="mfgDate"
+             [value]="mfgDate"
+             name="mfgDate"
             [disabled]="true"
             style="cursor: not-allowed"
           />
@@ -126,27 +126,26 @@
         </td>
       </tr>
 
-    <tr>
-        <td>Invoice Date:</td>
-        <td>
-          <input type="text"  name="invoiceDate"
-          id="dob"
-          [value]="mfgNepaliDate"
-     placeholder="Select Nepali Date"
-          
-           />
-         
-        </td>
-        <td>
-          <input type="date" 
-          [(ngModel)]="invoiceDate"
-           name="invoiceDate" 
-        (ngModelChange)="onEnglishDateChange()" 
-          />
-        </td>
-      </tr>
+   <tr>
+  <td>Invoice Date</td>
+  <td>
+    <app-nepalidate-picker
+  name="mfgNepaliDate"
+    [(ngModel)]="mfgNepaliDate"
+    [id]="'invoiceDateBS'"
+    label="Select Nepali Date"
+    (ngModelChange)="onNepaliDateChange($event)">
+    </app-nepalidate-picker>
+  </td>
 
 
+  <td>
+    <input type="date"
+           [(ngModel)]="invoiceDate"
+           name="invoiceDate"
+           (ngModelChange)="onEnglishDateChange($event)" />
+  </td>
+</tr>
 
       
     </table>

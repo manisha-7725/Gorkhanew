@@ -7,7 +7,7 @@ import {
   ElementRef,
   QueryList,
   ViewChildren,
-  NgZone
+
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -18,8 +18,12 @@ import { NgForm } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { DialogView } from '../dialog-view/dialog-view';
 import { ProductDialog } from '../product-dialog/product-dialog';
-
+import { MasterRepo } from '../master-repo';
 import { OnInit } from '@angular/core';
+import { NepalidatePicker } from '../nepalidate-picker/nepalidate-picker';
+
+
+
 
 interface Row {
   hsCode: string;
@@ -38,7 +42,7 @@ interface Row {
 
 @Component({
   selector: 'app-transaction',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,NepalidatePicker],
   templateUrl: './transaction.html',
   styleUrls: ['./transaction.css'],
 })
@@ -55,6 +59,7 @@ export class Transaction implements OnInit, AfterViewInit {
 
   HideDetails: { [key: string]: boolean } = { F1: false }; // false = initially hidden
   visible = true; // if you also use visible for *ngIf
+  
 
   onclick() {
     // Toggle the same property to show/hide
@@ -125,9 +130,9 @@ export class Transaction implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private transactionService: TransactionData,
-    private ngZone: NgZone
+    private masterRepo: MasterRepo
   ) {}
+
   rowss: any[] = [];
   today: string = '';
   nepaliInput: any; // jQuery object for Nepali datepicker
@@ -142,6 +147,7 @@ export class Transaction implements OnInit, AfterViewInit {
   isDisabled = true;
   showReceivedModal = false;
   showNoDataDialog = false;
+  
   msg = ' ⚠️ Information !!!';
   alertMessage = 'Supplier can not be null';
 
@@ -177,47 +183,24 @@ export class Transaction implements OnInit, AfterViewInit {
   }
 
 
-  
-  ngAfterViewInit() {
-    $('#dob').nepaliDatePicker({
-      ndpYear: true,
-      ndpMonth: true,
-      ndpYearCount: 10,
-    
-      onChange: (nepaliDate: string) => {
-        const engDate = NepaliFunctions.BS2AD(nepaliDate);
-        this.invoiceDate = this.formatDate(engDate);
-      },
-    });
 
-    this.focusLastHSCode();
-  }
-  // When English date is changed manually
-  onEnglishDateChange() {
-    if (this.invoiceDate) {
-      const engDate = new Date(this.invoiceDate);
 
-      const nepaliDate = NepaliFunctions.AD2BS({
-        year: engDate.getFullYear(),
-        month: engDate.getMonth() + 1,
-        day: engDate.getDate(),
-      });
-
-      const nepaliDateStr = `${nepaliDate.month
-        .toString()
-        .padStart(2, '0')}/${nepaliDate.day.toString().padStart(2, '0')}/${
-        nepaliDate.year
-      }`;
-      ($('#dob') as any).val(nepaliDateStr);
-    }
+onNepaliDateChange(bsDate: string) {
+    this.mfgNepaliDate = bsDate;
+    this.invoiceDate = this.masterRepo.toADDate(bsDate);
   }
 
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`; // format yyyy-MM-dd for input[type=date]
+ 
+ onEnglishDateChange(adDate: string) {
+  this.invoiceDate = adDate;
+  const bsDate = this.masterRepo.toBSDate(adDate);
+  this.mfgNepaliDate = bsDate;
+
+  const pickerInput = document.getElementById('invoiceDateBSPicker') as HTMLInputElement;
+  if (pickerInput) {
+    pickerInput.value = bsDate;
   }
+}
 
   ngOnInit(): void {
     const dialogRef = this.dialog.open(DialogBox, {
@@ -227,67 +210,55 @@ export class Transaction implements OnInit, AfterViewInit {
       data: this.rows,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        // result is the selected supplier object from dialog
-        this.supplierName = result.name || '';
-        this.account = result.name || '';
-        this.address = result.address || '';
-        this.vatNo = result.vatNo || '';
-        this.invoiceDate = result.invoiceDate || this.invoiceDate;
-        setTimeout(() => this.focusLastProductName(), 0);
-        this.remark = '';
-      }
-      const today = new Date();
-      this.invoiceDate = this.formatDate(today);
-      this.mfgDate = today.toISOString().substring(0, 10);
 
-      const nepaliObj = NepaliFunctions.AD2BS({
-        year: today.getFullYear(),
-        month: today.getMonth() + 1,
-        day: today.getDate(),
-      });
-      this.mfgNepaliDate = `${nepaliObj.month
-        .toString()
-        .padStart(2, '0')}/${nepaliObj.day.toString().padStart(2, '0')}/${
-        nepaliObj.year
-      }`;
+   dialogRef.afterClosed().subscribe((result) => {
+  if (result) {
+    // Supplier info
+    this.supplierName = result.name || '';
+    this.account = result.name || '';
+    this.address = result.address || '';
+    this.vatNo = result.vatNo || '';
+    this.invoiceDate = result.invoiceDate || this.invoiceDate;
+    this.remark = '';
+
+    // Product row if selected
+    if (result.selectedRow) {
+      const selected = result.selectedRow;
+      this.rows[0] = {
+        hsCode: selected.itemcode || '',
+        productCode: selected.productcode || '',
+        productName: selected.description || '',
+        upc: '12',
+        unit: '',
+        quantity: '0',
+        rate: '0',
+        gAmt: '0.00',
+        netAmt: '0.00',
+        mfgDate: '',
+        expDate: '',
+      };
+    }
+
+    // Set current date
+    const today = new Date();
+    this.invoiceDate = today.toISOString().split('T')[0];
+    const nepaliObj = NepaliFunctions.AD2BS({
+      year: today.getFullYear(),
+      month: today.getMonth() + 1,
+      day: today.getDate(),
     });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result?.selectedRow) {
-        const selected = result.selectedRow;
-
-        this.rows[0] = {
-          hsCode: selected.itemcode || '',
-          productCode: selected.productcode || '',
-          productName: selected.description || '',
-          upc: '12',
-          unit: '',
-          quantity: '0',
-          rate: '0',
-          gAmt: '0.00',
-          netAmt: '0.00',
-          mfgDate: '',
-          expDate: '',
-        };
-        setTimeout(() => {
-          const firstProductInput = this.productNameInputs.first;
-          if (firstProductInput) firstProductInput.nativeElement.focus();
-        }, 0);
-      }
-    });
-
-    //current date
-    const now = new Date();
-    const yyyy = now.getFullYear();
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const dd = String(now.getDate()).padStart(2, '0');
-    this.today = `${yyyy}-${mm}-${dd}`;
+    this.mfgNepaliDate = `${nepaliObj.month.toString().padStart(2, '0')}/${nepaliObj.day.toString().padStart(2, '0')}/${nepaliObj.year}`;
   }
 
+  
+});
 
 
+  }
+
+ngAfterViewInit() {
+    this.focusLastHSCode();
+  }
 
   goBack() {
     this.router.navigate(['/master']);
@@ -372,7 +343,7 @@ export class Transaction implements OnInit, AfterViewInit {
 
         // Fill the currently selected row
         this.rows[this.currentRowIndex] = {
-          ...this.rows[this.currentRowIndex], // preserve other fields like quantity, dates
+          ...this.rows[this.currentRowIndex], 
           productCode: selected.itemcode || '',
           productName: selected.description || '',
           upc: this.rows[this.currentRowIndex].upc || '12',
