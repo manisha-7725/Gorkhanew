@@ -143,7 +143,8 @@
     <input type="date"
            [(ngModel)]="invoiceDate"
            name="invoiceDate"
-           (ngModelChange)="onEnglishDateChange($event)" />
+           (ngModelChange)="onEnglishDateChange($event)"
+              [max]="today" />
   </td>
 </tr>
 
@@ -403,6 +404,7 @@
       <td>
         <button
           (click)="confirmRemoveRow(i)"
+            [disabled]="i === 0"
           style="
             background-color: red;
             color: white;

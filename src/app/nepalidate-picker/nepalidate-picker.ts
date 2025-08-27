@@ -26,7 +26,7 @@ declare var jQuery: any;
     },
   ],
 })
-export class NepalidatePicker implements OnInit, ControlValueAccessor {
+export class NepalidatePicker implements OnInit{
   private onChange: (value: string[]) => void = () => {};
   private onTouch: any = () => {};
   public disableBefore = '';
@@ -45,33 +45,32 @@ export class NepalidatePicker implements OnInit, ControlValueAccessor {
   constructor(private elementRef: ElementRef, public masterRepo: MasterRepo) {}
 
   ngOnInit() {
-    this.isNullOrEmpty(this.id);
+    // this.isNullOrEmpty(this.id);
     var today = new Date();
     this.mfgDate = today.toISOString().split('T')[0];
     this.date = formatDate(today, 'yyyy-MM-dd', 'en-US');
     this.changeDate(this.date, 'AD');
   }
-
-
-
   
   ngAfterViewInit() {
     var _this = this;
 
-    // jQuery(document).ready(function () {
-    //   jQuery(document).on('click', `#${_this.id}`, function () {
-    //     document.getElementById(`${_this.id}Picker`)?.focus();
-    //   });
-    // });
+    jQuery(document).ready(function () {
+      jQuery(document).on('click', `#${_this.id}`, function () {
+        document.getElementById(`${_this.id}Picker`);
+      });
+    });
 
     jQuery(document).ready(function () {
       jQuery(document).on('focus', `#${_this.id}Picker`, function () {
         jQuery(`#${_this.id}Picker`).nepaliDatePicker({
           language: 'english',
           onChange: function () {
+
             _this.dateControl.setValue(jQuery(`#${_this.id}Picker`).val());
+            
             _this.propagateChange(_this.dateControl.value);
-            document.getElementById(`${_this.id}Picker`)?.focus();
+            document.getElementById(`${_this.id}Picker`);
           },
           dateFormat: 'DD/MM/YYYY',
           readOnlyInput: false,
@@ -84,7 +83,7 @@ export class NepalidatePicker implements OnInit, ControlValueAccessor {
     });
   }
 
-  //  var adbs:any = require("ad-bs-converter");
+
   changeDate(value: any, format: string) {
     if (format == 'AD') {
       var adDate = value.replace('-', '/').replace('-', '/');
@@ -115,20 +114,20 @@ export class NepalidatePicker implements OnInit, ControlValueAccessor {
   };
 
   private propagateChange = (value: any) => {
-    this.onChange(value); // notify for new value
+    this.onChange(value); // notify for change value & update
     this.onTouch(value);
     this.elementRef.nativeElement.dispatchEvent(
       new CustomEvent('change', { detail: { value: value }, bubbles: true })
     );
   };
 
-  isNullOrEmpty(val: any) {
-    if (typeof val !== 'string') {
-      throw Error('Invalid Type for Id');
-    }
+  // isNullOrEmpty(val: any) {
+  //   if (typeof val !== 'string') {
+  //     throw Error('Invalid Type for Id');
+  //   }
 
-    if (val == '' || val == null || val == undefined) {
-      throw Error('Invalid Id');
-    }
-  }
+  //   if (val == '' || val == null || val == undefined) {
+  //     throw Error('Invalid Id');
+  //   }
+  // }
 }

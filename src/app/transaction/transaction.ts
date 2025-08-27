@@ -67,6 +67,12 @@ export class Transaction implements OnInit, AfterViewInit {
     this.visible = !this.visible;
   }
 
+
+today = new Date().toISOString().split('T')[0]; 
+ 
+  
+  
+
   rows: Row[] = [
     {
       hsCode: '',
@@ -134,7 +140,6 @@ export class Transaction implements OnInit, AfterViewInit {
   ) {}
 
   rowss: any[] = [];
-  today: string = '';
   nepaliInput: any; // jQuery object for Nepali datepicker
   showDialog: boolean = false;
   mfgNepaliDate: string = '';
@@ -147,7 +152,7 @@ export class Transaction implements OnInit, AfterViewInit {
   isDisabled = true;
   showReceivedModal = false;
   showNoDataDialog = false;
-  
+
   msg = ' ⚠️ Information !!!';
   alertMessage = 'Supplier can not be null';
 
@@ -181,6 +186,7 @@ export class Transaction implements OnInit, AfterViewInit {
       data: [...this.rows],
     });
   }
+
 
 
 
@@ -293,6 +299,9 @@ ngAfterViewInit() {
   onRowDoubleClick(row: Row) {
     this.dialogRef.close({ selectedRow: row });
   }
+
+
+  
 
   get filteredDialogRows() {
     if (!this.searchtext || this.searchtext.trim() === '')
