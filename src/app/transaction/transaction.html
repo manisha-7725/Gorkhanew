@@ -88,7 +88,7 @@
   </div>
 </div>
 
-<div *ngIf="visible" class="form-container">
+<div *ngIf="visible" class="form-container" >
   <form class="form-box" #form1="ngForm">
     <table>
       <tr>
@@ -225,7 +225,7 @@
     </table>
   </form>
 
-  <form class="form-box" #form3="ngForm">
+  <form class="form-box" #form3="ngForm" >
     <table style="width: 100%">
       <tr>
         <td>Supplier</td>
@@ -236,6 +236,7 @@
             [disabled]="true"
             style="cursor: not-allowed"
             [(ngModel)]="supplierName"
+            (ngModelChange)="autoSaveTemplate()"
             name="supplierName"
           />
         </td>
@@ -243,19 +244,19 @@
       <tr>
         <td>Address</td>
         <td colspan="2">
-          <input type="text" [(ngModel)]="address" name="address" />
+          <input type="text" [(ngModel)]="address" (ngModelChange)="autoSaveTemplate()" name="address" />
         </td>
       </tr>
       <tr>
         <td>Vat No</td>
         <td colspan="2">
-          <input type="text" [(ngModel)]="vatNo" name="vatNo" />
+          <input type="text" [(ngModel)]="vatNo" (ngModelChange)="autoSaveTemplate()" name="vatNo" />
         </td>
       </tr>
       <tr>
         <td>Remark</td>
         <td colspan="2">
-          <input type="text" [(ngModel)]="remark" name="remark" />
+          <input type="text" [(ngModel)]="remark" (ngModelChange)="autoSaveTemplate()" name="remark" />
         </td>
       </tr>
     </table>
@@ -341,6 +342,7 @@
           <option value="EACH">EACH</option>
         </select>
       </td>
+<!-- <button class="btn btn-success" (click)="saveInvoice()">SAVE</button> -->
 
       <td>
         <input
@@ -475,6 +477,7 @@
           [value]="totalVAT.toFixed(2)"
           style="width: 70%"
           readonly
+          (ngModelChange)="autoSaveTemplate()"
         />
       </td>
       <td style="text-align: center">
@@ -484,6 +487,7 @@
           [value]="totalNetAmount.toFixed(2)"
           style="width: 40%"
           readonly
+          (ngModelChange)="autoSaveTemplate()"
         />
       </td>
     </tr>

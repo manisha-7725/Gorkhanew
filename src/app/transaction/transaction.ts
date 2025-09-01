@@ -20,8 +20,8 @@ import { ProductDialog } from '../product-dialog/product-dialog';
 import { MasterRepo } from '../master-repo';
 import { OnInit } from '@angular/core';
 import { NepalidatePicker } from '../nepalidate-picker/nepalidate-picker';
-import { DateService } from '../service/date-service';
-import {Environment} from '../service/environment';
+import { PurchaseInvoice } from '../services/purchase-invoice';
+import { FormBuilder,FormGroup } from '@angular/forms';
 
 interface Row {
   hsCode: string;
@@ -54,6 +54,7 @@ export class Transaction implements OnInit, AfterViewInit {
   showConfirm = false;
   account: string = '';
   productSelected: boolean = false;
+ 
 
   HideDetails: { [key: string]: boolean } = { F1: false }; // false = initially hidden
   visible = true; // if you also use visible for *ngIf
@@ -131,9 +132,52 @@ today = new Date().toISOString().split('T')[0];
     private router: Router,
     private dialog: MatDialog,
     private masterRepo: MasterRepo,
-    private dateService: DateService,
-    private  envService: Environment
-  ) {}
+    private invoiceService: PurchaseInvoice,
+    private fb: FormBuilder
+  ) {
+  
+}
+
+ autoSaveTemplate() {
+    const invoiceJSON = {
+      form1: {
+        invoiceNo: this.invoiceNo,
+        invoiceDateAD: this.invoiceDate,
+        invoiceDateBS: this.mfgNepaliDate
+      },
+      form2: {
+        paymentTerms: this.selectedPayment,
+        account: this.account,
+        chequeDetails: {
+          chequeNo: this.chequeNo1,
+          chequeDate: this.chequeNo2
+        },
+        godown: "Main Warehouse"
+      },
+      form3: {
+        supplierName: this.supplierName,
+        address: this.address,
+        vatNo: this.vatNo,
+        remark: this.remark
+      },
+      products: this.rows,
+      footerTotals: {
+        totalQuantity: this.totalQuantity,
+        totalGross: this.totalGross,
+        totalTaxable: this.totalTaxable,
+        totalVAT: this.totalVAT,
+        totalNetAmount: this.totalNetAmount
+      }
+    };
+
+  //   this.invoiceService.addInvoice(invoiceJSON).subscribe(res => {
+  //   console.log('Data saved in db.json:', res);
+  // });
+
+   this.invoiceService.updateInvoice(1, invoiceJSON).subscribe(res => {
+    console.log("Auto-saved (template-driven):", res);
+  });
+  }
 
   rowss: any[] = [];
   nepaliInput: any; // jQuery object for Nepali datepicker
@@ -192,7 +236,7 @@ today = new Date().toISOString().split('T')[0];
   //   const invoiceJSON = this.makeInvoiceJSON();
 
   // console.log('✅ Saving Invoice:', invoiceJSON);
-
+ 
   //   this.envService.addInvoice(invoiceJSON).subscribe({
   //     next: (res) => console.log(' Saved to db.json', res),
   //     error: (err) => console.error(' Error saving invoice', err)
@@ -321,19 +365,19 @@ ngAfterViewInit() {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+     dialogRef.afterClosed().subscribe((result) => {
       if (result?.selectedRow) {
-        const index = this.rows.findIndex(
-          (r) => r.productCode === result.selectedRow.productCode
-        );
-        if (index !== -1) {
-          this.rows[index] = result.selectedRow;
-        } else {
-          this.rows.push(result.selectedRow);
-        }
-      } else if (result?.updatedRows) {
-        this.rows = result.updatedRows;
+      const index = this.rows.findIndex(
+        (r) => r.productCode === result.selectedRow.productCode
+      );
+      if (index !== -1) {
+        this.rows[index] = result.selectedRow;
+      } else {
+        this.rows.push(result.selectedRow);
       }
+    } else if (result?.updatedRows) {
+      this.rows = result.updatedRows;
+    }
     });
   }
 

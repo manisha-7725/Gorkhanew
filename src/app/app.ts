@@ -10,7 +10,7 @@ import {
 } from '@angular/router';
 import { DialogBox } from './dialog-box/dialog-box';
 import {MatDialog} from '@angular/material/dialog';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { FormsModule } from '@angular/forms';
 
@@ -28,7 +28,7 @@ import { FormsModule } from '@angular/forms';
     MatTreeModule,
     MatIconModule,
     MatButtonModule,
-
+    ReactiveFormsModule,
     FormsModule
 ],
 

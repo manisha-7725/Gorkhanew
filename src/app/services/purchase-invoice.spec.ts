@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Environment } from './environment';
+import { PurchaseInvoice } from './purchase-invoice';
 
-describe('Environment', () => {
-  let service: Environment;
+describe('PurchaseInvoice', () => {
+  let service: PurchaseInvoice;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(Environment);
+    service = TestBed.inject(PurchaseInvoice);
   });
 
   it('should be created', () => {
