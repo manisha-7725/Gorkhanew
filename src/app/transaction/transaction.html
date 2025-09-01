@@ -103,7 +103,7 @@
             <input
               id="mfgNepali"
             type="text"
-            
+             
        disabled
     style="cursor: not-allowed"
           />
@@ -134,7 +134,8 @@
     [(ngModel)]="mfgNepaliDate"
     [id]="'invoiceDateBS'"
     label="Select Nepali Date"
-    (ngModelChange)="onNepaliDateChange($event)">
+    (ngModelChange)="onNepaliDateChange($event)"
+   >
     </app-nepalidate-picker>
   </td>
 
@@ -404,7 +405,7 @@
       <td>
         <button
           (click)="confirmRemoveRow(i)"
-            [disabled]="i === 0"
+            
           style="
             background-color: red;
             color: white;

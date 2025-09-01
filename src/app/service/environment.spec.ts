@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TransactionData } from './transaction-data';
+import { Environment } from './environment';
 
-describe('TransactionData', () => {
-  let service: TransactionData;
+describe('Environment', () => {
+  let service: Environment;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TransactionData);
+    service = TestBed.inject(Environment);
   });
 
   it('should be created', () => {

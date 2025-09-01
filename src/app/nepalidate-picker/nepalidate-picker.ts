@@ -121,13 +121,5 @@ export class NepalidatePicker implements OnInit{
     );
   };
 
-  // isNullOrEmpty(val: any) {
-  //   if (typeof val !== 'string') {
-  //     throw Error('Invalid Type for Id');
-  //   }
-
-  //   if (val == '' || val == null || val == undefined) {
-  //     throw Error('Invalid Id');
-  //   }
-  // }
+ 
 }

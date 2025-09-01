@@ -13,7 +13,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogBox } from '../dialog-box/dialog-box';
-import { TransactionData } from '../services/transaction-data';
 import { NgForm } from '@angular/forms';
 import { ViewChild } from '@angular/core';
 import { DialogView } from '../dialog-view/dialog-view';
@@ -21,9 +20,8 @@ import { ProductDialog } from '../product-dialog/product-dialog';
 import { MasterRepo } from '../master-repo';
 import { OnInit } from '@angular/core';
 import { NepalidatePicker } from '../nepalidate-picker/nepalidate-picker';
-
-
-
+import { DateService } from '../service/date-service';
+import {Environment} from '../service/environment';
 
 interface Row {
   hsCode: string;
@@ -67,12 +65,8 @@ export class Transaction implements OnInit, AfterViewInit {
     this.visible = !this.visible;
   }
 
-
 today = new Date().toISOString().split('T')[0]; 
  
-  
-  
-
   rows: Row[] = [
     {
       hsCode: '',
@@ -136,7 +130,9 @@ today = new Date().toISOString().split('T')[0];
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private masterRepo: MasterRepo
+    private masterRepo: MasterRepo,
+    private dateService: DateService,
+    private  envService: Environment
   ) {}
 
   rowss: any[] = [];
@@ -191,9 +187,38 @@ today = new Date().toISOString().split('T')[0];
 
 
 
+
+  // saveInvoice() {
+  //   const invoiceJSON = this.makeInvoiceJSON();
+
+  // console.log('✅ Saving Invoice:', invoiceJSON);
+
+  //   this.envService.addInvoice(invoiceJSON).subscribe({
+  //     next: (res) => console.log(' Saved to db.json', res),
+  //     error: (err) => console.error(' Error saving invoice', err)
+  //   });
+  // }
+
+
+todayNepaliDate(date: Date): string {
+  // Replace with your AD→BS conversion logic
+  return '2082-05-12';
+}
+
 onNepaliDateChange(bsDate: string) {
     this.mfgNepaliDate = bsDate;
     this.invoiceDate = this.masterRepo.toADDate(bsDate);
+
+
+
+       //  to json-server
+  // this.dateService.addDate({
+  //   nepaliDate: bsDate,
+  //   englishDate: this.invoiceDate
+  // }).subscribe({
+  //   next: (res) => console.log('Date added to db.json:', res),
+  //   error: (err) => console.error('Error saving date:', err)
+  // });
   }
 
  
@@ -206,7 +231,19 @@ onNepaliDateChange(bsDate: string) {
   if (pickerInput) {
     pickerInput.value = bsDate;
   }
+
+ // to json-server
+  // this.dateService.addDate({
+  //   nepaliDate: bsDate,
+  //   englishDate: adDate
+  // }).subscribe({
+  //   next: (res) => console.log('Date added to db.json:', res),
+  //   error: (err) => console.error('Error saving date:', err)
+  // });
+
+
 }
+
 
   ngOnInit(): void {
     const dialogRef = this.dialog.open(DialogBox, {
@@ -215,6 +252,7 @@ onNepaliDateChange(bsDate: string) {
       disableClose: true,
       data: this.rows,
     });
+// Initialize invoiceJSON
 
 
    dialogRef.afterClosed().subscribe((result) => {
@@ -258,9 +296,12 @@ onNepaliDateChange(bsDate: string) {
 
   
 });
-
-
   }
+
+
+
+
+
 
 ngAfterViewInit() {
     this.focusLastHSCode();
@@ -449,6 +490,10 @@ ngAfterViewInit() {
     }
   }
 
+firstRowBackup = this.rows[0]; // store first row
+
+
+
   confirmRemoveRow(index: number) {
     this.indexToDelete = index;
     this.showConfirm = true;
@@ -468,7 +513,10 @@ ngAfterViewInit() {
   }
 
   removeRow(index: number) {
-    this.rows.splice(index, 1);
+    this.rows.splice(index, 1)[0];
+    if (index === 0) {
+    this.rows.unshift(this.firstRowBackup);
+  }
   }
 
   closeAlert() {
@@ -568,7 +616,6 @@ ngAfterViewInit() {
   updateNetAmt(row: Row) {
     const qtyNum = Number(row.quantity) || 0;
     const rateNum = Number(row.rate) || 0;
-
     row.gAmt = (qtyNum * rateNum).toFixed(2);
     row.netAmt = (qtyNum * rateNum * 1.13).toFixed(2);
   }
