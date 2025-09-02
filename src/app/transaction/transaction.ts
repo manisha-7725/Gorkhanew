@@ -170,17 +170,18 @@ today = new Date().toISOString().split('T')[0];
       }
     };
 
-  //   this.invoiceService.addInvoice(invoiceJSON).subscribe(res => {
-  //   console.log('Data saved in db.json:', res);
-  // });
 
-   this.invoiceService.updateInvoice(1, invoiceJSON).subscribe(res => {
-    console.log("Auto-saved (template-driven):", res);
+    this.invoiceService.addInvoice(invoiceJSON).subscribe(res => {
+    console.log('Data saved in db.json:', res);
   });
+
+  //  this.invoiceService.updateInvoice(1, invoiceJSON).subscribe(res => {
+  //   console.log("Auto-saved (template-driven):", res);
+  // });
   }
 
   rowss: any[] = [];
-  nepaliInput: any; // jQuery object for Nepali datepicker
+  nepaliInput: any; 
   showDialog: boolean = false;
   mfgNepaliDate: string = '';
   dialogRows: Row[] = [];

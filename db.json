@@ -13,10 +13,11 @@
   ],
   "purchaseInvoices": [
     {
+      "id": "236e",
       "form1": {
         "invoiceNo": "",
-        "invoiceDateAD": "2025-09-01",
-        "invoiceDateBS": "05/16/2082"
+        "invoiceDateAD": "2025-09-02",
+        "invoiceDateBS": "05/17/2082"
       },
       "form2": {
         "paymentTerms": "",
@@ -32,52 +33,6 @@
         "address": "Kritipur",
         "vatNo": "123456789",
         "remark": "1"
-      },
-      "products": [
-        {
-          "hsCode": "",
-          "productCode": "2084",
-          "productName": "Carlsberg 500mlCan",
-          "upc": "12",
-          "unit": "CASE",
-          "quantity": 12,
-          "rate": "2200",
-          "gAmt": "26400.00",
-          "netAmt": "29832.00",
-          "mfgDate": "",
-          "expDate": ""
-        }
-      ],
-      "footerTotals": {
-        "totalQuantity": 12,
-        "totalGross": 26400,
-        "totalTaxable": 26400,
-        "totalVAT": 3432,
-        "totalNetAmount": 29832
-      },
-      "id": "1"
-    },
-    {
-      "id": "3fd7",
-      "form1": {
-        "invoiceNo": "",
-        "invoiceDateAD": "2025-09-01",
-        "invoiceDateBS": "05/16/2082"
-      },
-      "form2": {
-        "paymentTerms": "",
-        "account": "Raj Brewery",
-        "chequeDetails": {
-          "chequeNo": "",
-          "chequeDate": ""
-        },
-        "godown": "Main Warehouse"
-      },
-      "form3": {
-        "supplierName": "Raj Brewery",
-        "address": "Kritipur",
-        "vatNo": "123456789",
-        "remark": "6"
       },
       "products": [
         {
@@ -100,51 +55,6 @@
         "totalTaxable": 0,
         "totalVAT": 0,
         "totalNetAmount": 0
-      }
-    },
-    {
-      "id": "a498",
-      "form1": {
-        "invoiceNo": "",
-        "invoiceDateAD": "2025-09-01",
-        "invoiceDateBS": "05/16/2082"
-      },
-      "form2": {
-        "paymentTerms": "",
-        "account": "Gorkha Brewery",
-        "chequeDetails": {
-          "chequeNo": "",
-          "chequeDate": ""
-        },
-        "godown": "Main Warehouse"
-      },
-      "form3": {
-        "supplierName": "Gorkha Brewery",
-        "address": "Kritipur",
-        "vatNo": "123456789",
-        "remark": "1"
-      },
-      "products": [
-        {
-          "hsCode": "",
-          "productCode": "2084",
-          "productName": "Carlsberg 500mlCan",
-          "upc": "12",
-          "unit": "CASE",
-          "quantity": 2,
-          "rate": "2200",
-          "gAmt": "4400.00",
-          "netAmt": "4972.00",
-          "mfgDate": "",
-          "expDate": ""
-        }
-      ],
-      "footerTotals": {
-        "totalQuantity": 2,
-        "totalGross": 4400,
-        "totalTaxable": 4400,
-        "totalVAT": 572,
-        "totalNetAmount": 4972
       }
     }
   ]
