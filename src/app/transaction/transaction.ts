@@ -253,17 +253,6 @@ todayNepaliDate(date: Date): string {
 onNepaliDateChange(bsDate: string) {
     this.mfgNepaliDate = bsDate;
     this.invoiceDate = this.masterRepo.toADDate(bsDate);
-
-
-
-       //  to json-server
-  // this.dateService.addDate({
-  //   nepaliDate: bsDate,
-  //   englishDate: this.invoiceDate
-  // }).subscribe({
-  //   next: (res) => console.log('Date added to db.json:', res),
-  //   error: (err) => console.error('Error saving date:', err)
-  // });
   }
 
  
@@ -276,17 +265,6 @@ onNepaliDateChange(bsDate: string) {
   if (pickerInput) {
     pickerInput.value = bsDate;
   }
-
- // to json-server
-  // this.dateService.addDate({
-  //   nepaliDate: bsDate,
-  //   englishDate: adDate
-  // }).subscribe({
-  //   next: (res) => console.log('Date added to db.json:', res),
-  //   error: (err) => console.error('Error saving date:', err)
-  // });
-
-
 }
 
 

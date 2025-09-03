@@ -1,0 +1,13 @@
+.custom-dropdown {
+  background-color: rgb(242, 240, 237);
+    border: none !important;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1) !important; /* optional: removes shadow too */
+  }
+    .report-heading {
+    margin: 0 0 0 80px; /* top, right, bottom, left */
+  }
+  .custom-dialog-container {
+  border-radius: 12px;
+  background-color: #ffffff;
+  padding: 20px;
+}

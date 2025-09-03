@@ -1,0 +1,231 @@
+<div class="dialog-header">
+  <h5 mat-dialog-title>Purchase Book Report Voucher Wise Detail DMS</h5>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<hr />
+
+<div class="section-container">
+  <div class="section-box">
+    <div>
+      <p><strong>Date Range Selection</strong></p>
+      <table>
+        <tr>
+          From (AD)
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="date"
+              [(ngModel)]="invoiceDate"
+              name="invoiceDate"
+              (ngModelChange)="onEnglishDateChange($event)"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <app-nepalidate-picker
+              name="mfgNepaliDate"
+              [(ngModel)]="mfgNepaliDate"
+              [id]="'invoiceDateBS'"
+              label="Select Nepali Date"
+              (ngModelChange)="onNepaliDateChange($event)"
+            >
+            </app-nepalidate-picker>
+          </td>
+        </tr>
+
+        <tr>
+          To: (AD)
+        </tr>
+        <tr>
+          <td>
+            <input
+              type="date"
+              [(ngModel)]="toDateAD"
+              name="toDateAD"
+              (ngModelChange)="onToEnglishDateChange($event)"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <app-nepalidate-picker
+              name="toDateBS"
+              [(ngModel)]="toDateBS"
+              [id]="'toDateBS'"
+              label="Select Nepali Date"
+              (ngModelChange)="onToNepaliDateChange($event)"
+            >
+            </app-nepalidate-picker>
+          </td>
+        </tr>
+
+        
+      </table>
+    </div>
+
+    <div>
+      <p><strong>Division Selection</strong></p>
+      <select>
+        <option value="Cash">All</option>
+        <option value="Credit">Khatri Marketing</option>
+        <option value="Cheque">Khatri Marketing</option>
+      </select>
+    </div>
+
+    <div>
+      <p><strong>Supplier Selection:</strong></p>
+      <input type="text" placeholder="Enter to select item" />
+      <div class="check"><input type="checkbox" />Select Multiple Items</div>
+    </div>
+
+    <div>
+      <p><strong>Distributor:</strong></p>
+      <input type="text" placeholder="Enter to select item" />
+      <div class="check"><input type="checkbox" />Select Multiple Items</div>
+    </div>
+  </div>
+
+  <div class="section-box">
+    <fieldset
+      style="
+        width: 442px;
+        margin: 10px;
+        border: 1px solid lightgray;
+        border-radius: 8px;
+        padding: 12px;
+      "
+    >
+      <legend style="font-size: 14px; font-weight: bold; margin-bottom: 10px">
+        Report Option
+      </legend>
+
+      <!-- Report Type Selection -->
+      <div style="margin-bottom: 15px">
+        <label style="margin-right: 12px">
+          <input
+            type="radio"
+            name="reportType"
+            value="voucherWise"
+            [(ngModel)]="reportType"
+          />
+          Voucher Wise
+        </label>
+        <label style="margin-right: 12px">
+          <input
+            type="radio"
+            name="reportType"
+            value="dayWise"
+            [(ngModel)]="reportType"
+          />
+          Day Wise
+        </label>
+        <label style="margin-right: 12px">
+          <input
+            type="radio"
+            name="reportType"
+            value="monthWise"
+            [(ngModel)]="reportType"
+          />
+          Month Wise
+        </label>
+      </div>
+
+      <div
+        *ngIf="reportType === 'voucherWise'"
+        style="margin-left: 7px; margin-bottom: 10px"
+      >
+        <label style="display: block; margin-bottom: 8px">
+          <input
+            type="radio"
+            name="voucherReportFormat"
+            value="summary"
+            [(ngModel)]="voucherReportFormat"
+          />
+          Summary Report
+        </label>
+        <label style="display: block">
+          <input
+            type="radio"
+            name="voucherReportFormat"
+            value="detail"
+            [(ngModel)]="voucherReportFormat"
+          />
+          Detail Report
+        </label>
+      </div>
+
+      <div
+        *ngIf="reportType === 'monthWise'"
+        style="margin-left: 7px; margin-bottom: 10px"
+      >
+        <label style="display: block; margin-bottom: 8px">
+          <input
+            type="radio"
+            name="monthReportFormat"
+            value="ad"
+            [(ngModel)]="monthReportFormat"
+          />
+          Report In AD
+        </label>
+        <label style="display: block">
+          <input
+            type="radio"
+            name="monthReportFormat"
+            value="bs"
+            [(ngModel)]="monthReportFormat"
+          />
+          Report In BS
+        </label>
+      </div>
+    </fieldset>
+
+    <input type="checkbox" /> Show Reverse Entry Only
+
+    <fieldset
+      style="
+        width: 442px;
+        margin: 10px;
+        border: 1px solid lightgray;
+        border-radius: 8px;
+        padding: 12px;
+      "
+    >
+      <legend style="font-size: 14px; font-weight: bold; margin-bottom: 10px">
+        Report Option
+      </legend>
+
+      <div style="display: flex; align-items: center; margin-bottom: 8px">
+        <div style="width: 30px">
+          <input type="radio" name="reportOption" value="100" checked />
+        </div>
+        <label style="flex: 1">ALL</label>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 8px">
+        <div style="width: 30px">
+          <input type="radio" name="reportOption" value="0" />
+        </div>
+        <label style="flex: 1">Local Purchase</label>
+      </div>
+
+      <div style="display: flex; align-items: center; margin-bottom: 8px">
+        <div style="width: 30px">
+          <input type="radio" name="reportOption" value="1" />
+        </div>
+        <label style="flex: 1">Import Purchase</label>
+      </div>
+    </fieldset>
+    <input type="checkbox" /> Show Reverse Entry Only
+  </div>
+</div>
+
+<hr />
+
+<div>
+  <button mat-dialog-close class="btn">Close</button>
+  <button class="btn">Run</button>
+</div>
