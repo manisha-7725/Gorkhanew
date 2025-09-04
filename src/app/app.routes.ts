@@ -5,6 +5,7 @@ import { Views } from './views/views';
 import { DialogBox } from './dialog-box/dialog-box';
 import { DialogView } from './dialog-view/dialog-view';
 import { Report } from './report/report';
+import { ReportData } from './report-data/report-data';
 
 
 export const routes: Routes = [
@@ -14,7 +15,8 @@ export const routes: Routes = [
   {path:'views',component:Views},
   {path:'dialog-box',component:DialogBox},
 {path:'dialog-view',component:DialogView},
-{path:'report',component:Report}
+{path:'report',component:Report},
+{path:'report-data',component:ReportData}
 
 
 ];

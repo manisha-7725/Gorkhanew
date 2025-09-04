@@ -6,18 +6,23 @@ import { NepalidatePicker } from '../nepalidate-picker/nepalidate-picker';
 import { FormsModule } from '@angular/forms';
 import { MasterRepo } from '../master-repo';
 import { CommonModule } from '@angular/common';
-
+import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { MatDialogRef } from '@angular/material/dialog';
 
 
 @Component({
   selector: 'app-purchase-book-dialog',
-  imports: [MatDialogModule, MatButtonModule, MatIconModule,NepalidatePicker,FormsModule,CommonModule],
+  imports: [MatDialogModule, MatButtonModule, MatIconModule, NepalidatePicker, FormsModule, CommonModule,RouterLink],
   templateUrl: './purchase-book-dialog.html',
   styleUrl: './purchase-book-dialog.css'
 })
 export class PurchaseBookDialog {
 
-constructor(private masterRepo: MasterRepo) {}
+constructor(private masterRepo: MasterRepo,
+  private router: Router,
+  private dialogRef: MatDialogRef<PurchaseBookDialog> 
+) {}
 
 mfgNepaliDate: string = '';
 invoiceDate: string = '';
@@ -29,11 +34,13 @@ monthReportFormat: string = 'ad';
 toDateBS: string = '';
 
 todayNepaliDate(date: Date): string {
-  // Replace with your AD→BS conversion logic
   return '2082-05-12';
 }
 
-
+runReport() {
+    this.dialogRef.close(); 
+    this.router.navigate(['/report-data']);
+  }
 
 onNepaliDateChange(bsDate: string) {
     this.mfgNepaliDate = bsDate;

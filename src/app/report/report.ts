@@ -14,15 +14,13 @@ export class Report {
 
 
 openPurchaseBookDialog(event: Event) {
-  event.preventDefault();       // prevent default link behavior
-  event.stopPropagation();      // prevent dropdown from closing
+  event.preventDefault();       
+  event.stopPropagation();     
   this.dialog.open(PurchaseBookDialog, {
-  width: '1200px',    // wider
-  height: '90vh',     // almost full height of viewport
+  width: '1200px',   
+  height: '90vh',     
   maxWidth: '95vw', 
   });
 }
-
-
 
 }
