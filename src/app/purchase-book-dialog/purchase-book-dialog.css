@@ -1,21 +1,21 @@
-/* Set dialog width and padding */
+
 .mat-dialog-container {
   padding: 20px;
   border-radius: 10px;
-  background-color: #f9f9f9; /* light background */
-  color: #111; /* dark text */
+  background-color: #f9f9f9; 
+  color: #111; 
   font-family: Arial, sans-serif;
 }
 
-/* Dialog title */
+
 h2[mat-dialog-title] {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #1e293b; /* dark slate color */
+  color: #1e293b;
 }
 
-/* Dialog content */
+
 mat-dialog-content p {
   font-size: 16px;
   line-height: 1.5;
@@ -41,6 +41,10 @@ mat-dialog-actions button:hover {
   align-items: center;
   justify-content: space-between;
 }
+
+/* ::ng-deep app-nepalidate-picker input {
+  width: 360px !important;
+} */
 
 
 

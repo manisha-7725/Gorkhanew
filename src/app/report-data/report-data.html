@@ -1,1 +1,42 @@
-<p>report-data works!</p>
+<h4 class="text-center mb-3">Purchase Book Report Voucher Wise Details Dms</h4>
+
+
+<table class="table table-bordered table-sm text-center">
+  <thead class="table-light">
+    <tr>
+      <th>DATE</th>
+      <th>MITI</th>
+      <th>BILL NO</th>
+      <th>SUPPLIER BILL NO</th>
+      <th>TRN MODE</th>
+      <th>GROSS</th>
+      <th>NET AMOUNT</th>
+      <th>DISCOUNT</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of data">
+      <td>{{ row.date }}</td>
+      <td>{{ row.miti }}</td>
+      <td>{{ row.billNo }}</td>
+      <td>{{ row.supplier }}</td>
+      <td>{{ row.trnMode }}</td>
+      <td>{{ row.gross }}</td>
+      <td>{{ row.netAmt }}</td>
+      <td>{{ row.discount }}</td>
+    </tr>
+  </tbody>
+
+
+
+   <!-- Total Row -->
+  <tfoot class="table-light">
+    <tr>
+      <td colspan="5" class="text-end"><strong>Total</strong></td>
+      <td><strong>{{ getTotal('gross') }}</strong></td>
+      <td><strong>{{ getTotal('netAmt') }}</strong></td>
+      <td><strong>{{ getTotal('discount') }}</strong></td>
+    </tr>
+  </tfoot> 
+
+</table>

@@ -21,7 +21,7 @@ import { MasterRepo } from '../master-repo';
 import { OnInit } from '@angular/core';
 import { NepalidatePicker } from '../nepalidate-picker/nepalidate-picker';
 import { PurchaseInvoice } from '../services/purchase-invoice';
-import { FormBuilder,FormGroup } from '@angular/forms';
+// import { FormBuilder,FormGroup } from '@angular/forms';
 
 interface Row {
   hsCode: string;
@@ -133,7 +133,7 @@ today = new Date().toISOString().split('T')[0];
     private dialog: MatDialog,
     private masterRepo: MasterRepo,
     private invoiceService: PurchaseInvoice,
-    private fb: FormBuilder
+ 
   ) {
   
 }
