@@ -10,6 +10,7 @@ import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ReportData } from '../report-data/report-data';
+import { Purchase } from '../services/purchase';
 
 
 export interface ReportRow {
@@ -25,7 +26,7 @@ export interface ReportRow {
 
 @Component({
   selector: 'app-purchase-book-dialog',
-  imports: [MatDialogModule, MatButtonModule, MatIconModule, NepalidatePicker, FormsModule, CommonModule,RouterLink,ReportData],
+  imports: [MatDialogModule, MatButtonModule, MatIconModule, NepalidatePicker, FormsModule, CommonModule,RouterLink ,ReportData],
   templateUrl: './purchase-book-dialog.html',
   styleUrl: './purchase-book-dialog.css'
 })
@@ -40,8 +41,8 @@ export class PurchaseBookDialog {
   netAmt: number = 0;
    discount = 0;
   trnMode = 'credit';
-reportType: string = 'voucherWise';
 
+reportType: string = 'voucherWise';
 voucherReportFormat: string = 'detail'; 
 monthReportFormat: string = 'ad';   
 
@@ -58,36 +59,45 @@ monthReportFormat: string = 'ad';
 
 constructor(private masterRepo: MasterRepo,
   private router: Router,
-  private dialogRef: MatDialogRef<PurchaseBookDialog> 
+  private dialogRef: MatDialogRef<PurchaseBookDialog> ,
+  private purchaseService: Purchase
 ) {}
 
-    
+  
 
 
 
 
 runReport() {
-    this.dialogRef.close(this.formData); // pass form data back to parent
+  this.dialogRef.close(this.formData); // pass form data back to parent
     this.router.navigate(['/report-data']);
+  const row: ReportRow = {
+    date: this.invoiceDate,
+    miti: this.mfgNepaliDate,
+    billNo: 'AUTO-GEN-' + Math.floor(Math.random() * 1000),
+    supplier: this.supplier || 'Default Supplier',
+    gross: this.gross,
+    netAmt: this.netAmt,
+    discount: this.discount,
+    trnMode: this.trnMode,
+  };
 
- const row: ReportRow = {
-      date: this.invoiceDate,
-      miti: this.mfgNepaliDate,
-      billNo: 'AUTO-GEN-' + Math.floor(Math.random() * 1000), // you can bind real input
-      supplier: this.supplier || 'Default Supplier',
-      gross: this.gross,
-      netAmt: this.netAmt,
-      discount: this.discount,
-      trnMode: this.trnMode,
-    };
-    this.dialogRef.close(row); 
-  }
+  // Save to json-server
+  this.purchaseService.addReport(row).subscribe({
+    next: (res) => {
+      console.log('Data saved to API:', res);
+      this.dialogRef.close(res); // close dialog and return data
+    },
+    error: (err) => console.error('Error saving data:', err)
+  });
+}
+
+
+
 
  closeDialog() {
     this.dialogRef.close();
   }
-
-
 
 todayNepaliDate(date: Date): string {
   return '2082-05-12';

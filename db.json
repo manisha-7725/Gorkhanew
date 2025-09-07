@@ -57,5 +57,51 @@
         "totalNetAmount": 0
       }
     }
+  ],
+  "purchaseReports": [
+    {
+      "id": "d55f",
+      "date": "2025-09-08",
+      "miti": "23/05/2082",
+      "billNo": "AUTO-GEN-519",
+      "supplier": "Default Supplier",
+      "gross": 0,
+      "netAmt": 0,
+      "discount": 0,
+      "trnMode": "credit"
+    },
+    {
+      "id": "0b4a",
+      "date": "2025-09-10",
+      "miti": "25/05/2082",
+      "billNo": "AUTO-GEN-379",
+      "supplier": "Default Supplier",
+      "gross": 0,
+      "netAmt": 0,
+      "discount": 0,
+      "trnMode": "credit"
+    },
+    {
+      "id": "3849",
+      "date": "",
+      "miti": "",
+      "billNo": "AUTO-GEN-668",
+      "supplier": "Default Supplier",
+      "gross": 0,
+      "netAmt": 0,
+      "discount": 0,
+      "trnMode": "credit"
+    },
+    {
+      "id": "84a0",
+      "date": "2025-09-10",
+      "miti": "25/05/2082",
+      "billNo": "AUTO-GEN-650",
+      "supplier": "Default Supplier",
+      "gross": 0,
+      "netAmt": 0,
+      "discount": 0,
+      "trnMode": "credit"
+    }
   ]
 }
